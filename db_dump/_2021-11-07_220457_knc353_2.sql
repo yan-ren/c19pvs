@@ -36,8 +36,55 @@ CREATE TABLE `age_group` (
 --
 
 /*!40000 ALTER TABLE `age_group` DISABLE KEYS */;
-INSERT INTO `age_group` VALUES (1,'2020-12-01',80,NULL),(2,'2021-01-01',70,79),(3,'2021-02-01',60,69),(4,'2021-02-15',50,59),(5,'2021-03-01',40,49),(6,'2021-04-01',30,39),(7,'2021-05-01',18,29),(8,'2021-06-01',12,17),(9,NULL,5,11),(10,NULL,0,4);
+INSERT INTO `age_group` VALUES (0,NULL,NULL,NULL),(1,'2020-12-01',80,NULL),(2,'2021-01-01',70,79),(3,'2021-02-01',60,69),(4,'2021-02-15',50,59),(5,'2021-03-01',40,49),(6,'2021-04-01',30,39),(7,'2021-05-01',18,29),(8,'2021-06-01',12,17),(9,NULL,5,11),(10,NULL,0,4);
 /*!40000 ALTER TABLE `age_group` ENABLE KEYS */;
+
+--
+-- Table structure for table `booking`
+--
+
+DROP TABLE IF EXISTS `booking`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `booking` (
+  `booking_id` int NOT NULL AUTO_INCREMENT COMMENT 'Primary Key',
+  `date` date NOT NULL,
+  `time` time NOT NULL,
+  `status` enum('active','cancel') DEFAULT 'active',
+  `create_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `update_time` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`booking_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `booking`
+--
+
+/*!40000 ALTER TABLE `booking` DISABLE KEYS */;
+/*!40000 ALTER TABLE `booking` ENABLE KEYS */;
+
+--
+-- Table structure for table `covid`
+--
+
+DROP TABLE IF EXISTS `covid`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `covid` (
+  `covid_id` int NOT NULL AUTO_INCREMENT COMMENT 'Primary Key',
+  `variant` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`covid_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `covid`
+--
+
+/*!40000 ALTER TABLE `covid` DISABLE KEYS */;
+INSERT INTO `covid` VALUES (1,'Alpha'),(2,'Beta'),(3,'Gamma'),(4,'Delta'),(5,'MU');
+/*!40000 ALTER TABLE `covid` ENABLE KEYS */;
 
 --
 -- Table structure for table `facility`
@@ -55,6 +102,7 @@ CREATE TABLE `facility` (
   `capacity` int NOT NULL,
   `manager` int DEFAULT NULL,
   `province` varchar(255) NOT NULL,
+  `categories` enum('by_appointment','walk_in') NOT NULL,
   PRIMARY KEY (`name`),
   KEY `manager` (`manager`),
   CONSTRAINT `facility_ibfk_1` FOREIGN KEY (`manager`) REFERENCES `person` (`person_id`)
@@ -66,8 +114,33 @@ CREATE TABLE `facility` (
 --
 
 /*!40000 ALTER TABLE `facility` DISABLE KEYS */;
-INSERT INTO `facility` VALUES ('Centre hospitalier de l\'Université de Montréal','1051 Rue Sanguinet, Montréal, QC H2X 3E4','5148908000','https://www.chumontreal.qc.ca/joindre-le-chum','hospital',1000,7,'Quebec'),('Douglas Mental Health University Institute',' 6875 Bd LaSalle, Verdun, QC H4H 1R3','5147616131','http://www.douglas.qc.ca/?locale=en','hospital',900,3,'Quebec'),('Hopital Notre-Dame','1560 Sherbrooke St E, Montreal, Quebec H2L 4M1','5144138777','https://ciusss-centresudmtl.gouv.qc.ca/etablissement/hopital-notre-dame','hospital',400,9,'Quebec'),('Jewish General Hospital',' 3755 Chem. de la Côte-Sainte-Catherine, Montréal, QC H3T 1E2','5143408222','https://www.jgh.ca','hospital',800,2,'Quebec'),('Lakeshore General Hospital','160 Av Stillview Suite 1297, Pointe-Claire, QC H9R 2Y2','5146302225','https://fondationlakeshore.ca','hospital',1000,1,'Quebec'),('Montreal Children\'s Hospital','1001 Decarie Blvd, Montreal, Quebec H4A 3J1','5144124400','https://www.thechildren.com','hospital',450,7,'Quebec'),('montreal general hospital','1650 Cedar Ave, Montreal','5149341934','https://muhc.ca/','hospital',1000,NULL,'quebec'),('Montreal Neurological Hospital','3801 Rue University, Montréal, QC H3A 2B4','5143986644','https://www.mcgill.ca/neuro/fr','hospital',760,8,'Quebec'),('Royal Victoria Hospital','1001 Decarie Blvd, Montreal, Quebec H4A 3J1','5149341934','https://muhc.ca/glen','hospital',650,6,'Quebec'),('St. Mary\'s Hospital','3830 Av. Lacombe, Montréal, QC H3T 1M5','5142453511','https://www.smhc.qc.ca/en/','hospital',500,4,'Quebec');
+INSERT INTO `facility` VALUES ('Centre hospitalier de l\'Université de Montréal','1051 Rue Sanguinet, Montréal, QC H2X 3E4','5148908000','https://www.chumontreal.qc.ca/joindre-le-chum','hospital',1000,7,'Quebec','by_appointment'),('Douglas Mental Health University Institute',' 6875 Bd LaSalle, Verdun, QC H4H 1R3','5147616131','http://www.douglas.qc.ca/?locale=en','hospital',900,3,'Quebec','by_appointment'),('Hopital Notre-Dame','1560 Sherbrooke St E, Montreal, Quebec H2L 4M1','5144138777','https://ciusss-centresudmtl.gouv.qc.ca/etablissement/hopital-notre-dame','hospital',400,9,'Quebec','by_appointment'),('Jewish General Hospital',' 3755 Chem. de la Côte-Sainte-Catherine, Montréal, QC H3T 1E2','5143408222','https://www.jgh.ca','hospital',800,2,'Quebec','by_appointment'),('Lakeshore General Hospital','160 Av Stillview Suite 1297, Pointe-Claire, QC H9R 2Y2','5146302225','https://fondationlakeshore.ca','hospital',1000,1,'Quebec','by_appointment'),('Montreal Children\'s Hospital','1001 Decarie Blvd, Montreal, Quebec H4A 3J1','5144124400','https://www.thechildren.com','hospital',450,7,'Quebec','by_appointment'),('montreal general hospital','1650 Cedar Ave, Montreal','5149341934','https://muhc.ca/','hospital',1000,NULL,'quebec','by_appointment'),('Montreal Neurological Hospital','3801 Rue University, Montréal, QC H3A 2B4','5143986644','https://www.mcgill.ca/neuro/fr','hospital',760,8,'Quebec','by_appointment'),('Royal Victoria Hospital','1001 Decarie Blvd, Montreal, Quebec H4A 3J1','5149341934','https://muhc.ca/glen','hospital',650,6,'Quebec','by_appointment'),('St. Mary\'s Hospital','3830 Av. Lacombe, Montréal, QC H3T 1M5','5142453511','https://www.smhc.qc.ca/en/','hospital',500,4,'Quebec','by_appointment');
 /*!40000 ALTER TABLE `facility` ENABLE KEYS */;
+
+--
+-- Table structure for table `facility_operating_hour`
+--
+
+DROP TABLE IF EXISTS `facility_operating_hour`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `facility_operating_hour` (
+  `facility_name` varchar(255) NOT NULL,
+  `day_of_week` int NOT NULL,
+  `open` time NOT NULL,
+  `close` time NOT NULL,
+  PRIMARY KEY (`facility_name`,`day_of_week`),
+  CONSTRAINT `facility_operating_hour_ibfk_1` FOREIGN KEY (`facility_name`) REFERENCES `facility` (`name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `facility_operating_hour`
+--
+
+/*!40000 ALTER TABLE `facility_operating_hour` DISABLE KEYS */;
+INSERT INTO `facility_operating_hour` VALUES ('Centre hospitalier de l\'Université de Montréal',0,'08:00:00','20:00:00'),('Centre hospitalier de l\'Université de Montréal',1,'08:00:00','20:00:00'),('Centre hospitalier de l\'Université de Montréal',2,'08:00:08','20:00:00'),('Centre hospitalier de l\'Université de Montréal',3,'08:00:00','20:00:00'),('Centre hospitalier de l\'Université de Montréal',4,'08:00:00','20:00:00'),('Centre hospitalier de l\'Université de Montréal',5,'08:00:00','20:00:00'),('Centre hospitalier de l\'Université de Montréal',6,'08:00:00','17:00:00'),('Douglas Mental Health University Institute',0,'08:00:00','20:00:00'),('Douglas Mental Health University Institute',1,'08:00:00','20:00:00'),('Douglas Mental Health University Institute',2,'08:00:00','20:00:00'),('Douglas Mental Health University Institute',3,'08:00:00','20:00:00'),('Douglas Mental Health University Institute',4,'08:00:00','20:00:00'),('Douglas Mental Health University Institute',5,'08:00:00','17:00:00'),('Douglas Mental Health University Institute',6,'08:00:00','17:00:00'),('Hopital Notre-Dame',0,'08:00:00','20:00:00'),('Hopital Notre-Dame',1,'08:00:00','20:00:00'),('Hopital Notre-Dame',2,'08:00:00','20:00:00'),('Hopital Notre-Dame',3,'08:00:00','20:00:00'),('Hopital Notre-Dame',4,'08:00:00','20:00:00'),('Hopital Notre-Dame',5,'08:00:00','20:00:00'),('Hopital Notre-Dame',6,'08:00:00','20:00:00'),('Jewish General Hospital',0,'08:00:00','20:00:00'),('Jewish General Hospital',1,'08:00:00','20:00:00'),('Jewish General Hospital',2,'08:00:00','20:00:00'),('Jewish General Hospital',3,'08:00:00','20:00:00'),('Jewish General Hospital',4,'08:00:00','20:00:00'),('Jewish General Hospital',5,'08:00:00','20:00:00'),('Jewish General Hospital',6,'08:00:00','20:00:00'),('Lakeshore General Hospital',0,'08:00:00','17:00:00'),('Lakeshore General Hospital',1,'08:00:00','17:00:00'),('Lakeshore General Hospital',2,'08:00:00','17:00:00'),('Lakeshore General Hospital',3,'08:00:00','17:00:00'),('Lakeshore General Hospital',4,'08:00:00','17:00:00'),('Montreal Children\'s Hospital',0,'08:00:00','20:00:00'),('Montreal Children\'s Hospital',1,'08:00:00','20:00:00'),('Montreal Children\'s Hospital',2,'08:00:00','20:00:00'),('Montreal Children\'s Hospital',3,'08:00:00','20:00:00'),('Montreal Children\'s Hospital',4,'08:00:00','20:00:00'),('Montreal Children\'s Hospital',5,'08:00:00','20:00:00'),('Montreal Children\'s Hospital',6,'08:00:00','20:00:00'),('montreal general hospital',0,'08:00:00','20:00:00'),('montreal general hospital',1,'08:00:00','20:00:00'),('montreal general hospital',2,'08:00:00','20:00:00'),('montreal general hospital',3,'08:00:00','20:00:00'),('montreal general hospital',4,'08:00:00','20:00:00'),('montreal general hospital',5,'08:00:00','20:00:00'),('montreal general hospital',6,'08:00:00','20:00:00'),('Montreal Neurological Hospital',0,'08:00:00','17:00:00'),('Montreal Neurological Hospital',1,'08:00:00','17:00:00'),('Montreal Neurological Hospital',2,'08:00:00','20:00:00'),('Montreal Neurological Hospital',3,'08:00:00','20:00:00'),('Montreal Neurological Hospital',4,'08:00:00','20:00:00'),('Montreal Neurological Hospital',5,'08:00:00','20:00:00'),('Montreal Neurological Hospital',6,'08:00:00','20:00:00'),('Royal Victoria Hospital',0,'08:00:00','20:00:00'),('Royal Victoria Hospital',1,'08:00:00','20:00:00'),('Royal Victoria Hospital',2,'08:00:00','20:00:00'),('Royal Victoria Hospital',3,'08:00:00','20:00:00'),('Royal Victoria Hospital',4,'08:00:00','20:00:00'),('Royal Victoria Hospital',5,'08:00:00','20:00:00'),('Royal Victoria Hospital',6,'08:00:00','20:00:00'),('St. Mary\'s Hospital',0,'08:00:00','20:00:00'),('St. Mary\'s Hospital',1,'08:00:00','20:00:00'),('St. Mary\'s Hospital',2,'08:00:00','20:00:00'),('St. Mary\'s Hospital',3,'08:00:00','20:00:00'),('St. Mary\'s Hospital',4,'08:00:00','20:00:00'),('St. Mary\'s Hospital',5,'08:00:00','20:00:00'),('St. Mary\'s Hospital',6,'08:00:00','20:00:00');
+/*!40000 ALTER TABLE `facility_operating_hour` ENABLE KEYS */;
 
 --
 -- Table structure for table `healthcare_worker`
@@ -78,20 +151,14 @@ DROP TABLE IF EXISTS `healthcare_worker`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `healthcare_worker` (
   `person_id` int NOT NULL,
+  `employee_id` int NOT NULL,
   `facility_name` varchar(255) NOT NULL,
-  `start_date` date NOT NULL,
-  `end_date` date NOT NULL,
-  `role` enum('nurse','manager','security','secretary','regular') NOT NULL,
-  `vaccine_name` varchar(255) DEFAULT NULL,
-  `dose_given` mediumint DEFAULT NULL,
-  `lot` varchar(255) DEFAULT NULL,
-  KEY `vaccine_name` (`vaccine_name`),
-  KEY `person_id` (`person_id`),
+  `hourly_rate` int NOT NULL,
+  PRIMARY KEY (`person_id`,`employee_id`,`facility_name`),
   KEY `facility_name` (`facility_name`),
-  CONSTRAINT `healthcare_worker_ibfk_1` FOREIGN KEY (`vaccine_name`) REFERENCES `vaccine` (`vaccine_name`) ON DELETE CASCADE,
-  CONSTRAINT `healthcare_worker_ibfk_2` FOREIGN KEY (`person_id`) REFERENCES `person` (`person_id`) ON DELETE CASCADE,
-  CONSTRAINT `healthcare_worker_ibfk_3` FOREIGN KEY (`facility_name`) REFERENCES `facility` (`name`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='This table maintains the registration of public health care workers with public health care system';
+  CONSTRAINT `healthcare_worker_ibfk_1` FOREIGN KEY (`person_id`) REFERENCES `person` (`person_id`),
+  CONSTRAINT `healthcare_worker_ibfk_2` FOREIGN KEY (`facility_name`) REFERENCES `facility` (`name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -99,8 +166,36 @@ CREATE TABLE `healthcare_worker` (
 --
 
 /*!40000 ALTER TABLE `healthcare_worker` DISABLE KEYS */;
-INSERT INTO `healthcare_worker` VALUES (1,'St. Mary\'s Hospital','2018-10-10','2059-10-24','nurse','Pfizer',2,'z0001'),(2,'Jewish General Hospital','2021-10-07','2022-10-07','security','Pfizer',1,'z0002'),(3,'Centre hospitalier de l\'Université de Montréal','1959-12-28','2022-10-01','manager','AstraZeneca',2,'z0003'),(4,'Hopital Notre-Dame','2019-10-09','2024-10-01','secretary','Pfizer',2,'z0004'),(5,'Douglas Mental Health University Institute','2017-09-26','2041-01-29','nurse','Moderna',2,'Z0004'),(6,'montreal general hospital','2019-10-08','2023-09-27','regular','Pfizer',1,'z0006'),(7,'St. Mary\'s Hospital','2015-09-29','2059-12-28','manager','Moderna',2,'z0007'),(8,'Jewish General Hospital','2016-09-27','2050-02-01','security','Moderna',2,'z0008'),(9,'Lakeshore General Hospital','2021-09-28','2022-09-30','security','Moderna',1,'z0009'),(10,'Lakeshore General Hospital','2020-09-28','2022-09-30','secretary','Moderna',2,'z0010'),(2,'Montreal Children\'s Hospital','2021-09-26','2022-10-01','regular','Pfizer',2,'z0002'),(8,'Lakeshore General Hospital','2021-09-26','2022-09-25','security','Moderna',2,'z0008'),(15,'Douglas Mental Health University Institute','2020-10-21','2021-10-14','security',NULL,NULL,NULL),(16,'St. Mary\'s Hospital','2021-09-26','2022-09-25','nurse',NULL,NULL,NULL);
 /*!40000 ALTER TABLE `healthcare_worker` ENABLE KEYS */;
+
+--
+-- Table structure for table `healthcare_worker_assignment`
+--
+
+DROP TABLE IF EXISTS `healthcare_worker_assignment`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `healthcare_worker_assignment` (
+  `person_id` int NOT NULL,
+  `employee_id` int NOT NULL,
+  `facility_name` varchar(255) NOT NULL,
+  `start_date` date NOT NULL,
+  `end_date` date NOT NULL,
+  `role` enum('nurse','manager','security','secretary','regular') NOT NULL,
+  `vaccine_name` varchar(255) DEFAULT NULL,
+  `dose_given` mediumint DEFAULT NULL,
+  `lot` varchar(255) DEFAULT NULL,
+  KEY `person_id` (`person_id`,`employee_id`,`facility_name`),
+  CONSTRAINT `healthcare_worker_assignment_ibfk_1` FOREIGN KEY (`person_id`, `employee_id`, `facility_name`) REFERENCES `healthcare_worker` (`person_id`, `employee_id`, `facility_name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='This table maintains the registration of public health care workers with public health care system';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `healthcare_worker_assignment`
+--
+
+/*!40000 ALTER TABLE `healthcare_worker_assignment` DISABLE KEYS */;
+/*!40000 ALTER TABLE `healthcare_worker_assignment` ENABLE KEYS */;
 
 --
 -- Table structure for table `infection`
@@ -165,6 +260,30 @@ INSERT INTO `person` VALUES (1,'James','Doe','1991-11-11','1','2020-11-11','2023
 /*!40000 ALTER TABLE `person` ENABLE KEYS */;
 
 --
+-- Table structure for table `province`
+--
+
+DROP TABLE IF EXISTS `province`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `province` (
+  `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `age_group` int NOT NULL DEFAULT '0',
+  PRIMARY KEY (`name`),
+  KEY `age_group` (`age_group`),
+  CONSTRAINT `province_ibfk_1` FOREIGN KEY (`age_group`) REFERENCES `age_group` (`age_group_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `province`
+--
+
+/*!40000 ALTER TABLE `province` DISABLE KEYS */;
+INSERT INTO `province` VALUES ('PEI',5),('MB',6),('NL',6),('NS',6),('AB',7),('BC',7),('NB',7),('NVT',7),('NWT',7),('ON',7),('QC',7),('SK',7),('YT',7);
+/*!40000 ALTER TABLE `province` ENABLE KEYS */;
+
+--
 -- Table structure for table `vaccination`
 --
 
@@ -207,7 +326,8 @@ CREATE TABLE `vaccine` (
   `vaccine_name` varchar(255) NOT NULL COMMENT 'primary key',
   `status` enum('suspend','safe') NOT NULL,
   `dose` mediumint DEFAULT NULL,
-  `approval_date` date DEFAULT NULL,
+  `approval` date DEFAULT NULL,
+  `suspension` date DEFAULT NULL,
   PRIMARY KEY (`vaccine_name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -217,7 +337,7 @@ CREATE TABLE `vaccine` (
 --
 
 /*!40000 ALTER TABLE `vaccine` DISABLE KEYS */;
-INSERT INTO `vaccine` VALUES ('AstraZeneca','suspend',NULL,NULL),('CanaVax','safe',1,'2021-10-08'),('Covax','safe',2,'2020-10-15'),('Gam-COVID-Vac','suspend',2,'2020-09-25'),('Johnson&Johnson','suspend',1,'2021-01-20'),('Moderna','safe',2,'2020-11-10'),('NovaVac','suspend',2,'2020-10-15'),('Pfizer','safe',2,'2020-10-23'),('QCVax','suspend',1,'2021-09-09'),('SputnikV','suspend',2,'2020-10-14');
+INSERT INTO `vaccine` VALUES ('AstraZeneca','suspend',NULL,NULL,'2020-09-25'),('CanaVax','safe',1,'2021-10-08',NULL),('Covax','safe',2,'2020-10-15',NULL),('Gam-COVID-Vac','suspend',2,NULL,'2020-09-25'),('Johnson&Johnson','suspend',1,NULL,'2021-01-20'),('Moderna','safe',2,'2020-11-10',NULL),('NovaVac','suspend',2,NULL,'2020-10-15'),('Pfizer','safe',2,'2020-10-23',NULL),('QCVax','suspend',1,NULL,'2021-09-09'),('SputnikV','suspend',2,NULL,'2020-10-14');
 /*!40000 ALTER TABLE `vaccine` ENABLE KEYS */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -229,4 +349,4 @@ INSERT INTO `vaccine` VALUES ('AstraZeneca','suspend',NULL,NULL),('CanaVax','saf
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-11-06  0:25:37
+-- Dump completed on 2021-11-07 22:05:14
