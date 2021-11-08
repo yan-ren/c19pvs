@@ -25,8 +25,7 @@ $ cd db_dump
 $ mysql knc353_2 < xxxxx.sql
 ```
 
-Now you have the db setup, in php/db_constant.php file, change the constant variables to use the values just created
-For example, user name is 'test', password is 'passowrd'
+Now you have the local db setup. In php/db_constant.php file, change the constant variables to use the values just created. For example, user name is 'test', password is 'passowrd'
 ```php
 DEFINE('DB_USERNAME', 'test');
 DEFINE('DB_PASSWORD', 'password');
