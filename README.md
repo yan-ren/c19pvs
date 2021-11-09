@@ -25,11 +25,29 @@ $ cd db_dump
 $ mysql knc353_2 < xxxxx.sql
 ```
 
-Now you have the local db setup. In php/db_constant.php file, change the constant variables to use the values just created. For example, user name is 'test', password is 'passowrd'
+Now you have the local db setup. In php/db_constant.php file, change the constant variables to use the values just created. For example, user name is 'test', password is 'passowrd'.
 ```php
-DEFINE('DB_USERNAME', 'test');
-DEFINE('DB_PASSWORD', 'password');
-DEFINE('DB_SERVER', '127.0.0.1:3306');
+DEFINE('DB_USERNAME_LOCAL', 'test');
+DEFINE('DB_PASSWORD_LOCAL', 'password');
+DEFINE('DB_SERVER_LOCAL', '127.0.0.1:3306');
+DEFINE('DB_NAME_LOCAL', 'knc353_2');
+```
+Note: because of the config.php has following
+```php
+if ($_SERVER['REMOTE_ADDR']=='127.0.0.1')
+```
+If the request is from the localhost then following values will be used
+```php
+DEFINE('DB_USERNAME_LOCAL', 'test');
+DEFINE('DB_PASSWORD_LOCAL', 'password');
+DEFINE('DB_SERVER_LOCAL', '127.0.0.1:3306');
+DEFINE('DB_NAME_LOCAL', 'knc353_2');
+```
+othwerise, following values will be used
+```php
+DEFINE('DB_USERNAME', 'knc353_2');
+DEFINE('DB_PASSWORD', '65026502');
+DEFINE('DB_SERVER', 'knc353.encs.concordia.ca:3306');
 DEFINE('DB_NAME', 'knc353_2');
 ```
 6. Run php server locally
