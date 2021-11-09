@@ -43,5 +43,28 @@ $ php -S 127.0.0.1:8001
 rsync -avz --delete --no-p --exclude '.git' /Users/yan.ren/github.com/yan.ren/c19pvs/ ya_re@login.encs.concordia.ca:/www/groups/k/kn_comp353_2/
 ```
 
-base url
+homepage url
 https://knc353.encs.concordia.ca/index.php
+
+## Design
+
+#### Homepage
+https://knc353.encs.concordia.ca/index.php
+
+#### Manage
+https://knc353.encs.concordia.ca/manage.php has buttons for 1-8, 10 each button leads to a seperate pages that can perform 1-8
+
+#### Appointment
+https://knc353.encs.concordia.ca/appointment.php for 9, 11, 12
+
+#### Search
+https://knc353.encs.concordia.ca/appointment.php for 13, 14, 15, 20
+
+#### Vaccine
+https://knc353.encs.concordia.ca/appointment.php for 16, 17
+
+#### Report
+https://knc353.encs.concordia.ca/report.php for 18, 19
+
+## Progress
+- Homepage

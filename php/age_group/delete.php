@@ -1,18 +1,22 @@
 <?php
+error_reporting(-1);
+ini_set('display_errors', 'On');
+
 // Process delete operation after confirmation
 if (isset($_POST["age_group_id"]) && !empty($_POST["age_group_id"])) {
     // Include config file
     require_once "../config.php";
+    $link = connect();
 
     // Prepare a delete statement
     $sql = "DELETE FROM age_group WHERE age_group_id = ?";
 
     if ($stmt = mysqli_prepare($link, $sql)) {
-        // Bind variables to the prepared statement as parameters
-        mysqli_stmt_bind_param($stmt, "age_group_id", $param_id);
+        // Bind variables to the prepared statement as parameters, i stands for integer
+        mysqli_stmt_bind_param($stmt, "i", $param_id);
 
         // Set parameters
-        $param_id = trim($_POST["age_group_id"]);
+        $param_id = (int)($_POST["age_group_id"]);
 
         // Attempt to execute the prepared statement
         if (mysqli_stmt_execute($stmt)) {
@@ -62,11 +66,11 @@ if (isset($_POST["age_group_id"]) && !empty($_POST["age_group_id"])) {
                     <h2 class="mt-5 mb-3">Delete Record</h2>
                     <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
                         <div class="alert alert-danger">
-                            <input type="hidden" name="id" value="<?php echo trim($_GET["age_group_id"]); ?>" />
+                            <input type="hidden" name="age_group_id" value="<?php echo trim($_GET["age_group_id"]); ?>" />
                             <p>Are you sure you want to delete this age group record?</p>
                             <p>
                                 <input type="submit" value="Yes" class="btn btn-danger">
-                                <a href="index.php" class="btn btn-secondary">No</a>
+                                <a href="age_group.php" class="btn btn-secondary">No</a>
                             </p>
                         </div>
                     </form>

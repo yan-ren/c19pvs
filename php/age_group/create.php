@@ -1,116 +1,122 @@
 <?php
+error_reporting(-1);
+ini_set('display_errors', 'On');
 // Include config file
-require_once "config.php";
- 
+require_once "../config.php";
+require_once "../util.php";
+$link = connect();
+
 // Define variables and initialize with empty values
-$name = $address = $salary = "";
-$name_err = $address_err = $salary_err = "";
- 
+$min_age = $max_age = $vaccination_date = $age_group_id = "";
+$age_error = $vaccination_date_error = "";
+
 // Processing form data when form is submitted
-if($_SERVER["REQUEST_METHOD"] == "POST"){
-    // Validate name
-    $input_name = trim($_POST["name"]);
-    if(empty($input_name)){
-        $name_err = "Please enter a name.";
-    } elseif(!filter_var($input_name, FILTER_VALIDATE_REGEXP, array("options"=>array("regexp"=>"/^[a-zA-Z\s]+$/")))){
-        $name_err = "Please enter a valid name.";
-    } else{
-        $name = $input_name;
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+    $age_group_id = (int)(trim($_POST["age_group_id"]));
+
+    // Validate age
+    $min_age = trim($_POST["min_age"]);
+    $max_age = trim($_POST["max_age"]);
+    if (empty($min_age) && $min_age !== '0') {
+        $age_err = "Please enter an min age";
     }
-    
-    // Validate address
-    $input_address = trim($_POST["address"]);
-    if(empty($input_address)){
-        $address_err = "Please enter an address.";     
-    } else{
-        $address = $input_address;
+    if (empty($max_age) && $max_age !== '0') {
+        $age_err = "Please enter an max age";
     }
-    
-    // Validate salary
-    $input_salary = trim($_POST["salary"]);
-    if(empty($input_salary)){
-        $salary_err = "Please enter the salary amount.";     
-    } elseif(!ctype_digit($input_salary)){
-        $salary_err = "Please enter a positive integer value.";
-    } else{
-        $salary = $input_salary;
+
+    // Validate date
+    if (validateMysqlDate(trim($_POST["vaccination_date"]))) {
+        $vaccination_date = trim($_POST["vaccination_date"]);
+    } else {
+        $vaccination_date_error = "Invalid date format, please use formate yyyy-mm-dd";
     }
-    
+
     // Check input errors before inserting in database
-    if(empty($name_err) && empty($address_err) && empty($salary_err)){
+    if (empty($age_error) && empty($vaccination_date_error)) {
         // Prepare an insert statement
-        $sql = "INSERT INTO employees (name, address, salary) VALUES (?, ?, ?)";
-         
-        if($stmt = mysqli_prepare($link, $sql)){
+        $sql = "INSERT INTO age_group (age_group_id, min_age, max_age, vaccination_date) VALUES (?, ?, ?, ?)";
+
+        if ($stmt = mysqli_prepare($link, $sql)) {
             // Bind variables to the prepared statement as parameters
-            mysqli_stmt_bind_param($stmt, "sss", $param_name, $param_address, $param_salary);
-            
-            // Set parameters
-            $param_name = $name;
-            $param_address = $address;
-            $param_salary = $salary;
-            
+            mysqli_stmt_bind_param($stmt, "iiis", $param_age_group_id, $param_min_age, $param_max_age, $vaccination_date);
+
+            $param_age_group_id = (int)($age_group_id);
+            $param_min_age = (int)($min_age);
+            $param_max_age = (int)($max_age);
+
             // Attempt to execute the prepared statement
-            if(mysqli_stmt_execute($stmt)){
+            if (mysqli_stmt_execute($stmt)) {
                 // Records created successfully. Redirect to landing page
-                header("location: index.php");
+                header("location: age_group.php");
                 exit();
-            } else{
-                echo "Oops! Something went wrong. Please try again later.";
+            } else {
+                // echo "<h1>Query gagal</h1>";
+                $error = mysqli_stmt_error($stmt);
+                echo '<script> alert("' . $error . '")</script>';
             }
+        } else {
+            echo "<script>alert('Oops! Something went wrong. Please try again later. Error:" . $link->error . " ');location='create.php';</script>";
         }
-         
+
         // Close statement
         mysqli_stmt_close($stmt);
     }
-    
+
     // Close connection
     mysqli_close($link);
 }
 ?>
- 
+
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Create Record</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
-        .wrapper{
+        .wrapper {
             width: 600px;
             margin: 0 auto;
         }
     </style>
 </head>
+
 <body>
     <div class="wrapper">
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-12">
                     <h2 class="mt-5">Create Record</h2>
-                    <p>Please fill this form and submit to add employee record to the database.</p>
+                    <p>Please fill this form and submit to add age group record to the database</p>
                     <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
                         <div class="form-group">
-                            <label>Name</label>
-                            <input type="text" name="name" class="form-control <?php echo (!empty($name_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $name; ?>">
-                            <span class="invalid-feedback"><?php echo $name_err;?></span>
+                            <label>Age Group ID</label>
+                            <input type="text" name="age_group_id" class="form-control" value="<?php echo $age_group_id; ?>">
                         </div>
                         <div class="form-group">
-                            <label>Address</label>
-                            <textarea name="address" class="form-control <?php echo (!empty($address_err)) ? 'is-invalid' : ''; ?>"><?php echo $address; ?></textarea>
-                            <span class="invalid-feedback"><?php echo $address_err;?></span>
+                            <label>Min Age</label>
+                            <input type="text" name="min_age" class="form-control <?php echo (!empty($age_error)) ? 'is-invalid' : '' ?>" value="<?php echo $min_age; ?>">
+                            <span class="invalid-feedback"><?php echo $age_error; ?></span>
                         </div>
                         <div class="form-group">
-                            <label>Salary</label>
-                            <input type="text" name="salary" class="form-control <?php echo (!empty($salary_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $salary; ?>">
-                            <span class="invalid-feedback"><?php echo $salary_err;?></span>
+                            <label>Max Age</label>
+                            <input type="text" name="max_age" class="form-control <?php echo (!empty($age_error)) ? 'is-invalid' : ''; ?>" value="<?php echo $max_age; ?>">
+                            <span class="invalid-feedback"><?php echo $age_error; ?></span>
+                        </div>
+                        <div class="form-group">
+                            <label>Vaccination Date</label>
+                            <input type="text" name="vaccination_date" class="form-control <?php echo (!empty($vaccination_date_error)) ? 'is-invalid' : ''; ?>" value="<?php echo $vaccination_date; ?>">
+                            <span class="invalid-feedback"><?php echo $vaccination_date_error; ?></span>
                         </div>
                         <input type="submit" class="btn btn-primary" value="Submit">
-                        <a href="index.php" class="btn btn-secondary ml-2">Cancel</a>
+                        <a href="age_group.php" class="btn btn-secondary ml-2">Cancel</a>
                     </form>
                 </div>
-            </div>        
+            </div>
         </div>
     </div>
 </body>
+
 </html>

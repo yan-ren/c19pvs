@@ -6,6 +6,8 @@
   <title>COVID-19 Public Health Care Population Vaccination System</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
+  <!-- Material Design Bootstrap -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/css/mdb.min.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.min.js" integrity="sha384-VHvPCCyXqtD5DqJeNxl2dtTyhF78xXNXdkwX1CZeRusQfRKp+tA7hAShOK/B/fQ2" crossorigin="anonymous"></script>
@@ -17,7 +19,7 @@
     <a class="navbar-brand" href="index.php">C19PVS</a>
     <div class="collapse navbar-collapse justify-content-end" id="navbarText">
       <ul class="navbar-nav">
-        <li class="nav-item active">
+        <li class="nav-item">
           <a class="nav-link" href="index.php">Home <span class="sr-only">(current)</span></a>
         </li>
         <li class="nav-item">
@@ -36,42 +38,19 @@
     </div>
   </nav>
   <div class="container">
-    <h2>For System Manager</h2>
-    <h4>Click here for <a href="manage.php">Create/Delete/Edit/Display a Table</a></h4>
-    <hr>
-    <h4>Database table at a glance</h4>
-    <?php
-    require_once('./php/config.php');
-
-    $con = connect();
-    showTables($con);
-
-    function showTables($link)
-    {
-      $sql = "SHOW TABLES";
-      if ($result = mysqli_query($link, $sql)) {
-        if (mysqli_num_rows($result) > 0) {
-          echo "<table class=\"table table-bordered table-striped\">";
-          echo "<tr>";
-          echo "<th>" . "Table Name" . "</td>";
-          echo "</tr>";
-          while ($row = mysqli_fetch_array($result)) {
-            echo "<tr>";
-            echo "<td>" . $row[0] . "</td>";
-            echo "</tr>";
-          }
-          echo "</table>";
-          // Free result set
-          mysqli_free_result($result);
-        } else {
-          echo "No records matching your query were found.";
-        }
-      } else {
-        echo "ERROR: Could not able to execute $sql. " . mysqli_error($link);
-      }
-    }
-    ?>
-  </div><!-- /.container -->
+    <div class="mdb-color white-text">
+      DB manage has access to following tables, use with caution!
+    </div>
+    <div class="btn-group-vertical" role="group" aria-label="Vertical button group">
+      <button type="button" class="btn aqua-gradient"><a href="">Person</button>
+      <button type="button" class="btn aqua-gradient"><a href="">Public Health Worker</button>
+      <button type="button" class="btn aqua-gradient"><a href="">Public Health Facility</button>
+      <button type="button" class="btn aqua-gradient"><a href="">Vaccination Type</button>
+      <button type="button" class="btn aqua-gradient"><a href="">Covid-19 Infection Variant Type</button>
+      <button type="button" class="btn aqua-gradient"><a href="/php/age_group/age_group.php">Age Group</button>
+      <button type="button" class="btn aqua-gradient"><a href="">Province</button>
+    </div>
+  </div>
   <!-- footer -->
   <footer id="footer" class="footer-1">
     <div class="footer-copyright">
