@@ -13,11 +13,12 @@ $age_error = $vaccination_date_error = "";
 // Processing form data when form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-    $age_group_id = (int)(trim($_POST["age_group_id"]));
-
-    // Validate age
+    $age_group_id = trim($_POST["age_group_id"]);
     $min_age = trim($_POST["min_age"]);
     $max_age = trim($_POST["max_age"]);
+    $vaccination_date = trim($_POST["vaccination_date"]);
+
+    // Validate age
     if (empty($min_age) && $min_age !== '0') {
         $age_err = "Please enter an min age";
     }
@@ -26,9 +27,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     // Validate date
-    if (validateMysqlDate(trim($_POST["vaccination_date"]))) {
-        $vaccination_date = trim($_POST["vaccination_date"]);
-    } else {
+    if (empty($vaccination_date)) {
+        $vaccination_date = null;
+    } elseif (!validateMysqlDate($vaccination_date)) {
         $vaccination_date_error = "Invalid date format, please use formate yyyy-mm-dd";
     }
 

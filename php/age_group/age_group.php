@@ -10,11 +10,6 @@
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.min.js" integrity="sha384-VHvPCCyXqtD5DqJeNxl2dtTyhF78xXNXdkwX1CZeRusQfRKp+tA7hAShOK/B/fQ2" crossorigin="anonymous"></script>
     <style>
-        /* .wrapper {
-            width: 600px;
-            margin: 0 auto;
-        } */
-
         table tr td:last-child {
             width: 120px;
         }
@@ -81,6 +76,7 @@
                     // Close connection
                     mysqli_close($link);
                     ?>
+                    <p class="pull-right"><a href="../../manage.php">Back</a></p>
                 </div>
             </div>
         </div>

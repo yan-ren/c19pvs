@@ -20,26 +20,24 @@ if (isset($_POST["age_group_id"]) && !empty($_POST["age_group_id"])) {
         $min_age_err = "Min age is bigger than Max age";
     }
 
-    $input_vaccination_date = trim($_POST["vaccination_date"]);
+    if (empty(trim($_POST["min_age"]))) {
+        $input_min_age = null;
+    }
+    if (empty(trim($_POST["max_age"]))) {
+        $input_max_age = null;
+    }
+    if (empty(trim($_POST["vaccination_date"]))) {
+        $input_vaccination_date = null;
+    } else {
+        $input_vaccination_date = trim($_POST["vaccination_date"]);
+    }
 
     // Check input errors before inserting in database
     if (empty($min_age_err)) {
         // Prepare an update statement
-        $sql = "";
-        $stmt = false;
-        if (empty((trim($_POST["min_age"])))) {
-            $sql = "UPDATE age_group SET min_age=NULL, max_age=?, vaccination_date=? WHERE age_group_id=?";
-            $stmt = mysqli_prepare($link, $sql);
-            mysqli_stmt_bind_param($stmt, "isi", $input_max_age, $input_vaccination_date, $age_group_id);
-        } else if (empty((trim($_POST["max_age"])))) {
-            $sql = "UPDATE age_group SET min_age=?, max_age=NULL, vaccination_date=? WHERE age_group_id=?";
-            $stmt = mysqli_prepare($link, $sql);
-            mysqli_stmt_bind_param($stmt, "isi", $input_min_age, $input_vaccination_date, $age_group_id);
-        } else {
-            $sql = "UPDATE age_group SET min_age=?, max_age=?, vaccination_date=? WHERE age_group_id=?";
-            $stmt = mysqli_prepare($link, $sql);
-            mysqli_stmt_bind_param($stmt, "iisi", $input_min_age, $input_max_age, $input_vaccination_date, $age_group_id);
-        }
+        $sql = "UPDATE age_group SET min_age=?, max_age=?, vaccination_date=? WHERE age_group_id=?";
+        $stmt = mysqli_prepare($link, $sql);
+        mysqli_stmt_bind_param($stmt, "iisi", $input_min_age, $input_max_age, $input_vaccination_date, $age_group_id);
 
         if ($stmt) {
             // Attempt to execute the prepared statement

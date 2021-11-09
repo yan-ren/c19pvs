@@ -42,13 +42,13 @@
       DB manage has access to following tables, use with caution!
     </div>
     <div class="btn-group-vertical" role="group" aria-label="Vertical button group">
-      <button type="button" class="btn aqua-gradient"><a href="">Person</button>
-      <button type="button" class="btn aqua-gradient"><a href="">Public Health Worker</button>
-      <button type="button" class="btn aqua-gradient"><a href="">Public Health Facility</button>
-      <button type="button" class="btn aqua-gradient"><a href="">Vaccination Type</button>
-      <button type="button" class="btn aqua-gradient"><a href="">Covid-19 Infection Variant Type</button>
-      <button type="button" class="btn aqua-gradient"><a href="/php/age_group/age_group.php">Age Group</button>
-      <button type="button" class="btn aqua-gradient"><a href="">Province</button>
+      <a href=""><button type="button" class="btn aqua-gradient">Person</button></a>
+      <a href=""><button type="button" class="btn aqua-gradient">Public Health Worker</button></a>
+      <a href=""><button type="button" class="btn aqua-gradient">Public Health Facility</button></a>
+      <a href=""><button type="button" class="btn aqua-gradient">Vaccination Type</button></a>
+      <a href=""><button type="button" class="btn aqua-gradient">Covid-19 Infection Variant Type</button></a>
+      <a href="/php/age_group/age_group.php"><button type="button" class="btn aqua-gradient">Age Group</button></a>
+      <a href=""><button type="button" class="btn aqua-gradient">Province</button></a>
     </div>
   </div>
   <!-- footer -->
