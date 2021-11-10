@@ -1,6 +1,4 @@
 <?php
-error_reporting(-1);
-ini_set('display_errors', 'On');
 // Include config file
 require_once "../config.php";
 require_once "../util.php";
@@ -52,7 +50,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 header("location: age_group.php");
                 exit();
             } else {
-                // echo "<h1>Query gagal</h1>";
                 $error = mysqli_stmt_error($stmt);
                 echo '<script> alert("' . $error . '")</script>';
             }
@@ -94,21 +91,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
                         <div class="form-group">
                             <label>Age Group ID</label>
-                            <input type="text" name="age_group_id" class="form-control" value="<?php echo $age_group_id; ?>">
+                            <input type="number" name="age_group_id" class="form-control" value="<?php echo $age_group_id; ?>">
                         </div>
                         <div class="form-group">
                             <label>Min Age</label>
-                            <input type="text" name="min_age" class="form-control <?php echo (!empty($age_error)) ? 'is-invalid' : '' ?>" value="<?php echo $min_age; ?>">
+                            <input type="number" name="min_age" class="form-control <?php echo (!empty($age_error)) ? 'is-invalid' : '' ?>" value="<?php echo $min_age; ?>">
                             <span class="invalid-feedback"><?php echo $age_error; ?></span>
                         </div>
                         <div class="form-group">
                             <label>Max Age</label>
-                            <input type="text" name="max_age" class="form-control <?php echo (!empty($age_error)) ? 'is-invalid' : ''; ?>" value="<?php echo $max_age; ?>">
+                            <input type="number" name="max_age" class="form-control <?php echo (!empty($age_error)) ? 'is-invalid' : ''; ?>" value="<?php echo $max_age; ?>">
                             <span class="invalid-feedback"><?php echo $age_error; ?></span>
                         </div>
                         <div class="form-group">
                             <label>Vaccination Date</label>
-                            <input type="text" name="vaccination_date" class="form-control <?php echo (!empty($vaccination_date_error)) ? 'is-invalid' : ''; ?>" value="<?php echo $vaccination_date; ?>">
+                            <input type="date" name="vaccination_date" class="form-control <?php echo (!empty($vaccination_date_error)) ? 'is-invalid' : ''; ?>" value="<?php echo $vaccination_date; ?>">
                             <span class="invalid-feedback"><?php echo $vaccination_date_error; ?></span>
                         </div>
                         <input type="submit" class="btn btn-primary" value="Submit">
