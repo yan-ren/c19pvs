@@ -60,7 +60,6 @@
                     // Close connection
                     mysqli_close($link);
                     ?>
-                    <p class="pull-right"><a href="../../manage.php">Back</a></p>
                 </div>
             </div>
         </div>
