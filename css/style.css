@@ -1,12 +1,4 @@
 body { 
-    padding-top: 65px; 
+    padding-top: 65px;
+    min-height: 120vh;
 }
-
-/* Copy Right Footer */
-.footer-copyright { 
-    background: #222; 
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-}
-.footer-copyright p { color: #969696; }

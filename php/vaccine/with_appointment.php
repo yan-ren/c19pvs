@@ -5,6 +5,7 @@ ini_set('display_errors', 'On');
 require_once "../config.php";
 $link = connect();
 
+// Handle POST
 if (isset($_POST["booking_id"])) {
 
   $sql = "INSERT INTO vaccination (person_id, vaccine_name, dose, date, location)
@@ -30,9 +31,11 @@ if (isset($_POST["booking_id"])) {
       echo '<script> alert("' . $error . '")</script>';
     }
   } else {
-    echo "<script>alert('Oops! Something went wrong. Please try again later. Error:" . $link->error . " ');location='create.php';</script>";
+    echo "<script>alert('Oops! Something went wrong. Please try again later');location.href='../../vaccine.php';</script>";
   }
-} else {
+}
+// Handle GET
+else {
   $input_first_name = trim($_GET["first_name"]);
   $input_middle_name = trim($_GET["middle_name"]);
   if (empty($input_middle_name)) {
@@ -68,13 +71,15 @@ if (isset($_POST["booking_id"])) {
         $facility = $row["facility_name"];
         $date = $row["date"];
         $time = $row["time"];
-      } else {
-        $error = mysqli_stmt_error($stmt);
-        echo '<script> alert("' . $error . '")</script>';
+      } elseif (mysqli_num_rows($result) == 0) {
+        echo "<script>alert(\"No Appointment Found for given name: " . $input_first_name . ', ' . $input_last_name . "\");location.href='../../vaccine.php'</script>";
+        exit();
+      } elseif (mysqli_num_rows($result) > 1) {
+        echo "<script>alert(\"Multiple Appointment Found for given name: " . $input_first_name . ', ' . $input_last_name . "\");location.href='../../vaccine.php'</script>";
         exit();
       }
     } else {
-      echo "Oops! Something went wrong. Please try again later.";
+      echo '<script> alert("' . mysqli_stmt_error($stmt) . '")</script>';
     }
   }
 
