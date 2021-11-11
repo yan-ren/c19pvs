@@ -1,0 +1,39 @@
+@charset "utf-8";
+/* CSS Document */
+table.gridtable {
+	font-family: verdana,arial,sans-serif;
+	font-size:11px;
+	color:#333333;
+	border-width: 1px;
+	border-color: #666666;
+	border-collapse: collapse;
+}
+table.gridtable th {
+	border-width: 1px;
+	padding: 8px;
+	border-style: solid;
+	border-color: #666666;
+	background-color: #dedeff;
+}
+table.gridtable td {
+	border-width: 1px;
+	padding: 8px;
+	border-style: solid;
+	border-color: #666666;
+	background-color: #dfffff;
+}
+
+.input1 {
+	font-family: verdana,arial,sans-serif;
+	font-size:20px;
+	color:#333333;
+	border-width: 1px;
+	border-color: #666666;
+	border-collapse: collapse;
+}
+ input{
+                border: 1px solid #ccc; 
+                padding: 7px 0px;
+                border-radius: 3px; /*css3属性IE不支持*/
+                padding-left:5px; 
+}

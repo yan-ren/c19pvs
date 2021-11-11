@@ -132,17 +132,17 @@ if (isset($_POST["age_group_id"]) && !empty($_POST["age_group_id"])) {
                     <form action="<?php echo htmlspecialchars(basename($_SERVER['REQUEST_URI'])); ?>" method="post">
                         <div class="form-group">
                             <label>Min Age</label>
-                            <input type="text" name="min_age" class="form-control" value="<?php echo $min_age; ?>">
+                            <input type="number" name="min_age" class="form-control" value="<?php echo $min_age; ?>">
                             <span class="invalid-feedback"><?php echo $min_age; ?></span>
                         </div>
                         <div class="form-group">
                             <label>Max Age</label>
-                            <input type="text" name="max_age" class="form-control" value="<?php echo $max_age; ?>">
+                            <input type="number" name="max_age" class="form-control" value="<?php echo $max_age; ?>">
                             <span class="invalid-feedback"><?php echo $max_age; ?></span>
                         </div>
                         <div class="form-group">
                             <label>Vaccination Date</label>
-                            <textarea name="vaccination_date" class="form-control"><?php echo $vaccination_date; ?></textarea>
+                            <input type="date" name="vaccination_date" class="form-control" value="<?php echo $vaccination_date; ?>"></input>
                             <span class="invalid-feedback"><?php echo $vaccination_date; ?></span>
                         </div>
                         <input type="hidden" name="age_group_id" value="<?php echo $age_group_id; ?>" />

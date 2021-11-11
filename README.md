@@ -76,13 +76,18 @@ https://knc353.encs.concordia.ca/manage.php has buttons for 1-8, 10 each button 
 https://knc353.encs.concordia.ca/appointment.php for 9, 11, 12
 
 #### Search
-https://knc353.encs.concordia.ca/appointment.php for 13, 14, 15, 20
+https://knc353.encs.concordia.ca/search.php for 13, 14, 15, 20
 
 #### Vaccine
-https://knc353.encs.concordia.ca/appointment.php for 16, 17
+https://knc353.encs.concordia.ca/vaccine.php for 16, 17
 
 #### Report
 https://knc353.encs.concordia.ca/report.php for 18, 19
 
 ## Progress
+#### Finish
 - Homepage
+- Age group 6
+- vaccine with appointment 16
+#### Bugs
+#### Work In Progress
