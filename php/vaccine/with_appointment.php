@@ -23,8 +23,6 @@ if (isset($_POST["booking_id"])) {
 
     // Attempt to execute the prepared statement
     if (mysqli_stmt_execute($stmt)) {
-      // Records created successfully. Redirect to landing page
-      // header("location: age_group.php");
       echo "<script>alert('Vaccination Successful!');location.href='../../vaccine.php'</script>";
     } else {
       $error = mysqli_stmt_error($stmt);
@@ -87,7 +85,6 @@ else {
   $sql = "SELECT * FROM vaccine WHERE status='safe'";
   $result = mysqli_query($link, $sql);
   $vaccine_json = mysqli_fetch_all($result, MYSQLI_ASSOC);
-  // echo json_encode($vaccine_json);
 }
 
 // Close statement
@@ -174,11 +171,11 @@ mysqli_close($link);
               <form id="vaccine" action="/php/vaccine/with_appointment.php?booking_id=<?php echo htmlspecialchars($booking_id) ?>" method="post">
                 <div class="form-group">
                   <label>Booking ID</label>
-                  <input class="form-control" placeholder="<?php echo $booking_id; ?>" name="booking_id" value="<?php echo htmlspecialchars($booking_id); ?>">
+                  <input class="form-control" placeholder="<?php echo $booking_id; ?>" name="booking_id" value="<?php echo htmlspecialchars($booking_id); ?>" readonly>
                 </div>
                 <div class="form-group">
                   <label>Person ID</label>
-                  <input class="form-control" placeholder="<?php echo $person_id; ?>" name="person_id" value="<?php echo htmlspecialchars($person_id); ?>">
+                  <input class="form-control" placeholder="<?php echo $person_id; ?>" name="person_id" value="<?php echo htmlspecialchars($person_id); ?>" readonly>
                 </div>
                 <div class="form-group">
                   <label>Vaccine</label>
@@ -190,11 +187,11 @@ mysqli_close($link);
                 </div>
                 <div class="form-group">
                   <label>Appointment Location</label>
-                  <input class="form-control" placeholder="<?php echo $facility; ?>" name="facility_name" value="<?php echo htmlspecialchars($facility); ?>">
+                  <input class="form-control" placeholder="<?php echo $facility; ?>" name="facility_name" value="<?php echo htmlspecialchars($facility); ?>" readonly>
                 </div>
                 <div class="form-group">
                   <label>Date</label>
-                  <input class="form-control" placeholder="<?php echo $date; ?>" name="date" value="<?php echo htmlspecialchars($date); ?>">
+                  <input class="form-control" placeholder="<?php echo $date; ?>" name="date" value="<?php echo htmlspecialchars($date); ?>" readonly>
                 </div>
                 <button type="submit" class="btn aqua-gradient">Vaccine</button>
               </form>

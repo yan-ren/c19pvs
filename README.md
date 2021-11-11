@@ -58,7 +58,7 @@ $ php -S 127.0.0.1:8001
 
 ## Upload to encs server
 ```bash
-rsync -avz --delete --group=knc353_2 -p --exclude '.git' /Users/yan.ren/github.com/yan.ren/c19pvs/ ya_re@login.encs.concordia.ca:/www/groups/k/kn_comp353_2/
+rsync -avz --delete --group=knc353_2 -p --exclude .git --exclude examples/ /Users/yan.ren/github.com/yan.ren/c19pvs/ ya_re@login.encs.concordia.ca:/www/groups/k/kn_comp353_2/
 ```
 
 homepage url
@@ -89,5 +89,6 @@ https://knc353.encs.concordia.ca/report.php for 18, 19
 - Homepage
 - Age group 6
 - vaccine with appointment 16
+- vaccine without appointment 17
 #### Bugs
 #### Work In Progress

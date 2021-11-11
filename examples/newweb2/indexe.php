@@ -46,17 +46,11 @@
         }
 
         function show_1(pid) {
-            <
-            !--
             window.open('updatee.php?new=' + pid, '修改数据', 'height=500,width=1000,top=200,left=200,channelmode=1,"",directories=no, toolbar=no,menubar=no,scrollbars=no, resizable=no,location=no, status=no') //写成一行  
-                -- >
         }
 
         function show_2(pid) {
-            <
-            !--
             window.open('huifu.php?new=' + pid, '回复留言', 'height=500,width=800,top=200,left=200,channelmode=1,"",directories=no, toolbar=no,menubar=no,scrollbars=no, resizable=no,location=no, status=no') //写成一行  
-                -- >
         }
 
         function Checkshan() {
