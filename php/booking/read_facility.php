@@ -26,7 +26,7 @@ if ($stmt) {
             }
             mysqli_free_result($result);
         } else {
-            echo '<div class="alert alert-danger"><em>No records were found.</em></div>';
+            echo '<div class="alert alert-danger"><em>No Booking records were found.</em></div>';
         }
     } else {
         echo "SQL query error: " . mysqli_stmt_errno($stmt);
@@ -35,7 +35,64 @@ if ($stmt) {
     echo "Prepare SQL error: " . $link->error;
 }
 
+// Calculate availability of spots for given period
+// For each date, get how many nurses are assigned to the facility and the open hour of the facility
+$begin = new  DateTime($start_date);
+$end = new DateTime($end_date);
+$i = $begin;
+$total_slots = 0;
+for ($i = $begin; $i <= $end; $i->modify('+1 day')) {
+    // echo $i->format("Y-m-d");
+    // get number of nurses on given day
+    $nurses = 0;
+    $sql = "SELECT COUNT(DISTINCT(person_id)) AS count FROM healthcare_worker_assignment WHERE role='nurse' AND start_date <= ? AND end_date >= ?";
+    $stmt = mysqli_prepare($link, $sql);
+    if ($stmt) {
+        mysqli_stmt_bind_param($stmt, "ss", $i->format("Y-m-d"), $i->format("Y-m-d"));
+        if (mysqli_stmt_execute($stmt)) {
+            $result = mysqli_stmt_get_result($stmt);
+            if (mysqli_num_rows($result) == 1) {
+                $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
+                $nurses =  (int)($row["count"]);
+            } else {
+                echo '<div class="alert alert-danger"><em>Error: ' . $result . '</em></div>';
+            }
+        } else {
+            echo "SQL query error: " . mysqli_stmt_errno($stmt);
+        }
+    } else {
+        echo "Prepare SQL error: " . $link->error;
+    }
 
+    // get open hours on given day then caluclate slots for the day if there is one nurses
+    $slots = 0;
+    $day_of_week = date("W", $i->format("Y-m-d"));
+    $sql = "SELECT open, close FROM  facility_operating_hour WHERE facility_name=? AND day_of_week=?";
+    $stmt = mysqli_prepare($link, $sql);
+    if ($stmt) {
+        mysqli_stmt_bind_param($stmt, "si", $facility_name, $day_of_week);
+        if (mysqli_stmt_execute($stmt)) {
+            $result = mysqli_stmt_get_result($stmt);
+            if (mysqli_num_rows($result) == 1) {
+                $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
+                $open = strtotime($row["open"]);
+                $close = strtotime($row["close"]);
+                $slots = floor(abs($close - $open) / 60 / 20) * $nurses;
+            } else {
+                echo '<div class="alert alert-danger"><em>Find multiple open hour on day ' . $i->format("Y-m-d") . ' for facility: ' . $facility_name . '</em></div>';
+            }
+        } else {
+            echo "SQL query error: " . mysqli_stmt_errno($stmt);
+        }
+    } else {
+        echo "Prepare SQL error: " . $link->error;
+    }
+
+    $total_slots = $total_slots + $slots;
+}
+
+// Close statement
+mysqli_stmt_close($stmt);
 // Close connection
 mysqli_close($link);
 ?>
@@ -51,6 +108,16 @@ mysqli_close($link);
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-12">
+                    <table class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <?php echo "<tr><th>Total availability slots in " . $facility_name . " from " . $start_date . " to " . $end_date . "</tr></th>"; ?>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php echo "<tr><td>" . $total_slots . "</td></tr>"; ?>
+                        </tbody>
+                    </table>
                     <table class="table table-bordered table-striped">
                         <thead>
                             <tr>

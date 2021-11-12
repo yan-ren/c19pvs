@@ -122,7 +122,7 @@ mysqli_close($link);
     <table class="table table-bordered table-striped">
       <thead data-toggle="collapse" href="#collapseTableFirstSpot">
         <tr>
-          <th>Quick Search For Facility <i class="fa fa-chevron-down"></i></th>
+          <th>Quick Search For Facility First Available Spot <i class="fa fa-chevron-down"></i></th>
         </tr>
       </thead>
       <tbody class="collapse" id="collapseTableFirstSpot">
