@@ -90,5 +90,9 @@ https://knc353.encs.concordia.ca/report.php for 18, 19
 - Age group 6
 - vaccine with appointment 16
 - vaccine without appointment 17
+- 11. display booking for a given facility from a period to another period
 #### Bugs
+
 #### Work In Progress
+- 11. display availiability for a given facility from a given period to a given period of time
+math: spots = opening hour in each day * number of nurses * 3
