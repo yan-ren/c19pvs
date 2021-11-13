@@ -30,6 +30,18 @@ mysqli_close($link);
       iframe.document.open();
       iframe.document.close();
     }
+
+    function validateForm(formName) {
+      var x = document.forms[formName];
+      if (x["start_date"] && x["start_date"].value == "") {
+        alert("Start Date cannot be empty");
+        return false;
+      }
+      if (x["end_date"] && x["end_date"].value == "") {
+        alert("End Date cannot be empty");
+        return false;
+      }
+    }
   </script>
 </head>
 
@@ -69,7 +81,7 @@ mysqli_close($link);
       <tbody class="collapse" id="collapseTableFacility">
         <tr>
           <td>
-            <form id="with_appointment" action="./php/booking/read_facility.php" target="ifFacilityBooking" method="get">
+            <form name="display_facility" action="./php/booking/read_facility.php" target="ifFacilityBooking" onsubmit="return validateForm(this.name)" method="get">
               <div class="form-group col-sm-6">
                 <label>Facility</label>
                 <select class="form-select browser-default custom-select" name="facility_name">
@@ -111,7 +123,7 @@ mysqli_close($link);
       <tbody class="collapse" id="collapseTableFirstSpot">
         <tr>
           <td>
-            <form id="with_appointment" action="./php/booking/read_first_spot.php" target="ifFirstSpot" method="get">
+            <form name="first_spot" action="./php/booking/read_first_spot.php" target="ifFirstSpot" onsubmit="return validateForm(this.name)" method="get">
               <div class="form-group">
                 <label>Facility</label>
                 <select class="form-select browser-default custom-select" name="facility_name">
