@@ -52,7 +52,7 @@ DEFINE('DB_NAME', 'knc353_2');
 ```
 6. Run php server locally
 ```bash
-$ cd CS19PVS
+$ cd c19pvs
 $ php -S 127.0.0.1:8001
 ```
 
@@ -83,12 +83,3 @@ https://knc353.encs.concordia.ca/vaccine.php for 16, 17
 
 #### Report
 https://knc353.encs.concordia.ca/report.php for 18, 19
-
-## Progress
-#### Finish
-- Homepage
-- Age group 6
-- vaccine with appointment 16
-- vaccine without appointment 17
-#### Bugs
-#### Work In Progress

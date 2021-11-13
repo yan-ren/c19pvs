@@ -27,6 +27,7 @@ CREATE TABLE `age_group` (
   `vaccination_date` date DEFAULT NULL COMMENT 'date available for vaccination',
   `min_age` mediumint DEFAULT NULL COMMENT 'minimum age in the group (inclusive)',
   `max_age` mediumint DEFAULT NULL COMMENT 'maximum age in the group (inclusive)',
+  `status` enum('A','D') NOT NULL DEFAULT 'A' COMMENT 'A - Active, D - Deleted',
   PRIMARY KEY (`age_group_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -36,7 +37,7 @@ CREATE TABLE `age_group` (
 --
 
 /*!40000 ALTER TABLE `age_group` DISABLE KEYS */;
-INSERT INTO `age_group` VALUES (0,NULL,NULL,NULL),(1,'2020-12-22',80,NULL),(2,'2021-01-01',70,79),(3,'2021-02-01',60,69),(4,'2021-02-15',50,59),(5,'2021-03-01',40,49),(6,'2021-04-01',30,39),(7,'2021-05-01',18,29),(8,'2021-06-01',12,17),(9,'2021-01-01',5,11),(10,NULL,0,4);
+INSERT INTO `age_group` VALUES (0,NULL,NULL,NULL,'A'),(1,'2020-12-22',80,NULL,'A'),(2,'2021-01-01',70,79,'A'),(3,'2021-02-01',60,69,'A'),(4,'2021-02-15',50,59,'A'),(5,'2021-03-01',40,49,'A'),(6,'2021-04-01',30,39,'A'),(7,'2021-05-01',18,29,'A'),(8,'2021-06-01',12,17,'A'),(9,'2021-01-01',5,11,'A'),(10,NULL,0,4,'A');
 /*!40000 ALTER TABLE `age_group` ENABLE KEYS */;
 
 --
@@ -79,8 +80,9 @@ DROP TABLE IF EXISTS `covid`;
 CREATE TABLE `covid` (
   `covid_id` int NOT NULL AUTO_INCREMENT COMMENT 'Primary Key',
   `variant` varchar(255) DEFAULT NULL,
+  `status` enum('A','D') NOT NULL DEFAULT 'A' COMMENT 'A - Active, D - Deleted',
   PRIMARY KEY (`covid_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -88,7 +90,7 @@ CREATE TABLE `covid` (
 --
 
 /*!40000 ALTER TABLE `covid` DISABLE KEYS */;
-INSERT INTO `covid` VALUES (1,'Alpha'),(2,'Beta'),(3,'Gamma'),(4,'Delta'),(5,'MU');
+INSERT INTO `covid` VALUES (1,'unknown','A'),(2,'Beta','A'),(3,'Gamma','A'),(4,'Delta','A'),(5,'MU','A'),(6,'Alpha','A');
 /*!40000 ALTER TABLE `covid` ENABLE KEYS */;
 
 --
@@ -159,6 +161,7 @@ CREATE TABLE `healthcare_worker` (
   `employee_id` int NOT NULL,
   `facility_name` varchar(255) NOT NULL,
   `hourly_rate` int NOT NULL,
+  `status` enum('A','D') NOT NULL DEFAULT 'A' COMMENT 'A - Active, D - Deleted',
   PRIMARY KEY (`person_id`,`employee_id`,`facility_name`),
   KEY `facility_name` (`facility_name`),
   CONSTRAINT `healthcare_worker_ibfk_1` FOREIGN KEY (`person_id`) REFERENCES `person` (`person_id`),
@@ -171,6 +174,7 @@ CREATE TABLE `healthcare_worker` (
 --
 
 /*!40000 ALTER TABLE `healthcare_worker` DISABLE KEYS */;
+INSERT INTO `healthcare_worker` VALUES (18,666,'jewish_general_hospital',25,'A'),(19,777,'hospital_notre_dame',20,'A');
 /*!40000 ALTER TABLE `healthcare_worker` ENABLE KEYS */;
 
 --
@@ -212,8 +216,11 @@ DROP TABLE IF EXISTS `infection`;
 CREATE TABLE `infection` (
   `person_id` int NOT NULL,
   `date` date NOT NULL COMMENT 'date of infection',
+  `covid_id` int NOT NULL DEFAULT '1',
   KEY `person_id` (`person_id`),
-  CONSTRAINT `infection_ibfk_1` FOREIGN KEY (`person_id`) REFERENCES `person` (`person_id`) ON DELETE CASCADE
+  KEY `covid_id` (`covid_id`),
+  CONSTRAINT `infection_ibfk_1` FOREIGN KEY (`person_id`) REFERENCES `person` (`person_id`) ON DELETE CASCADE,
+  CONSTRAINT `infection_ibfk_2` FOREIGN KEY (`covid_id`) REFERENCES `covid` (`covid_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -222,7 +229,7 @@ CREATE TABLE `infection` (
 --
 
 /*!40000 ALTER TABLE `infection` DISABLE KEYS */;
-INSERT INTO `infection` VALUES (1,'2020-03-06'),(2,'2020-12-15'),(3,'2021-10-01'),(4,'2020-07-16'),(5,'2021-09-28'),(6,'2020-01-15'),(7,'2020-02-27'),(8,'2020-07-15'),(9,'2020-04-28'),(10,'2020-09-08');
+INSERT INTO `infection` VALUES (1,'2020-03-06',1),(2,'2020-12-15',1),(3,'2021-10-01',1),(4,'2020-07-16',1),(5,'2021-09-28',1),(6,'2020-01-15',1),(7,'2020-02-27',1),(8,'2020-07-15',1),(9,'2020-04-28',1),(10,'2020-09-08',1);
 /*!40000 ALTER TABLE `infection` ENABLE KEYS */;
 
 --
@@ -251,6 +258,7 @@ CREATE TABLE `person` (
   `age_group_id` int DEFAULT NULL,
   `registered` tinyint(1) DEFAULT NULL,
   `middle_name` varchar(255) DEFAULT NULL,
+  `status` enum('A','D') NOT NULL DEFAULT 'A' COMMENT 'A - Active, D - Deleted',
   PRIMARY KEY (`person_id`),
   KEY `age_group_id` (`age_group_id`),
   CONSTRAINT `person_ibfk_1` FOREIGN KEY (`age_group_id`) REFERENCES `age_group` (`age_group_id`) ON DELETE CASCADE
@@ -262,7 +270,7 @@ CREATE TABLE `person` (
 --
 
 /*!40000 ALTER TABLE `person` DISABLE KEYS */;
-INSERT INTO `person` VALUES (1,'james','doe','1991-11-11','1','2020-11-11','2023-11-11','5140000000','1120 Rue Concordia','Montreal','Quebec','H4H3E3','Canada','casdi@gmail.com','sdaf-213',2,1,NULL),(2,'jane','doe','1997-11-11','2','2020-11-11','2023-11-11','5140000001','1120 Rue Montreal','lasalle','Quebec','H4H3G3','Canada','cadddi@gmail.com','sdaf-211',3,1,NULL),(3,'john','doe','2001-11-11','3','2019-10-12','2023-10-12','5140000002','1120 Rue Guy','Montreal','Quebec','H4G3D3','Canada','cadsdi@gmail.com','sdaf-212',7,1,NULL),(4,'john','doe','1991-01-11','4','2021-10-12','2024-10-12','5140000003','1120 Rue Catherine','Laval','Quebec','H4D3D3','Canada','casdi@gmail.com','sdaf-214',6,1,NULL),(5,'sam','doe','1988-01-11','5','2021-01-13','2024-01-12','5140000004','1120 Rue MaxKay','Brossard','Quebec','H5D3D3','Canada','ggsdfas@gmail.com','sdaf-215',10,1,NULL),(6,'john','smith','1979-01-01','6','2021-10-12','2024-10-12','5140000005','1120 Rue Max','Montreal','Quebec','H4D3H3','Canada','sdfas@gmail.com','sdaf-216',5,1,NULL),(7,'sam','smith','1970-11-11','7','2021-10-12','2024-10-12','5140000006','1120 Rue Marie','Toronto','Ontario','H6D3A4','Canada','wedfa@gmail.com','sdaf-217',4,1,NULL),(8,'kim','smith','1990-09-11','8','2021-10-12','2024-10-12','5140000007','1120 Rue Ontario','Toronto','Ontario','H6D3B4','Canada','asddfa@gmail.com','sdaf-218',1,1,NULL),(9,'jim','carry','2000-12-01','9','2021-10-12','2024-10-12','5140000008','1120 Rue Quebec','Montreal','Quebec','H8D3A8','Canada','dfa@gmail.com','sdaf-219',8,1,NULL),(10,'ali','smith','1999-09-01','10','2021-10-12','2024-10-12','5140000009','1120 Rue Quebec','Montreal','Quebec','H8D3A8','Canada','dfa@gmail.com','sdaf-220',9,1,NULL),(11,'zhangbin ','cai','1993-07-09','','2020-09-08','2023-10-05','6476666666','1122 Ruy Guy','Royal-Mount','Quebec','H4G5T5','China','caizhan@concordia.ca','ch-00769',7,0,NULL),(12,'ryan','yan','1990-01-30','12','2019-10-10','2022-10-06','5140006666','2344 Rue Paquet','Quebec City','Quebec','H4D5N4','Canada','yan@concordia.ca','dca-6666',7,1,NULL),(13,'rongxi','meng','1989-06-06','13','2019-10-14','2023-10-18','5140004666','1235 Rue Maria','Montreal','Quebec','D4D5G5','China','xi@concordia.ca','ch-00699',6,1,NULL),(14,'jason','qian','1991-06-04','14','2021-09-27','2024-10-18','5146669466','1234 Rue Google','Montreal','Quebec','G4G5L6','China','qian@concordia.ca','ch-07666',7,1,NULL),(15,'walter','white','1970-01-27','','2017-10-03','2020-10-07','6479965444','1000 Rue Texa','Laval','Quebec','L4L6Y7','US','walter@gmail.com','usd-0094',4,0,NULL),(16,'marie','hunt','1999-02-02','','2018-10-16','2021-09-27','5147774444','1234 Rue Hunter','Montreal','Quebec','D2D4G4','US','marie@gmail.com','adfa-999',7,0,NULL),(17,'don','jump','1961-01-31','15','2020-10-07','2023-10-04','4150000000','2222 Rue Pres','Laval','Quebec','D4D5T5','Canada','ttDrum@gmail.com','dfa-334',3,1,NULL),(18,'james','bond','1999-09-09','66','2019-05-16','2022-10-22','7778889999','6666 Rue Bond','Toronto','Ontario','M6X5N1','Canada','jamsebond@outlook.com','cad-666',3,1,NULL),(19,'jason','borne','2000-09-10','77','2018-06-06','2023-10-22','1112223334','7777 Rue bond','Toronto','Ontario','M8X7N1','Canada','jasonborne@outlook.com','cad-777',4,2,NULL);
+INSERT INTO `person` VALUES (1,'james','doe','1991-11-11','1','2020-11-11','2023-11-11','5140000000','1120 Rue Concordia','Montreal','Quebec','H4H3E3','Canada','casdi@gmail.com','sdaf-213',2,1,NULL,'A'),(2,'jane','doe','1997-11-11','2','2020-11-11','2023-11-11','5140000001','1120 Rue Montreal','lasalle','Quebec','H4H3G3','Canada','cadddi@gmail.com','sdaf-211',3,1,NULL,'A'),(3,'john','doe','2001-11-11','3','2019-10-12','2023-10-12','5140000002','1120 Rue Guy','Montreal','Quebec','H4G3D3','Canada','cadsdi@gmail.com','sdaf-212',7,1,NULL,'A'),(4,'john','doe','1991-01-11','4','2021-10-12','2024-10-12','5140000003','1120 Rue Catherine','Laval','Quebec','H4D3D3','Canada','casdi@gmail.com','sdaf-214',6,1,NULL,'A'),(5,'sam','doe','1988-01-11','5','2021-01-13','2024-01-12','5140000004','1120 Rue MaxKay','Brossard','Quebec','H5D3D3','Canada','ggsdfas@gmail.com','sdaf-215',10,1,NULL,'A'),(6,'john','smith','1979-01-01','6','2021-10-12','2024-10-12','5140000005','1120 Rue Max','Montreal','Quebec','H4D3H3','Canada','sdfas@gmail.com','sdaf-216',5,1,NULL,'A'),(7,'sam','smith','1970-11-11','7','2021-10-12','2024-10-12','5140000006','1120 Rue Marie','Toronto','Ontario','H6D3A4','Canada','wedfa@gmail.com','sdaf-217',4,1,NULL,'A'),(8,'kim','smith','1990-09-11','8','2021-10-12','2024-10-12','5140000007','1120 Rue Ontario','Toronto','Ontario','H6D3B4','Canada','asddfa@gmail.com','sdaf-218',1,1,NULL,'A'),(9,'jim','carry','2000-12-01','9','2021-10-12','2024-10-12','5140000008','1120 Rue Quebec','Montreal','Quebec','H8D3A8','Canada','dfa@gmail.com','sdaf-219',8,1,NULL,'A'),(10,'ali','smith','1999-09-01','10','2021-10-12','2024-10-12','5140000009','1120 Rue Quebec','Montreal','Quebec','H8D3A8','Canada','dfa@gmail.com','sdaf-220',9,1,NULL,'A'),(11,'zhangbin ','cai','1993-07-09','','2020-09-08','2023-10-05','6476666666','1122 Ruy Guy','Royal-Mount','Quebec','H4G5T5','China','caizhan@concordia.ca','ch-00769',7,0,NULL,'A'),(12,'ryan','yan','1990-01-30','12','2019-10-10','2022-10-06','5140006666','2344 Rue Paquet','Quebec City','Quebec','H4D5N4','Canada','yan@concordia.ca','dca-6666',7,1,NULL,'A'),(13,'rongxi','meng','1989-06-06','13','2019-10-14','2023-10-18','5140004666','1235 Rue Maria','Montreal','Quebec','D4D5G5','China','xi@concordia.ca','ch-00699',6,1,NULL,'A'),(14,'jason','qian','1991-06-04','14','2021-09-27','2024-10-18','5146669466','1234 Rue Google','Montreal','Quebec','G4G5L6','China','qian@concordia.ca','ch-07666',7,1,NULL,'A'),(15,'walter','white','1970-01-27','','2017-10-03','2020-10-07','6479965444','1000 Rue Texa','Laval','Quebec','L4L6Y7','US','walter@gmail.com','usd-0094',4,0,NULL,'A'),(16,'marie','hunt','1999-02-02','','2018-10-16','2021-09-27','5147774444','1234 Rue Hunter','Montreal','Quebec','D2D4G4','US','marie@gmail.com','adfa-999',7,0,NULL,'A'),(17,'don','jump','1961-01-31','15','2020-10-07','2023-10-04','4150000000','2222 Rue Pres','Laval','Quebec','D4D5T5','Canada','ttDrum@gmail.com','dfa-334',3,1,NULL,'A'),(18,'james','bond','1999-09-09','66','2019-05-16','2022-10-22','7778889999','6666 Rue Bond','Toronto','Ontario','M6X5N1','Canada','jamsebond@outlook.com','cad-666',3,1,NULL,'A'),(19,'jason','borne','2000-09-10','77','2018-06-06','2023-10-22','1112223334','7777 Rue bond','Toronto','Ontario','M8X7N1','Canada','jasonborne@outlook.com','cad-777',4,2,NULL,'A');
 /*!40000 ALTER TABLE `person` ENABLE KEYS */;
 
 --
@@ -277,7 +285,7 @@ CREATE TABLE `province` (
   `age_group` int NOT NULL DEFAULT '0',
   PRIMARY KEY (`name`),
   KEY `age_group` (`age_group`),
-  CONSTRAINT `province_ibfk_1` FOREIGN KEY (`age_group`) REFERENCES `age_group` (`age_group_id`)
+  CONSTRAINT `province_ibfk_1` FOREIGN KEY (`age_group`) REFERENCES `age_group` (`age_group_id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -355,4 +363,4 @@ INSERT INTO `vaccine` VALUES ('AstraZeneca','suspend',NULL,NULL,'2020-09-25'),('
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-11-11 13:21:49
+-- Dump completed on 2021-11-12  0:08:37
