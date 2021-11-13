@@ -11,38 +11,38 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="mt-5 mb-3 clearfix">
-                        <h2 class="pull-left">Age Group</h2>
-                        <a href="create.php" class="btn btn-success pull-right"><i class="fa fa-plus"></i> Add New Age Group</a>
+                        <h2 class="pull-left">Public Health Worker</h2>
+                        <a href="create.php" class="btn btn-success pull-right"><i class="fa fa-plus"></i> Add New Public Health Worker</a>
                     </div>
                     <?php
                     // Include config file
                     require_once "../config.php";
                     $link = connect();
                     // Attempt select query execution
-                    $sql = "SELECT * FROM age_group ORDER BY age_group_id ASC";
+                    $sql = "SELECT * FROM healthcare_worker ORDER BY person_id ASC";
                     if ($result = mysqli_query($link, $sql)) {
                         if (mysqli_num_rows($result) > 0) {
                             echo '<table class="table table-bordered table-striped">';
                             echo "<thead>";
                             echo "<tr>";
-                            echo "<th>Age Group ID</th>";
-                            echo "<th>Min Age</th>";
-                            echo "<th>Max Age</th>";
-                            echo "<th>Vaccination Date</th>";
+                            echo "<th>Person_id</th>";
+                            echo "<th>Employee_id</th>";
+                            echo "<th>Facility_name</th>";
+                            echo "<th>Hourly_rate</th>";
                             echo "<th>Action</th>";
                             echo "</tr>";
                             echo "</thead>";
                             echo "<tbody>";
                             while ($row = mysqli_fetch_array($result)) {
                                 echo "<tr>";
-                                echo "<td>" . $row['age_group_id'] . "</td>";
-                                echo "<td>" . $row['min_age'] . "</td>";
-                                echo "<td>" . $row['max_age'] . "</td>";
-                                echo "<td>" . $row['vaccination_date'] . "</td>";
+                                echo "<td>" . $row['person_id'] . "</td>";
+                                echo "<td>" . $row['employee_id'] . "</td>";
+                                echo "<td>" . $row['facility_name'] . "</td>";
+                                echo "<td>" . $row['hourly_rate'] . "</td>";
                                 echo "<td>";
-                                echo '<a href="read.php?age_group_id=' . $row['age_group_id'] . '" class="mr-3" title="View Record" data-toggle="tooltip"><span class="fa fa-eye"></span></a>';
-                                echo '<a href="update.php?age_group_id=' . $row['age_group_id'] . '" class="mr-3" title="Update Record" data-toggle="tooltip"><span class="fa fa-pencil"></span></a>';
-                                echo '<a href="delete.php?age_group_id=' . $row['age_group_id'] . '" title="Delete Record" data-toggle="tooltip"><span class="fa fa-trash"></span></a>';
+                                echo '<a href="read.php?age_group_id=' . $row['person_id'] . '" class="mr-3" title="View Record" data-toggle="tooltip"><span class="fa fa-eye"></span></a>';
+                                echo '<a href="update.php?age_group_id=' . $row['person_id'] . '" class="mr-3" title="Update Record" data-toggle="tooltip"><span class="fa fa-pencil"></span></a>';
+                                echo '<a href="delete.php?age_group_id=' . $row['person_id'] . '" title="Delete Record" data-toggle="tooltip"><span class="fa fa-trash"></span></a>';
                                 echo "</td>";
                                 echo "</tr>";
                             }

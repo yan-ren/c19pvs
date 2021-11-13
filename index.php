@@ -40,7 +40,7 @@
     </div>
   </nav>
   <div class="container-fluid">
-    <h4>For System Manager</h2>
+    <h2>For System Manager</h2>
       <!-- dropdown -->
       <div class="dropdown">
         <button class="btn btn-secondary dropdown-toggle aqua-gradient" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -59,7 +59,7 @@
       <!-- ./dropdown -->
       <!-- iframe -->
       <div class="">
-        <iframe name="ifbox" id="ifboxId" width="100%" onload="iframeLoaded()" background-color:#b0c4de; frameborder="0" scrolling="auto">
+        <iframe name="ifbox" id="ifboxId" width="100%" onload="iframeLoaded()" style="background-color:white;"  frameborder="0" scrolling="auto">
         </iframe>
       </div>
       <hr>

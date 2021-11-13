@@ -147,7 +147,7 @@ if (isset($_POST["age_group_id"]) && !empty($_POST["age_group_id"])) {
                         </div>
                         <input type="hidden" name="age_group_id" value="<?php echo $age_group_id; ?>" />
                         <input type="submit" class="btn btn-primary" value="Submit">
-                        <a href="age_group.php" class="btn btn-secondary ml-2">Cancel</a>
+                        <a href="public_health_worker.php" class="btn btn-secondary ml-2">Cancel</a>
                     </form>
                 </div>
             </div>
