@@ -31,7 +31,7 @@ mysqli_close($link);
           <a class="nav-link" href="index.php">Home <span class="sr-only">(current)</span></a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="appointment.php">Appointment</a>
+          <a class="nav-link" href="booking.php">Booking</a>
         </li>
         <li class="nav-item active">
           <a class="nav-link" href="vaccine.php">Vaccine</a>
@@ -50,8 +50,8 @@ mysqli_close($link);
     <table class="table table-bordered table-striped">
       <thead>
         <tr>
-          <th>With Appointment</th>
-          <th>Without Appointment</th>
+          <th>With Booking</th>
+          <th>Without Booking</th>
         </tr>
       </thead>
       <tbody>
@@ -71,7 +71,7 @@ mysqli_close($link);
                 <input class="form-control" placeholder="" name="last_name">
               </div>
               <div class="form-group">
-                <label>Appointment Location</label>
+                <label>Booking Location</label>
                 <select class="form-select browser-default custom-select" name="facility_name">
                   <?php
                   foreach ($all_facility as $facility) {

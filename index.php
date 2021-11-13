@@ -25,7 +25,7 @@
           <a class="nav-link" href="index.php">Home</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="appointment.php">Appointment</a>
+          <a class="nav-link" href="booking.php">Booking</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="vaccine.php">Vaccine</a>

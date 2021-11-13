@@ -70,10 +70,10 @@ else {
         $date = $row["date"];
         $time = $row["time"];
       } elseif (mysqli_num_rows($result) == 0) {
-        echo "<script>alert(\"No Appointment Found for given name: " . $input_first_name . ', ' . $input_last_name . "\");location.href='../../vaccine.php'</script>";
+        echo "<script>alert(\"No Booking Found for given name: " . $input_first_name . ', ' . $input_last_name . "\");location.href='../../vaccine.php'</script>";
         exit();
       } elseif (mysqli_num_rows($result) > 1) {
-        echo "<script>alert(\"Multiple Appointment Found for given name: " . $input_first_name . ', ' . $input_last_name . "\");location.href='../../vaccine.php'</script>";
+        echo "<script>alert(\"Multiple Booking Found for given name: " . $input_first_name . ', ' . $input_last_name . "\");location.href='../../vaccine.php'</script>";
         exit();
       }
     } else {
@@ -186,7 +186,7 @@ mysqli_close($link);
                   <input class="form-control" placeholder="" name="dose">
                 </div>
                 <div class="form-group">
-                  <label>Appointment Location</label>
+                  <label>Booking Location</label>
                   <input class="form-control" placeholder="<?php echo $facility; ?>" name="facility_name" value="<?php echo htmlspecialchars($facility); ?>" readonly>
                 </div>
                 <div class="form-group">
