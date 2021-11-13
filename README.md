@@ -1,4 +1,8 @@
 # c19pvs
+## System Specification
+The server used for the project runs Scientific Linux 7.9
+
+The version of MYSQL in use this term is 8.0.22 and PHP is version 7.4.14
 ## Setup local dev environment
 Goal: setup a local dev environment which is the same as encs server
 1. Install MySQL to computer, verify installation success by entering MySQL server

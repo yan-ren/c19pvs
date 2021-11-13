@@ -1,4 +1,6 @@
 <?php
+error_reporting(-1);
+ini_set('display_errors', 'On');
 // Include config file
 require_once "../config.php";
 $link = connect();
@@ -10,7 +12,7 @@ $end_date = trim($_GET['end_date']);
 $result_rows = array();
 $date_spots = array();
 
-// Attempt select query execution
+// Query all bookings for facility given time period
 $sql = "SELECT booking_id, first_name, last_name, date, time, booking.status
 FROM booking
 INNER JOIN person ON booking.person_id = person.person_id
@@ -49,7 +51,8 @@ for ($i = $begin; $i <= $end; $i->modify('+1 day')) {
     $sql = "SELECT COUNT(DISTINCT(person_id)) AS count FROM healthcare_worker_assignment WHERE role='nurse' AND start_date <= ? AND end_date >= ?";
     $stmt = mysqli_prepare($link, $sql);
     if ($stmt) {
-        mysqli_stmt_bind_param($stmt, "ss", $i->format("Y-m-d"), $i->format("Y-m-d"));
+        $date_string = $i->format("Y-m-d");
+        mysqli_stmt_bind_param($stmt, "ss", $date_string, $date_string);
         if (mysqli_stmt_execute($stmt)) {
             $result = mysqli_stmt_get_result($stmt);
             if (mysqli_num_rows($result) == 1) {
@@ -67,7 +70,7 @@ for ($i = $begin; $i <= $end; $i->modify('+1 day')) {
 
     // get open hours on given day then caluclate slots for the day if there is one nurses
     $slots = 0;
-    $day_of_week = date("W", $i->format("Y-m-d"));
+    $day_of_week = date("w", $i->getTimestamp());
     $sql = "SELECT open, close FROM  facility_operating_hour WHERE facility_name=? AND day_of_week=?";
     $stmt = mysqli_prepare($link, $sql);
     if ($stmt) {
