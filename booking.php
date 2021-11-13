@@ -31,23 +31,6 @@ mysqli_close($link);
       iframe.document.close();
     }
   </script>
-  <style>
-    .has-search .form-control {
-      padding-left: 2.375rem;
-    }
-
-    .has-search .form-control-feedback {
-      position: absolute;
-      z-index: 2;
-      display: block;
-      width: 2.375rem;
-      height: 2.375rem;
-      line-height: 2.375rem;
-      text-align: center;
-      pointer-events: none;
-      color: #aaa;
-    }
-  </style>
 </head>
 
 <body>
@@ -60,7 +43,7 @@ mysqli_close($link);
           <a class="nav-link" href="index.php">Home <span class="sr-only">(current)</span></a>
         </li>
         <li class="nav-item active">
-          <a class="nav-link" href="appointment.php">Appointment</a>
+          <a class="nav-link" href="booking.php">Booking</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="vaccine.php">Vaccine</a>
@@ -87,7 +70,7 @@ mysqli_close($link);
         <tr>
           <td>
             <form id="with_appointment" action="./php/booking/read_facility.php" target="ifFacilityBooking" method="get">
-              <div class="form-group">
+              <div class="form-group col-sm-6">
                 <label>Facility</label>
                 <select class="form-select browser-default custom-select" name="facility_name">
                   <?php
@@ -97,11 +80,11 @@ mysqli_close($link);
                   ?>
                 </select>
               </div>
-              <div class="form-group">
+              <div class="form-group col-sm-6">
                 <label>Start Date</label>
                 <input type="date" class="form-control" placeholder="" name="start_date">
               </div>
-              <div class="form-group">
+              <div class="form-group col-sm-6">
                 <label>End Date</label>
                 <input type="date" class="form-control" placeholder="" name="end_date">
               </div>
@@ -128,7 +111,7 @@ mysqli_close($link);
       <tbody class="collapse" id="collapseTableFirstSpot">
         <tr>
           <td>
-            <form id="with_appointment" action="./php/booking/read_first_spot.php" target="ifFacilityBooking" method="get">
+            <form id="with_appointment" action="./php/booking/read_first_spot.php" target="ifFirstSpot" method="get">
               <div class="form-group">
                 <label>Facility</label>
                 <select class="form-select browser-default custom-select" name="facility_name">
@@ -149,19 +132,20 @@ mysqli_close($link);
         </tr>
       </tbody>
     </table>
-    <a href='#' onclick='return clearIframe("ifFacilityBooking")'>clear</a>
-    <!-- iframe ifFacilityBooking-->
+    <a href='#' onclick='return clearIframe("ifFirstSpot")'>clear</a>
+    <!-- iframe ifFirstSpot-->
     <div class="">
-      <iframe name="ifFacilityBooking" id="ifFacilityBookingId" width="100%" onload="iframeLoaded(this.getAttribute('id'))" background-color:#b0c4de; frameborder="0" scrolling="auto">
+      <iframe name="ifFirstSpot" id="ifFirstSpotId" width="100%" onload="iframeLoaded(this.getAttribute('id'))" background-color:#b0c4de; frameborder="0" scrolling="auto">
       </iframe>
     </div>
     <hr>
-    <!-- search group for facility -->
-    <div class="form-group has-search">
-      <span class="fa fa-search form-control-feedback"></span>
-      <input type="text" class="form-control" placeholder="Search">
+    <!-- -->
+    <h2>Booking Management</h2>
+    <!-- iframe ifFirstSpot-->
+    <div class="">
+      <iframe src="/php/booking/booking.php" name="ifBookingManagement" id="ifBookingManagementId" width="100%" onload="iframeLoaded(this.getAttribute('id'))" background-color:#b0c4de; frameborder="0" scrolling="auto">
+      </iframe>
     </div>
-
   </div>
   <?php include "./html/footer.html" ?>
 </body>

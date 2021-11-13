@@ -8,9 +8,10 @@ $facility_name = trim($_GET['facility_name']);
 $start_date = trim($_GET['start_date']);
 $end_date = trim($_GET['end_date']);
 $result_rows = array();
+$date_spots = array();
 
 // Attempt select query execution
-$sql = "SELECT booking_id, first_name, last_name, date, time, status
+$sql = "SELECT booking_id, first_name, last_name, date, time, booking.status
 FROM booking
 INNER JOIN person ON booking.person_id = person.person_id
 WHERE facility_name=? AND (date BETWEEN ? AND ?) ORDER BY date ASC";
@@ -26,7 +27,7 @@ if ($stmt) {
             }
             mysqli_free_result($result);
         } else {
-            echo '<div class="alert alert-danger"><em>No Booking records were found.</em></div>';
+            // echo '<div class="alert alert-danger"><em>No Booking records were found.</em></div>';
         }
     } else {
         echo "SQL query error: " . mysqli_stmt_errno($stmt);
@@ -40,7 +41,7 @@ if ($stmt) {
 $begin = new  DateTime($start_date);
 $end = new DateTime($end_date);
 $i = $begin;
-$total_slots = 0;
+
 for ($i = $begin; $i <= $end; $i->modify('+1 day')) {
     // echo $i->format("Y-m-d");
     // get number of nurses on given day
@@ -88,7 +89,7 @@ for ($i = $begin; $i <= $end; $i->modify('+1 day')) {
         echo "Prepare SQL error: " . $link->error;
     }
 
-    $total_slots = $total_slots + $slots;
+    $date_spots[$i->format("Y-m-d")] = $slots;
 }
 
 // Close statement
@@ -109,16 +110,26 @@ mysqli_close($link);
             <div class="row">
                 <div class="col-md-12">
                     <table class="table table-bordered table-striped">
+                        <?php echo "<h4>Available slots in " . $facility_name . " from " . $start_date . " to " . $end_date . "</h4>"; ?>
                         <thead>
                             <tr>
-                                <?php echo "<tr><th>Total availability slots in " . $facility_name . " from " . $start_date . " to " . $end_date . "</tr></th>"; ?>
+                                <th>Date</th>
+                                <th>Available Spots For Vaccination</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <?php echo "<tr><td>" . $total_slots . "</td></tr>"; ?>
+                            <?php
+                            foreach ($date_spots as $key => $val) {
+                                echo "<tr>";
+                                echo "<td>" . $key . "</td>";
+                                echo "<td>" . $val . "</td>";
+                                echo "</tr>";
+                            }
+                            ?>
                         </tbody>
                     </table>
                     <table class="table table-bordered table-striped">
+                        <h4>Display Bookings</h4>
                         <thead>
                             <tr>
                                 <th>Booking ID</th>

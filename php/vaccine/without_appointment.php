@@ -153,7 +153,7 @@ mysqli_close($link);
                                     <input class="form-control" placeholder="" name="dose">
                                 </div>
                                 <div class="form-group">
-                                    <label>Appointment Location</label>
+                                    <label>Booking Location</label>
                                     <input class="form-control" placeholder="<?php echo $facility_name; ?>" name="facility_name" value="<?php echo htmlspecialchars($facility_name); ?>" readonly>
                                 </div>
                                 <div class="form-group">
