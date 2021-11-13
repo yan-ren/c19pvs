@@ -47,7 +47,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Attempt to execute the prepared statement
             if (mysqli_stmt_execute($stmt)) {
                 // Records created successfully. Redirect to landing page
-                header("location: age_group.php");
+                header("location: public_health_worker.php");
                 exit();
             } else {
                 $error = mysqli_stmt_error($stmt);
