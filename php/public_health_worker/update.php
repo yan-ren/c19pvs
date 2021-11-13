@@ -4,40 +4,39 @@ require_once "../config.php";
 $link = connect();
 
 // Define variables and initialize with empty values
-$min_age = $max_age = $vaccination_date = "";
-$min_age_err = "";
+$person_id = $employee_id = $facility_name = $hourly_rate = "";
+$person_id_error = $employee_id_error =$facility_name_error = $hourly_rate_error = "";
 
 // Processing form data when form is submitted
-if (isset($_POST["age_group_id"]) && !empty($_POST["age_group_id"])) {
+if (isset($_POST["person_id"]) && !empty($_POST["person_id"])) {
     // Get hidden input value
-    $age_group_id = $_POST["age_group_id"];
+    $person_id_id = $_POST["person_id_id"];
 
-    // Validate age
-    $input_min_age = (int)(trim($_POST["min_age"]));
-    $input_max_age = (int)(trim($_POST["max_age"]));
+    // Validate inputs
+    $input_employee_id = (int)(trim($_POST["employee_id"]));
+    $input_hourly_rate = (int)(trim($_POST["hourly_rate"]));
+    $facility_name = trim($_POST["facility_name"]);
 
-    if ($input_max_age != 0 && $input_min_age != 0 && $input_min_age > $input_max_age) {
-        $min_age_err = "Min age is bigger than Max age";
+    // Validate person_id employee_id
+    if (empty($person_id) && $person_id !== '0') {
+        $person_id_error = "Please enter a valid person id";
     }
-
-    if (empty(trim($_POST["min_age"]))) {
-        $input_min_age = null;
+    if (empty($employee_id) && $employee_id !== '0') {
+        $employee_id_error = "Please enter a valid employee id";
     }
-    if (empty(trim($_POST["max_age"]))) {
-        $input_max_age = null;
+    if (empty($facility_name) && $facility_name !== 'NULL'){
+        $facility_name_error = "Please enter a valid facility_name";
     }
-    if (empty(trim($_POST["vaccination_date"]))) {
-        $input_vaccination_date = null;
-    } else {
-        $input_vaccination_date = trim($_POST["vaccination_date"]);
+    if (empty($hourly_rate) && $hourly_rate !== '0'){
+        $hourly_rate_error = "Please enter a valid hourly rate";
     }
 
     // Check input errors before inserting in database
-    if (empty($min_age_err)) {
+    if (empty($person_id_error)&& empty($employee_id_error) && empty($facility_name_error) && empty($hourly_rate_error)) {
         // Prepare an update statement
-        $sql = "UPDATE age_group SET min_age=?, max_age=?, vaccination_date=? WHERE age_group_id=?";
+        $sql = "UPDATE healthcare_worker SET employee_id=?, facility_name=?, hourly_rate =? WHERE person_id=?";
         $stmt = mysqli_prepare($link, $sql);
-        mysqli_stmt_bind_param($stmt, "iisi", $input_min_age, $input_max_age, $input_vaccination_date, $age_group_id);
+        mysqli_stmt_bind_param($stmt, "iisi", $person_idid, $input_employee_id, $facility_name, $input_hourly_rate);
 
         if ($stmt) {
             // Attempt to execute the prepared statement
@@ -58,18 +57,18 @@ if (isset($_POST["age_group_id"]) && !empty($_POST["age_group_id"])) {
     mysqli_close($link);
 } else {
     // Check existence of id parameter before processing further
-    if (isset($_GET["age_group_id"]) && !empty(trim($_GET["age_group_id"]))) {
+    if (isset($_GET["person_id"]) && !empty(trim($_GET["person_id"]))) {
         // Get URL parameter
-        $age_group_id =  trim($_GET["age_group_id"]);
+        $person__id =  trim($_GET["person_id"]);
 
         // Prepare a select statement
-        $sql = "SELECT * FROM age_group WHERE age_group_id = ?";
+        $sql = "SELECT * FROM healthcare_worker WHERE person_id = ?";
         if ($stmt = mysqli_prepare($link, $sql)) {
             // Bind variables to the prepared statement as parameters
             mysqli_stmt_bind_param($stmt, "i", $param_id);
 
             // Set parameters
-            $param_id = $age_group_id;
+            $param_id = $person__id;
 
             // Attempt to execute the prepared statement
             if (mysqli_stmt_execute($stmt)) {
@@ -81,9 +80,9 @@ if (isset($_POST["age_group_id"]) && !empty($_POST["age_group_id"])) {
                     $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
 
                     // Retrieve individual field value
-                    $min_age = $row["min_age"];
-                    $max_age = $row["max_age"];
-                    $vaccination_date = $row["vaccination_date"];
+                    $employee_id = $row["employee_id"];
+                    $facility_name = $row["facility_name"];
+                    $hourly_rate = $row["hourly_rate"];
                 } else {
                     // URL doesn't contain valid id. Redirect to error page
                     header("location: error.php");
@@ -128,24 +127,34 @@ if (isset($_POST["age_group_id"]) && !empty($_POST["age_group_id"])) {
             <div class="row">
                 <div class="col-md-12">
                     <h2 class="mt-5">Update Record</h2>
-                    <p>Please edit the input values and submit to update the age group record.</p>
+                    <p>Please edit the input values and submit to update the Public Health Worker record.</p>
                     <form action="<?php echo htmlspecialchars(basename($_SERVER['REQUEST_URI'])); ?>" method="post">
+
                         <div class="form-group">
-                            <label>Min Age</label>
-                            <input type="number" name="min_age" class="form-control" value="<?php echo $min_age; ?>">
-                            <span class="invalid-feedback"><?php echo $min_age; ?></span>
+                            <label>Employee ID</label>
+                            <input type="number" name="max_age" class="form-control" value="<?php echo $employee_id; ?>">
+                            <span class="invalid-feedback"><?php echo $employee_id; ?></span>
                         </div>
                         <div class="form-group">
-                            <label>Max Age</label>
-                            <input type="number" name="max_age" class="form-control" value="<?php echo $max_age; ?>">
-                            <span class="invalid-feedback"><?php echo $max_age; ?></span>
-                        </div>
+                            <label>Facility Name</label><br>
+                            <select class="custom-select" id="inputGroupSelect01">
+                                <option selected>centre_hospitalier_de_lUniversite_de_montreal</option>
+                                <option value="1">douglas_mental_health_university_institute</option>
+                                <option value="2">hospital_notre_dame</option>
+                                <option value="3">jewish_general_hospital</option>
+                                <option value="4">lakeshore_general_hospital</option>
+                                <option value="5">montreal_childrens_hospital</option>
+                                <option value="6">montreal_general_hospital</option>
+                                <option value="7">montreal_neurological_hospital</option>
+                                <option value="8">royal_victoria_hospital</option>
+                                <option value="9">stMarys_hospital</option>
+                            </select>
                         <div class="form-group">
-                            <label>Vaccination Date</label>
-                            <input type="date" name="vaccination_date" class="form-control" value="<?php echo $vaccination_date; ?>"></input>
-                            <span class="invalid-feedback"><?php echo $vaccination_date; ?></span>
+                            <label>Hourly Rate</label>
+                            <input type="number" name="max_age" class="form-control" value="<?php echo $hourly_rate; ?>">
+                            <span class="invalid-feedback"><?php echo $hourly_rate; ?></span>
                         </div>
-                        <input type="hidden" name="age_group_id" value="<?php echo $age_group_id; ?>" />
+                        <input type="hidden" name="person_id" value="<?php echo $person_id; ?>" />
                         <input type="submit" class="btn btn-primary" value="Submit">
                         <a href="public_health_worker.php" class="btn btn-secondary ml-2">Cancel</a>
                     </form>

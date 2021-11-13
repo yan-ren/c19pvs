@@ -29,6 +29,7 @@
                             echo "<th>Employee_id</th>";
                             echo "<th>Facility_name</th>";
                             echo "<th>Hourly_rate</th>";
+                            echo "<th>Status</th>";
                             echo "<th>Action</th>";
                             echo "</tr>";
                             echo "</thead>";
@@ -39,10 +40,11 @@
                                 echo "<td>" . $row['employee_id'] . "</td>";
                                 echo "<td>" . $row['facility_name'] . "</td>";
                                 echo "<td>" . $row['hourly_rate'] . "</td>";
+                                echo "<td>" . $row['status'] . "</td>";
                                 echo "<td>";
-                                echo '<a href="read.php?age_group_id=' . $row['person_id'] . '" class="mr-3" title="View Record" data-toggle="tooltip"><span class="fa fa-eye"></span></a>';
-                                echo '<a href="update.php?age_group_id=' . $row['person_id'] . '" class="mr-3" title="Update Record" data-toggle="tooltip"><span class="fa fa-pencil"></span></a>';
-                                echo '<a href="delete.php?age_group_id=' . $row['person_id'] . '" title="Delete Record" data-toggle="tooltip"><span class="fa fa-trash"></span></a>';
+                                echo '<a href="read.php?person_id=' . $row['person_id'] . '" class="mr-3" title="View Record" data-toggle="tooltip"><span class="fa fa-eye"></span></a>';
+                                echo '<a href="update.php?person_id=' . $row['person_id'] . '" class="mr-3" title="Update Record" data-toggle="tooltip"><span class="fa fa-pencil"></span></a>';
+                                echo '<a href="delete.php?person_id=' . $row['person_id'] . '" title="Delete Record" data-toggle="tooltip"><span class="fa fa-trash"></span></a>';
                                 echo "</td>";
                                 echo "</tr>";
                             }
