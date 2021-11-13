@@ -99,9 +99,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <span class="invalid-feedback"><?php echo $employee_id_error; ?></span>
                         </div>
                         <div class="form-group">
-                            <label>Facility Name</label>
-                            <input type="text" name="facility_name" class="form-control <?php echo (!empty($facility_name_error)) ? 'is-invalid' : ''; ?>" value="<?php echo $facility_name; ?>">
-                            <span class="invalid-feedback"><?php echo $facility_name_error; ?></span>
+                            <label>Facility name</label>
+                            <select class="custom-select" id="inputGroupSelect01">
+                                <option selected>LOL</option>
+                                <option value="1">One</option>
+                                <option value="2">Two</option>
+                                <option value="3">Three</option>
+                            </select>
                         </div>
                         <div class="form-group">
                             <label>Hourly Rate</label>
