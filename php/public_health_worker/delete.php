@@ -7,9 +7,9 @@ if (isset($_POST["person_id"]) && !empty($_POST["person_id"])) {
     // Include config file
     require_once "../config.php";
     $link = connect();
-
+    $status = $_POST['status'];
     // Prepare a delete statement
-    $sql = "DELETE FROM healthcare_worker WHERE person_id = ?";
+    $sql = "UPDATE healthcare_worker set 'status' WHERE person_id = ?";
 
     if ($stmt = mysqli_prepare($link, $sql)) {
         // Bind variables to the prepared statement as parameters, i stands for integer
