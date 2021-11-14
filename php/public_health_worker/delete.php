@@ -8,15 +8,16 @@ if (isset($_POST["person_id"]) && !empty($_POST["person_id"])) {
     require_once "../config.php";
     $link = connect();
     $status = $_POST['status'];
+    
     // Prepare a delete statement
-    $sql = "UPDATE healthcare_worker set 'status' WHERE person_id = ?";
+    $sql = "UPDATE healthcare_worker set 'status'= ? WHERE person_id = ?";
 
     if ($stmt = mysqli_prepare($link, $sql)) {
         // Bind variables to the prepared statement as parameters, i stands for integer
-        mysqli_stmt_bind_param($stmt, "i", $param_id);
+        mysqli_stmt_bind_param($stmt, "s", $param_id);
 
         // Set parameters
-        $param_id = (int)($_POST["person_id"]);
+        $param_id = $_POST["status"];
 
         // Attempt to execute the prepared statement
         if (mysqli_stmt_execute($stmt)) {

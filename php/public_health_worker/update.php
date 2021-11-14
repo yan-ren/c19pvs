@@ -19,7 +19,7 @@ if (isset($_POST["person_id"]) && !empty($_POST["person_id"])) {
     $status = $_POST['status'];
 
     // Check input errors before inserting in database
-    if (empty($employee_id_error)&& empty($facility_name_error) && empty(hour)) {
+    if (empty($employee_id_error)&& empty($facility_name_error) && empty($hourly_rate_error)) {
 
         // Prepare an update statement
         $sql = "UPDATE healthcare_worker SET employee_id =?, facility_name = ?, hourly_rate = ?, status=? WHERE person_id=?";
