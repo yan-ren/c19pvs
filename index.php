@@ -53,7 +53,7 @@
           <a class="dropdown-item" href="#">Vaccination Type</a>
           <a class="dropdown-item" href="#">Covid-19 Infection Variant</a>
           <a class="dropdown-item" href="/php/age_group/age_group.php" target="ifbox">Age Group</a>
-          <a class="dropdown-item" href="#">Province</a>
+          <a class="dropdown-item" href="/php/province/province.php" target="ifbox">Province</a>
         </div>
       </div>
       <!-- ./dropdown -->
