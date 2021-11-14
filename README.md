@@ -87,3 +87,20 @@ https://knc353.encs.concordia.ca/vaccine.php for 16, 17
 
 #### Report
 https://knc353.encs.concordia.ca/report.php for 18, 19
+
+## How To
+#### How to get latest change in main into your feature branch using git rebase
+1. get lastest change on remote main branch to local main branch
+```git
+git checkout main
+git pull
+```
+2. rebase your feature branch on main
+```git
+git checkout your_feature_branch
+git rebase main
+```
+3. now your local feature branch is rebased on main, need to push local feature branch to remote
+```git
+git push --force origin your_feature_branch
+```
