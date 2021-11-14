@@ -29,6 +29,7 @@ if (isset($_GET["person_id"]) && !empty(trim($_GET["person_id"]))) {
                 $employee_id = $row["employee_id"];
                 $facility_name = $row["facility_name"];
                 $hourly_rate = $row["hourly_rate"];
+                $status = $row['status'];
             } else {
                 // URL doesn't contain valid id parameter. Redirect to error page
                 header("location: error.php");
@@ -88,6 +89,10 @@ if (isset($_GET["person_id"]) && !empty(trim($_GET["person_id"]))) {
                     <div class="form-group">
                         <label>Hourly Rate</label>
                         <p><b><?php echo $row["hourly_rate"]; ?></b></p>
+                    </div>
+                    <div class="form-group">
+                        <label>Status</label>
+                        <p><b><?php echo $row["status"]; ?></b></p>
                     </div>
                     <p><a href="public_health_worker.php" class="btn btn-primary">Back</a></p>
                 </div>
