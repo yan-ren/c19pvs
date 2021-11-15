@@ -10,38 +10,30 @@ $name = $age_group = "";
 if (isset($_POST["name"]) && !empty($_POST["name"])) {
     // Get hidden input value
     $name = $_POST["name"];
-
-    // Validate info
     $input_age_group = (int)(trim($_POST["age_group"]));
 
-//    if (empty(trim($_POST["age_group"]))) {
-//        $input_age_group = null;
-//    }
+    // Prepare an update statement
+    $sql = "UPDATE province SET age_group=? WHERE name =?";
+    $stmt = mysqli_prepare($link, $sql);
+    mysqli_stmt_bind_param($stmt, "is",  $input_age_group, $name);
 
-        // Prepare an update statement
-        $sql = "UPDATE province SET age_group=? WHERE name =?" ;
-        $stmt = mysqli_prepare($link, $sql);
-        mysqli_stmt_bind_param($stmt, "i",  $input_age_group);
-
-        if ($stmt) {
-            // Attempt to execute the prepared statement
-            if (mysqli_stmt_execute($stmt)) {
-                // Records updated successfully. Redirect to landing page
-                header("location: province.php");
-                exit();
-            } else {
-                echo "Oops! Something went wrong. Please try again later.";
-            }
+    if ($stmt) {
+        // Attempt to execute the prepared statement
+        if (mysqli_stmt_execute($stmt)) {
+            // Records updated successfully. Redirect to landing page
+            header("location: province.php");
+            exit();
+        } else {
+            echo "Oops! Something went wrong. Please try again later.";
         }
+    }
 
-        // Close statement
-        mysqli_stmt_close($stmt);
-
+    // Close statement
+    mysqli_stmt_close($stmt);
 
     // Close connection
     mysqli_close($link);
-}
-else {
+} else {
     // Check existence of id parameter before processing further
     if (isset($_GET["name"]) && !empty(trim($_GET["name"]))) {
         // Get URL parameter
@@ -66,9 +58,7 @@ else {
                     $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
 
                     // Retrieve individual field value
-//                    $name = $row["name"];
                     $age_group = $row["age_group"];
-//
                 } else {
                     // URL doesn't contain valid id. Redirect to error page
                     header("location: error.php");
