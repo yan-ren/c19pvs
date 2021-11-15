@@ -1,19 +1,19 @@
 <?php
 // Check existence of id parameter before processing further
-if (isset($_GET["person_id"]) && !empty(trim($_GET["person_id"]))) {
+if (isset($_GET["vaccine_name"]) && !empty(trim($_GET["vaccine_name"]))) {
     // Include config file
     require_once "../config.php";
     $link = connect();
 
     // Prepare a select statement
-    $sql = "SELECT * FROM vaccination WHERE person_id = ?";
+    $sql = "SELECT * FROM vaccine WHERE vaccine_name = ?";
 
     if ($stmt = mysqli_prepare($link, $sql)) {
         // Bind variables to the prepared statement as parameters
-        mysqli_stmt_bind_param($stmt, "i", $param_id);
+        mysqli_stmt_bind_param($stmt, "s", $param_id);
 
         // Set parameters
-        $param_id = trim($_GET["person_id"]);
+        $param_id = trim($_GET["vaccine_name"]);
 
         // Attempt to execute the prepared statement
         if (mysqli_stmt_execute($stmt)) {
@@ -25,15 +25,12 @@ if (isset($_GET["person_id"]) && !empty(trim($_GET["person_id"]))) {
                 $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
 
                 // Retrieve individual field value
-                $person_id = $row['person_id'];
                 $vaccine_name = $row["vaccine_name"];
                 $dose =$row['dose'];
-                $date = $row["date"];
-                $lot = $row["lot"];
-                $location = $row['location'];
-                $province = $row['province'];
-                $city = $row["city"];
-                $country = $row['country'];
+                $status = $row["status"];
+                $approval = $row['approval'];
+                $suspension = $row['suspension'];
+
             } else {
                 // URL doesn't contain valid id parameter. Redirect to error page
                 header("location: error.php");
@@ -78,42 +75,27 @@ if (isset($_GET["person_id"]) && !empty(trim($_GET["person_id"]))) {
                 <div class="col-md-12">
                     <h1 class="mt-5 mb-3">View Record</h1>
                     <div class="form-group">
-                        <label>Person ID</label>
-                        <p><b><?php echo $row["person_id"]; ?></b></p>
-                    </div>
-                    <div class="form-group">
                         <label>Vaccine Name</label>
                         <p><b><?php echo $row["vaccine_name"]; ?></b></p>
                     </div>
                     <div class="form-group">
+                        <label>Status</label>
+                        <p><b><?php echo $row["status"]; ?></b></p>
+                    </div>
+                    <div class="form-group">
                         <label>Dose</label>
-                        <p><b><?php echo $row["dose"]; ?></b></p>
+                        <p><b><?php echo (empty($row["dose"]) ? '1': $row['dose']) ?></b></p>
                     </div>
                     <div class="form-group">
-                        <label>Date</label>
-                        <p><b><?php echo $row["date"]; ?></b></p>
+                        <label>Approval Date</label>
+                        <p><b><?php echo (empty($row["approval"]) ? 'NULL': $row['approval']) ?></b></p>
                     </div>
                     <div class="form-group">
-                        <label>Lot</label>
-                        <p><b><?php echo $row["lot"]; ?></b></p>
+                        <label>Suspension date</label>
+                        <p><b><?php echo (empty($row["suspension"]) ? 'NULL': $row['suspension']) ?></b></p>
                     </div>
-                    <div class="form-group">
-                        <label>Location</label>
-                        <p><b><?php echo $row["location"]; ?></b></p>
-                    </div>
-                    <div class="form-group">
-                        <label>City</label>
-                        <p><b><?php echo $row["city"]; ?></b></p>
-                    </div>
-                    <div class="form-group">
-                        <label>Province</label>
-                        <p><b><?php echo $row["province"]; ?></b></p>
-                    </div>
-                    <div class="form-group">
-                        <label>Country</label>
-                        <p><b><?php echo $row["country"]; ?></b></p>
-                    </div>
-                    <p><a href="vaccination.php" class="btn btn-primary">Back</a></p>
+
+                    <p><a href="vaccineType.php" class="btn btn-primary">Back</a></p>
                 </div>
             </div>
         </div>
