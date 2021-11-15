@@ -1,19 +1,20 @@
 <?php
 // Check existence of id parameter before processing further
-if (isset($_GET["person_id"]) && !empty(trim($_GET["person_id"]))) {
+if (isset($_GET["person_id"]) && !empty(trim($_GET["person_id"]))&& isset($_GET["employee_id"]) && !empty(trim($_GET["employee_id"]))) {
     // Include config file
     require_once "../config.php";
     $link = connect();
 
     // Prepare a select statement
-    $sql = "SELECT * FROM healthcare_worker WHERE person_id = ?";
+    $sql = "SELECT * FROM healthcare_worker WHERE person_id = ? AND employee_id =?";
 
     if ($stmt = mysqli_prepare($link, $sql)) {
         // Bind variables to the prepared statement as parameters
-        mysqli_stmt_bind_param($stmt, "i", $param_id);
+        mysqli_stmt_bind_param($stmt, "ii", $param_id, $param_employee_id);
 
         // Set parameters
-        $param_id = trim($_GET["person_id"]);
+        $param_id = (int)trim($_GET["person_id"]);
+        $param_employee_id = (int)trim($_GET["employee_id"]);
 
         // Attempt to execute the prepared statement
         if (mysqli_stmt_execute($stmt)) {
