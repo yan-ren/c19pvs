@@ -21,7 +21,7 @@ if (isset($_POST["name"]) && !empty($_POST["name"])) {
         // Attempt to execute the prepared statement
         if (mysqli_stmt_execute($stmt)) {
             // Records updated successfully. Redirect to landing page
-            header("location: province.php");
+            header("location: person.php");
             exit();
         } else {
             echo "Oops! Something went wrong. Please try again later.";
@@ -118,7 +118,7 @@ if (isset($_POST["name"]) && !empty($_POST["name"])) {
 
                         <input type="hidden" name="name" value="<?php echo $name; ?>" />
                         <input type="submit" class="btn btn-primary" value="Submit">
-                        <a href="province.php" class="btn btn-secondary ml-2">Cancel</a>
+                        <a href="person.php" class="btn btn-secondary ml-2">Cancel</a>
                     </form>
                 </div>
             </div>

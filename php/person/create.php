@@ -45,7 +45,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Attempt to execute the prepared statement
             if (mysqli_stmt_execute($stmt)) {
                 // Records created successfully. Redirect to landing page
-                header("location: province.php");
+                header("location: person.php");
                 exit();
             } else {
                 $error = mysqli_stmt_error($stmt);
@@ -99,7 +99,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     </div>
 
                     <input type="submit" class="btn btn-primary" value="Submit">
-                    <a href="province.php" class="btn btn-secondary ml-2">Cancel</a>
+                    <a href="person.php" class="btn btn-secondary ml-2">Cancel</a>
                 </form>
             </div>
         </div>
