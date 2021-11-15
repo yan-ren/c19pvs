@@ -32,6 +32,14 @@ if (isset($_POST["vaccine_name"]) && !empty($_POST["vaccine_name"])) {
         $vaccine_name_error = "Please enter a valid Vaccine name";
     }
 
+    if (empty($approval)) {
+        $approval = null;
+    }
+    if (empty($suspension)){
+        $suspension= null;
+    }
+
+
 
     // Check input errors before inserting in database
     if (empty($vaccine_name_error)) {
@@ -63,7 +71,7 @@ if (isset($_POST["vaccine_name"]) && !empty($_POST["vaccine_name"])) {
     // Check existence of id parameter before processing further
     if (isset($_GET["vaccine_name"]) && !empty(trim($_GET["vaccine_name"]))) {
         // Get URL parameter
-        $person_id = trim($_GET["vaccine_name"]);
+        $vaccine_name = trim($_GET["vaccine_name"]);
 
         // Prepare a select statement
         $sql = "SELECT * FROM vaccine WHERE vaccine_name = ?";
@@ -134,8 +142,8 @@ if (isset($_POST["vaccine_name"]) && !empty($_POST["vaccine_name"])) {
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-12">
-                <h2 class="mt-5">Update Vaccination Record</h2>
-                <p>Please edit the input values and submit to update Vaccination record.</p>
+                <h2 class="mt-5">Update Vaccine Type Record</h2>
+                <p>Please edit the input values and submit to update Vaccine Type record.</p>
                 <form action="<?php echo htmlspecialchars(basename($_SERVER['REQUEST_URI'])); ?>" method="post">
 
                     <div class="form-group">

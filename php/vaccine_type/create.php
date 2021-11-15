@@ -5,7 +5,7 @@ require_once "../util.php";
 $link = connect();
 
 // Define variables and initialize with empty values
-$vaccine_name = $status = $approval = $dose = $suspension= "";
+$vaccine_name = $status = $approval = $dose = $suspension = "";
 $status_error = $dose_error = $vaccine_name_error = $approval_error = $suspension_error = "";
 
 //get status values
@@ -24,18 +24,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
     // Validate vaccine name
-    if (empty($vaccine_name) && $vaccine_name ==='NULL'){
+    if (empty($vaccine_name) && $vaccine_name === 'NULL') {
         $vaccine_name_error = "Please enter a valid Vaccine name";
     }
 
+    if (empty($approval)) {
+        $approval = null;
+    }
+    if (empty($suspension)){
+        $suspension= null;
+    }
+
     // Check input errors before inserting in database
-    if (empty($vaccine_name_error) ) {
+    if (empty($vaccine_name_error)) {
         // Prepare an insert statement
         $sql = "INSERT INTO vaccine (vaccine_name, status, dose, approval, suspension) VALUES (?, ?, ?, ?, ?)";
 
         if ($stmt = mysqli_prepare($link, $sql)) {
             // Bind variables to the prepared statement as parameters
-            mysqli_stmt_bind_param($stmt, "ssiss",$vaccine_name, $status, $param_dose_id, $approval, $suspension);
+            mysqli_stmt_bind_param($stmt, "ssiss", $vaccine_name, $status, $param_dose_id, $approval, $suspension);
 
             $param_dose_id = (int)($dose);
 
