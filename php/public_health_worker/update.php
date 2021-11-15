@@ -5,17 +5,17 @@ $link = connect();
 
 // Define variables and initialize with empty values
 $person_id = $employee_id = $facility_name = $hourly_rate =$status= "";
-//$person_id_error = "Please enter a valid person id.";
-//$employee_id_error = "Please enter a valid employee id.";
-//$facility_name_error = "Please enter a valid facility name.";
-//$hourly_rate_error = "Please enter a valid hourly rate.";
-//$status_error ="Please enter a valid status either A or D";
+
 
 
 $sql = "SELECT * FROM facility";
 $result = mysqli_query($link, $sql);
 $all_facility = mysqli_fetch_all($result, MYSQLI_ASSOC);
 
+//get status values
+$sql2 = "SELECT DISTINCT `status` FROM healthcare_worker;";
+$result2 = mysqli_query($link, $sql2);
+$all_status = mysqli_fetch_all($result2, MYSQLI_ASSOC);
 
 
 // Processing form data when form is submitted
@@ -164,10 +164,12 @@ if (isset($_POST["person_id"]) && !empty($_POST["person_id"])) {
 
                     <div class="form-group">
                         <label>Status</label>
-                        <input type="text" name="status" class="form-control"
-                               value="<?php echo $status; ?>">
-                        <span class="invalid-feedback"><?php echo $status_error; ?></span>
-
+                        <select class="custom-select" id="inputGroupSelect01" name="status">
+                            <?php
+                            foreach ($all_status as $stats) {
+                                echo '<option values=\"' . $stats['status'] . '\">' . $stats['status'] . '</option>';
+                            }
+                            ?>
                         </select>
                     </div>
 

@@ -12,6 +12,12 @@ $sql = "SELECT * FROM facility";
 $result = mysqli_query($link, $sql);
 $all_facility = mysqli_fetch_all($result, MYSQLI_ASSOC);
 
+//get status values
+$sql2 = "SELECT DISTINCT `status` FROM healthcare_worker;";
+$result2 = mysqli_query($link, $sql2);
+$all_status = mysqli_fetch_all($result2, MYSQLI_ASSOC);
+
+
 // Processing form data when form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
@@ -34,13 +40,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (empty($hourly_rate) && $hourly_rate !== '0') {
         $hourly_rate_error = "Please enter a valid hourly rate";
     }
-    if (empty($status)&& $status !== 'A' && $status !== 'D') {
-        $status_error = "Please enter a valid status A or D";
-    }
+
 
 
     // Check input errors before inserting in database
-    if (empty($person_id_error) && empty($employee_id_error) && empty($facility_name_error) && empty($hourly_rate_error) && empty($status_error)) {
+    if (empty($person_id_error) && empty($employee_id_error) && empty($facility_name_error) && empty($hourly_rate_error)) {
         // Prepare an insert statement
         $sql = "INSERT INTO healthcare_worker (person_id, employee_id, facility_name, hourly_rate, status) VALUES (?, ?, ?, ?, ?)";
 
@@ -127,10 +131,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     </div>
                     <div class="form-group">
                         <label>Status</label>
-                        <input type="text" name="status"
-                               class="form-control <?php echo (!empty($status_error)) ? 'is-invalid' : ''; ?>"
-                               value="<?php echo $status; ?>">
-                        <span class="invalid-feedback"><?php echo $status_error; ?></span>
+                        <select class="custom-select" id="inputGroupSelect01" name="status">
+                            <?php
+                            foreach ($all_status as $stats) {
+                                echo '<option values=\"' . $stats['status'] . '\">' . $stats['status'] . '</option>';
+                            }
+                            ?>
+                        </select>
                     </div>
                     <input type="submit" class="btn btn-primary" value="Submit">
                     <a href="public_health_worker.php" class="btn btn-secondary ml-2">Cancel</a>
