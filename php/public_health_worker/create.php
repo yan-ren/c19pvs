@@ -5,8 +5,8 @@ require_once "../util.php";
 $link = connect();
 
 // Define variables and initialize with empty values
-$person_id = $employee_id = $facility_name = $hourly_rate = $status = "";
-$person_id_error = $employee_id_error = $facility_name_error = $hourly_rate_error =$status_error= "";
+$person_id = $employee_id = $facility_name = $hourly_rate = "";
+$person_id_error = $employee_id_error = $facility_name_error = $hourly_rate_error = "";
 
 $sql = "SELECT * FROM facility";
 $result = mysqli_query($link, $sql);
@@ -19,7 +19,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $employee_id = trim($_POST["employee_id"]);
     $facility_name = trim($_POST["facility_name"]);
     $hourly_rate = trim($_POST["hourly_rate"]);
-    $status = trim($_POST['status']);
 
     // Validate person_id employee_id
     if (empty($person_id) && $person_id !== '0') {
@@ -34,19 +33,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (empty($hourly_rate) && $hourly_rate !== '0') {
         $hourly_rate_error = "Please enter a valid hourly rate";
     }
-    if (empty($status)&& $status !== 'A' && $status !== 'D') {
-        $status_error = "Please enter a valid status A or D";
-    }
-
 
     // Check input errors before inserting in database
-    if (empty($person_id_error) && empty($employee_id_error) && empty($facility_name_error) && empty($hourly_rate_error) && empty($status_error)) {
+    if (empty($person_id_error) && empty($employee_id_error) && empty($facility_name_error) && empty($hourly_rate_error)) {
         // Prepare an insert statement
-        $sql = "INSERT INTO healthcare_worker (person_id, employee_id, facility_name, hourly_rate, status) VALUES (?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO healthcare_worker (person_id, employee_id, facility_name, hourly_rate, status) VALUES (?, ?, ?, ?, 'A')";
 
         if ($stmt = mysqli_prepare($link, $sql)) {
             // Bind variables to the prepared statement as parameters
-            mysqli_stmt_bind_param($stmt, "iisis", $param_person_id, $param_employee_id, $facility_name, $param_hourly_rate, $status);
+            mysqli_stmt_bind_param($stmt, "iisi", $param_person_id, $param_employee_id, $facility_name, $param_hourly_rate);
 
             $param_person_id = (int)($person_id);
             $param_employee_id = (int)($employee_id);
@@ -90,55 +85,44 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </head>
 
 <body>
-<div class="wrapper">
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-12">
-                <h2 class="mt-5">Create Public Health Worker</h2>
-                <p>Please fill this form and submit to add Public Health Worker record to the database</p>
-                <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-                    <div class="form-group">
-                        <label>Person ID</label>
-                        <input type="number" name="person_id" class="form-control" value="<?php echo $person_id; ?>">
-                    </div>
-                    <div class="form-group">
-                        <label>Employee ID</label>
-                        <input type="number" name="employee_id"
-                               class="form-control <?php echo (!empty($employee_id_error)) ? 'is-invalid' : '' ?>"
-                               value="<?php echo $employee_id; ?>">
-                        <span class="invalid-feedback"><?php echo $employee_id_error; ?></span>
-                    </div>
-                    <div class="form-group">
-                        <label>Facility name</label>
-                        <select class="custom-select" id="inputGroupSelect01" name="facility_name">
-                            <?php
-                            foreach ($all_facility as $facility) {
-                                echo '<option values=\"' . $facility['name'] . '\">' . $facility['name'] . '</option>';
-                            }
-                            ?>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Hourly Rate</label>
-                        <input type="number" name="hourly_rate"
-                               class="form-control <?php echo (!empty($hourly_rate_error)) ? 'is-invalid' : ''; ?>"
-                               value="<?php echo $hourly_rate; ?>">
-                        <span class="invalid-feedback"><?php echo $hourly_rate_error; ?></span>
-                    </div>
-                    <div class="form-group">
-                        <label>Status</label>
-                        <input type="text" name="status"
-                               class="form-control <?php echo (!empty($status_error)) ? 'is-invalid' : ''; ?>"
-                               value="<?php echo $status; ?>">
-                        <span class="invalid-feedback"><?php echo $status_error; ?></span>
-                    </div>
-                    <input type="submit" class="btn btn-primary" value="Submit">
-                    <a href="public_health_worker.php" class="btn btn-secondary ml-2">Cancel</a>
-                </form>
+    <div class="wrapper">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <h2 class="mt-5">Create Public Health Worker</h2>
+                    <p>Please fill this form and submit to add Public Health Worker record to the database</p>
+                    <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+                        <div class="form-group">
+                            <label>Person ID</label>
+                            <input type="number" name="person_id" class="form-control" value="<?php echo $person_id; ?>">
+                        </div>
+                        <div class="form-group">
+                            <label>Employee ID</label>
+                            <input type="number" name="employee_id" class="form-control <?php echo (!empty($employee_id_error)) ? 'is-invalid' : '' ?>" value="<?php echo $employee_id; ?>">
+                            <span class="invalid-feedback"><?php echo $employee_id_error; ?></span>
+                        </div>
+                        <div class="form-group">
+                            <label>Facility name</label>
+                            <select class="custom-select" id="inputGroupSelect01" name="facility_name">
+                                <?php
+                                foreach ($all_facility as $facility) {
+                                    echo '<option values=\"' . $facility['name'] . '\">' . $facility['name'] . '</option>';
+                                }
+                                ?>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Hourly Rate</label>
+                            <input type="number" name="hourly_rate" class="form-control <?php echo (!empty($hourly_rate_error)) ? 'is-invalid' : ''; ?>" value="<?php echo $hourly_rate; ?>">
+                            <span class="invalid-feedback"><?php echo $hourly_rate_error; ?></span>
+                        </div>
+                        <input type="submit" class="btn btn-primary" value="Submit">
+                        <a href="public_health_worker.php" class="btn btn-secondary ml-2">Cancel</a>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
-</div>
 </body>
 
 </html>
