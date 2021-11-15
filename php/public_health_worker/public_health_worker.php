@@ -29,7 +29,7 @@
                             echo "<th>Employee_id</th>";
                             echo "<th>Facility_name</th>";
                             echo "<th>Hourly_rate</th>";
-                            echo "<th>Status</th>>";
+                            echo "<th>Status</th>";
                             echo "<th>Action</th>";
                             echo "</tr>";
                             echo "</thead>";
@@ -44,7 +44,7 @@
                                 echo "<td>";
                                 echo '<a href="read.php?person_id=' . $row['person_id'] . '" class="mr-3" title="View Record" data-toggle="tooltip"><span class="fa fa-eye"></span></a>';
                                 echo '<a href="update.php?person_id=' . $row['person_id'] . '" class="mr-3" title="Update Record" data-toggle="tooltip"><span class="fa fa-pencil"></span></a>';
-                                echo '<a href="delete.php?person_id=' . $row['person_id'] . '" title="Delete Record" data-toggle="tooltip"><span class="fa fa-trash"></span></a>';
+//                                echo '<a href="delete.php?person_id=' . $row['person_id'] . '" title="Delete Record" data-toggle="tooltip"><span class="fa fa-trash"></span></a>';
                                 echo "</td>";
                                 echo "</tr>";
                             }

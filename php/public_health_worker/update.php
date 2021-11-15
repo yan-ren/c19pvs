@@ -5,11 +5,11 @@ $link = connect();
 
 // Define variables and initialize with empty values
 $person_id = $employee_id = $facility_name = $hourly_rate =$status= "";
-$person_id_error = "Please enter a valid person id.";
-$employee_id_error = "Please enter a valid employee id.";
-$facility_name_error = "Please enter a valid facility name.";
-$hourly_rate_error = "Please enter a valid hourly rate.";
-$status_error ="Please enter a valid status either A or D";
+//$person_id_error = "Please enter a valid person id.";
+//$employee_id_error = "Please enter a valid employee id.";
+//$facility_name_error = "Please enter a valid facility name.";
+//$hourly_rate_error = "Please enter a valid hourly rate.";
+//$status_error ="Please enter a valid status either A or D";
 
 
 $sql = "SELECT * FROM facility";
@@ -40,7 +40,7 @@ if (isset($_POST["person_id"]) && !empty($_POST["person_id"])) {
 //    exit;
 
     // Check input errors before inserting in database
-    if (empty($employee_id_error) && empty($facility_name_error) && empty($hourly_rate_error) && empty($status_error)) {
+//    if (empty($employee_id_error) && empty($facility_name_error) && empty($hourly_rate_error) && empty($status_error)) {
 
         // Prepare an update statement
         $sql = "UPDATE healthcare_worker SET employee_id =?, facility_name = ?, hourly_rate = ?, status=? WHERE person_id=?";
@@ -60,7 +60,7 @@ if (isset($_POST["person_id"]) && !empty($_POST["person_id"])) {
 
         // Close statement
         mysqli_stmt_close($stmt);
-    }
+//    }
 
     // Close connection
     mysqli_close($link);
