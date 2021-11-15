@@ -48,7 +48,7 @@
         </button>
         <div class="dropdown-menu aqua-gradient" aria-labelledby="dropdownMenuButton">
           <a class="dropdown-item" href="#">Person</a>
-          <a class="dropdown-item" href="#">Public Health Worker</a>
+          <a class="dropdown-item" href="/php/public_health_worker/public_health_worker.php">Public Health Worker</a>
           <a class="dropdown-item" href="#">Public Health Facility</a>
           <a class="dropdown-item" href="#">Vaccination Type</a>
           <a class="dropdown-item" href="#">Covid-19 Infection Variant</a>
