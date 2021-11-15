@@ -25,10 +25,6 @@ if (isset($_POST["person_id"]) && !empty($_POST["person_id"])) {
     $new_facility_name = $_POST["new_facility_name"];
     $new_hourly_rate = (int)(trim($_POST["new_hourly_rate"]));
     $new_status = $_POST['new_status'];
-    // echo $new_employee_id;
-    // echo $new_facility_name;
-    // echo $new_hourly_rate;
-    // echo $new_status;
 
     if (empty($new_status) || ($new_status !== 'A' && $new_status !== 'D')) {
         $status_error = "Please enter a valid status A or D";

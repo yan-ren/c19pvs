@@ -1,6 +1,6 @@
 <?php
 // Check existence of id parameter before processing further
-if (isset($_GET["person_id"]) && !empty(trim($_GET["person_id"]))) {
+if (isset($_GET["person_id"]) && !empty(trim($_GET["person_id"])) && isset($_GET["employee_id"]) && !empty(trim($_GET["employee_id"]))) {
     // Include config file
     require_once "../config.php";
     $link = connect();
