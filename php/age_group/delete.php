@@ -21,7 +21,7 @@ if (isset($_POST["age_group_id"]) && !empty($_POST["age_group_id"])) {
         // Attempt to execute the prepared statement
         if (mysqli_stmt_execute($stmt)) {
             // Records deleted successfully. Redirect to landing page
-            header("location: public_health_worker.php");
+            header("location: age_group.php");
             exit();
         } else {
             echo "Oops! Something went wrong. Please try again later.";
