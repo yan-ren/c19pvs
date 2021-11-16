@@ -20,7 +20,7 @@ if (isset($_POST["covid_id"]) && !empty($_POST["covid_id"])) {
     // Get hidden input value
     $covid_id = (int)trim($_POST["covid_id"]);
     $status = trim($_POST["status"]);
-    $variant = trim($_POST['suspension']);
+    $variant = trim($_POST['variant']);
 
 
     // Validate vaccine name
