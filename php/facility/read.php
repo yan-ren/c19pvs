@@ -1,19 +1,20 @@
 <?php
 // Check existence of id parameter before processing further
-if (isset($_GET["name"]) && !empty(trim($_GET["name"]))) {
+if (isset($_GET["name"]) && !empty(trim($_GET["name"])) && isset ($_GET["manager"]) && !empty(trim($_GET["manager"]))) {
     // Include config file
     require_once "../config.php";
     $link = connect();
 
     // Prepare a select statement
-    $sql = "SELECT * FROM facility WHERE name = ?";
+    $sql = "SELECT * FROM facility WHERE name = ? AND manager =?";
 
     if ($stmt = mysqli_prepare($link, $sql)) {
         // Bind variables to the prepared statement as parameters
-        mysqli_stmt_bind_param($stmt, "i", $name);
+        mysqli_stmt_bind_param($stmt, "si", $param_name, $param_manager);
 
         // Set parameters
-        $name = trim($_GET["name"]);
+        $param_name = trim($_GET["name"]);
+        $param_manager = trim($_GET["manager"]);
 
         // Attempt to execute the prepared statement
         if (mysqli_stmt_execute($stmt)) {
@@ -122,3 +123,4 @@ if (isset($_GET["name"]) && !empty(trim($_GET["name"]))) {
 </body>
 
 </html>
+
