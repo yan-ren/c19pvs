@@ -42,8 +42,37 @@ mysqli_close($link);
 </head>
 
 <body>
+  <!-- Fixed navbar -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+    <div class="container">
+      <a class="navbar-brand" href="index.php">C19PVS</a>
+      <div class="collapse navbar-collapse " id="navbarText">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="index.php">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="booking.php">Booking</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="vaccine.php">Vaccine</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="report.php">Report</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="search.php">Search</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">|</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav><!-- Fixed navbar end-->
+
   <div class="container">
-    <!-- display booking for facility -->
+    <!-- display nurses for facility -->
     <table class="table table-bordered table-striped">
       <thead data-toggle="collapse" href="#collapseTableFacilityDateNurse">
         <tr>
@@ -81,6 +110,34 @@ mysqli_close($link);
       </iframe>
     </div>
     <hr>
+
+    <!-- display facility has no nurse-->
+    <table class="table table-bordered table-striped">
+      <thead data-toggle="collapse" href="#collapseTableDateFacilityNoNurse">
+        <tr>
+          <th>For a given date, display all the facilities that do not have any nurse scheduled to work at the facility. <i class="fa fa-chevron-down"></i></th>
+        </tr>
+      </thead>
+      <tbody class="collapse" id="collapseTableDateFacilityNoNurse">
+        <tr>
+          <td>
+            <form name="display_date_facility_no_nurse" action="./php/search/date_facility_no_nurse.php" target="ifDateFacilityNoNurse" onsubmit="return validateForm(this.name)" method="get">
+              <div class="form-group col-sm-6">
+                <label>Date</label>
+                <input type="date" class="form-control" placeholder="" name="date">
+              </div>
+              <button type="submit" class="btn aqua-gradient">Search</button>
+            </form>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <a href='#' onclick='return clearIframe("ifDateFacilityNoNurse")'>clear</a>
+    <!-- iframe ifDateFacilityNoNurse-->
+    <div class="">
+      <iframe name="ifDateFacilityNoNurse" id="ifDateFacilityNoNurseId" width="100%" onload="iframeLoaded(this.getAttribute('id'))" frameborder="0" scrolling="auto">
+      </iframe>
+    </div>
   </div>
 </body>
 
