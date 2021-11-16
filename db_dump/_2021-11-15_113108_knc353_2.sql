@@ -121,7 +121,7 @@ CREATE TABLE `facility` (
 --
 
 /*!40000 ALTER TABLE `facility` DISABLE KEYS */;
-INSERT INTO `facility` VALUES ('centre_hospitalier_de_lUniversite_de_montreal','1051 Rue Sanguinet, Montréal, QC H2X 3E4','5148908000','https://www.chumontreal.qc.ca/joindre-le-chum','hospital',1000,7,'Quebec','by_appointment'),('douglas_mental_health_university_institute',' 6875 Bd LaSalle, Verdun, QC H4H 1R3','5147616131','http://www.douglas.qc.ca/?locale=en','hospital',900,3,'Quebec','by_appointment'),('hospital_notre_dame','1560 Sherbrooke St E, Montreal, Quebec H2L 4M1','5144138777','https://ciusss-centresudmtl.gouv.qc.ca/etablissement/hopital-notre-dame','hospital',400,9,'Quebec','by_appointment'),('jewish_general_hospital',' 3755 Chem. de la Côte-Sainte-Catherine, Montréal, QC H3T 1E2','5143408222','https://www.jgh.ca','hospital',800,2,'Quebec','by_appointment'),('lakeshore_general_hospital','160 Av Stillview Suite 1297, Pointe-Claire, QC H9R 2Y2','5146302225','https://fondationlakeshore.ca','hospital',1000,1,'Quebec','by_appointment'),('montreal_childrens_hospital','1001 Decarie Blvd, Montreal, Quebec H4A 3J1','5144124400','https://www.thechildren.com','hospital',450,7,'Quebec','by_appointment'),('montreal_general_hospital','1650 Cedar Ave, Montreal','5149341934','https://muhc.ca/','hospital',1000,NULL,'quebec','by_appointment'),('montreal_neurological_hospital','3801 Rue University, Montréal, QC H3A 2B4','5143986644','https://www.mcgill.ca/neuro/fr','hospital',760,8,'Quebec','by_appointment'),('royal_victoria_hospital','1001 Decarie Blvd, Montreal, Quebec H4A 3J1','5149341934','https://muhc.ca/glen','hospital',650,6,'Quebec','by_appointment'),('stMarys_hospital','3830 Av. Lacombe, Montréal, QC H3T 1M5','5142453511','https://www.smhc.qc.ca/en/','hospital',500,4,'Quebec','by_appointment');
+INSERT INTO `facility` VALUES ('centre_hospitalier_de_lUniversite_de_montreal','1051 Rue Sanguinet, Montréal, QC H2X 3E4','5148908000','https://www.chumontreal.qc.ca/joindre-le-chum','hospital',1000,7,'Quebec','by_appointment'),('douglas_mental_health_university_institute',' 6875 Bd LaSalle, Verdun, QC H4H 1R3','5147616131','http://www.douglas.qc.ca/?locale=en','hospital',900,3,'Quebec','by_appointment'),('hospital_notre_dame','1560 Sherbrooke St E, Montreal, Quebec H2L 4M1','5144138777','https://ciusss-centresudmtl.gouv.qc.ca/etablissement/hopital-notre-dame','hospital',400,9,'Quebec','by_appointment'),('jewish_general_hospital',' 3755 Chem. de la Côte-Sainte-Catherine, Montréal, QC H3T 1E2','5143408222','https://www.jgh.ca','hospital',800,2,'Quebec','by_appointment'),('lakeshore_general_hospital','160 Av Stillview Suite 1297, Pointe-Claire, QC H9R 2Y2','5146302225','https://fondationlakeshore.ca','hospital',1000,1,'Quebec','by_appointment'),('montreal_childrens_hospital','1001 Decarie Blvd, Montreal, Quebec H4A 3J1','5144124400','https://www.thechildren.com','hospital',450,7,'Quebec','by_appointment'),('montreal_general_hospital','1650 Cedar Ave, Montreal','5149341934','https://muhc.ca/','hospital',1000,NULL,'quebec','by_appointment'),('montreal_neurological_hospital','3801 Rue University, Montréal, QC H3A 2B4','5143986644','https://www.mcgill.ca/neuro/fr','hospital',760,8,'Quebec','by_appointment'),('royal_victoria_hospital','1001 Decarie Blvd, Montreal, Quebec H4A 3J1','5149341934','https://muhc.ca/glen','hospital',650,6,'Quebec','by_appointment'),('st_marys_hospital','3830 Av. Lacombe, Montréal, QC H3T 1M5','5142453511','https://www.smhc.qc.ca/en/','hospital',500,4,'Quebec','by_appointment');
 /*!40000 ALTER TABLE `facility` ENABLE KEYS */;
 
 --
@@ -146,7 +146,7 @@ CREATE TABLE `facility_operating_hour` (
 --
 
 /*!40000 ALTER TABLE `facility_operating_hour` DISABLE KEYS */;
-INSERT INTO `facility_operating_hour` VALUES ('centre_hospitalier_de_lUniversite_de_montreal',0,'08:00:00','20:00:00'),('centre_hospitalier_de_lUniversite_de_montreal',1,'08:00:00','20:00:00'),('centre_hospitalier_de_lUniversite_de_montreal',2,'08:00:08','20:00:00'),('centre_hospitalier_de_lUniversite_de_montreal',3,'08:00:00','20:00:00'),('centre_hospitalier_de_lUniversite_de_montreal',4,'08:00:00','20:00:00'),('centre_hospitalier_de_lUniversite_de_montreal',5,'08:00:00','20:00:00'),('centre_hospitalier_de_lUniversite_de_montreal',6,'08:00:00','17:00:00'),('douglas_mental_health_university_institute',0,'08:00:00','20:00:00'),('douglas_mental_health_university_institute',1,'08:00:00','20:00:00'),('douglas_mental_health_university_institute',2,'08:00:00','20:00:00'),('douglas_mental_health_university_institute',3,'08:00:00','20:00:00'),('douglas_mental_health_university_institute',4,'08:00:00','20:00:00'),('douglas_mental_health_university_institute',5,'08:00:00','17:00:00'),('douglas_mental_health_university_institute',6,'08:00:00','17:00:00'),('hospital_notre_dame',0,'08:00:00','20:00:00'),('hospital_notre_dame',1,'08:00:00','20:00:00'),('hospital_notre_dame',2,'08:00:00','20:00:00'),('hospital_notre_dame',3,'08:00:00','20:00:00'),('hospital_notre_dame',4,'08:00:00','20:00:00'),('hospital_notre_dame',5,'08:00:00','20:00:00'),('hospital_notre_dame',6,'08:00:00','20:00:00'),('jewish_general_hospital',0,'08:00:00','20:00:00'),('jewish_general_hospital',1,'08:00:00','20:00:00'),('jewish_general_hospital',2,'08:00:00','20:00:00'),('jewish_general_hospital',3,'08:00:00','20:00:00'),('jewish_general_hospital',4,'08:00:00','20:00:00'),('jewish_general_hospital',5,'08:00:00','20:00:00'),('jewish_general_hospital',6,'08:00:00','20:00:00'),('lakeshore_general_hospital',0,'08:00:00','17:00:00'),('lakeshore_general_hospital',1,'08:00:00','17:00:00'),('lakeshore_general_hospital',2,'08:00:00','17:00:00'),('lakeshore_general_hospital',3,'08:00:00','17:00:00'),('lakeshore_general_hospital',4,'08:00:00','17:00:00'),('montreal_childrens_hospital',0,'08:00:00','20:00:00'),('montreal_childrens_hospital',1,'08:00:00','20:00:00'),('montreal_childrens_hospital',2,'08:00:00','20:00:00'),('montreal_childrens_hospital',3,'08:00:00','20:00:00'),('montreal_childrens_hospital',4,'08:00:00','20:00:00'),('montreal_childrens_hospital',5,'08:00:00','20:00:00'),('montreal_childrens_hospital',6,'08:00:00','20:00:00'),('montreal_general_hospital',0,'08:00:00','20:00:00'),('montreal_general_hospital',1,'08:00:00','20:00:00'),('montreal_general_hospital',2,'08:00:00','20:00:00'),('montreal_general_hospital',3,'08:00:00','20:00:00'),('montreal_general_hospital',4,'08:00:00','20:00:00'),('montreal_general_hospital',5,'08:00:00','20:00:00'),('montreal_general_hospital',6,'08:00:00','20:00:00'),('montreal_neurological_hospital',0,'08:00:00','17:00:00'),('montreal_neurological_hospital',1,'08:00:00','17:00:00'),('montreal_neurological_hospital',2,'08:00:00','20:00:00'),('montreal_neurological_hospital',3,'08:00:00','20:00:00'),('montreal_neurological_hospital',4,'08:00:00','20:00:00'),('montreal_neurological_hospital',5,'08:00:00','20:00:00'),('montreal_neurological_hospital',6,'08:00:00','20:00:00'),('royal_victoria_hospital',0,'08:00:00','20:00:00'),('royal_victoria_hospital',1,'08:00:00','20:00:00'),('royal_victoria_hospital',2,'08:00:00','20:00:00'),('royal_victoria_hospital',3,'08:00:00','20:00:00'),('royal_victoria_hospital',4,'08:00:00','20:00:00'),('royal_victoria_hospital',5,'08:00:00','20:00:00'),('royal_victoria_hospital',6,'08:00:00','20:00:00'),('stMarys_hospital',0,'08:00:00','20:00:00'),('stMarys_hospital',1,'08:00:00','20:00:00'),('stMarys_hospital',2,'08:00:00','20:00:00'),('stMarys_hospital',3,'08:00:00','20:00:00'),('stMarys_hospital',4,'08:00:00','20:00:00'),('stMarys_hospital',5,'08:00:00','20:00:00'),('stMarys_hospital',6,'08:00:00','20:00:00');
+INSERT INTO `facility_operating_hour` VALUES ('centre_hospitalier_de_lUniversite_de_montreal',0,'08:00:00','20:00:00'),('centre_hospitalier_de_lUniversite_de_montreal',1,'08:00:00','20:00:00'),('centre_hospitalier_de_lUniversite_de_montreal',2,'08:00:08','20:00:00'),('centre_hospitalier_de_lUniversite_de_montreal',3,'08:00:00','20:00:00'),('centre_hospitalier_de_lUniversite_de_montreal',4,'08:00:00','20:00:00'),('centre_hospitalier_de_lUniversite_de_montreal',5,'08:00:00','20:00:00'),('centre_hospitalier_de_lUniversite_de_montreal',6,'08:00:00','17:00:00'),('douglas_mental_health_university_institute',0,'08:00:00','20:00:00'),('douglas_mental_health_university_institute',1,'08:00:00','20:00:00'),('douglas_mental_health_university_institute',2,'08:00:00','20:00:00'),('douglas_mental_health_university_institute',3,'08:00:00','20:00:00'),('douglas_mental_health_university_institute',4,'08:00:00','20:00:00'),('douglas_mental_health_university_institute',5,'08:00:00','17:00:00'),('douglas_mental_health_university_institute',6,'08:00:00','17:00:00'),('hospital_notre_dame',0,'08:00:00','20:00:00'),('hospital_notre_dame',1,'08:00:00','20:00:00'),('hospital_notre_dame',2,'08:00:00','20:00:00'),('hospital_notre_dame',3,'08:00:00','20:00:00'),('hospital_notre_dame',4,'08:00:00','20:00:00'),('hospital_notre_dame',5,'08:00:00','20:00:00'),('hospital_notre_dame',6,'08:00:00','20:00:00'),('jewish_general_hospital',0,'08:00:00','20:00:00'),('jewish_general_hospital',1,'08:00:00','20:00:00'),('jewish_general_hospital',2,'08:00:00','20:00:00'),('jewish_general_hospital',3,'08:00:00','20:00:00'),('jewish_general_hospital',4,'08:00:00','20:00:00'),('jewish_general_hospital',5,'08:00:00','20:00:00'),('jewish_general_hospital',6,'08:00:00','20:00:00'),('lakeshore_general_hospital',0,'08:00:00','17:00:00'),('lakeshore_general_hospital',1,'08:00:00','17:00:00'),('lakeshore_general_hospital',2,'08:00:00','17:00:00'),('lakeshore_general_hospital',3,'08:00:00','17:00:00'),('lakeshore_general_hospital',4,'08:00:00','17:00:00'),('montreal_childrens_hospital',0,'08:00:00','20:00:00'),('montreal_childrens_hospital',1,'08:00:00','20:00:00'),('montreal_childrens_hospital',2,'08:00:00','20:00:00'),('montreal_childrens_hospital',3,'08:00:00','20:00:00'),('montreal_childrens_hospital',4,'08:00:00','20:00:00'),('montreal_childrens_hospital',5,'08:00:00','20:00:00'),('montreal_childrens_hospital',6,'08:00:00','20:00:00'),('montreal_general_hospital',0,'08:00:00','20:00:00'),('montreal_general_hospital',1,'08:00:00','20:00:00'),('montreal_general_hospital',2,'08:00:00','20:00:00'),('montreal_general_hospital',3,'08:00:00','20:00:00'),('montreal_general_hospital',4,'08:00:00','20:00:00'),('montreal_general_hospital',5,'08:00:00','20:00:00'),('montreal_general_hospital',6,'08:00:00','20:00:00'),('montreal_neurological_hospital',0,'08:00:00','17:00:00'),('montreal_neurological_hospital',1,'08:00:00','17:00:00'),('montreal_neurological_hospital',2,'08:00:00','20:00:00'),('montreal_neurological_hospital',3,'08:00:00','20:00:00'),('montreal_neurological_hospital',4,'08:00:00','20:00:00'),('montreal_neurological_hospital',5,'08:00:00','20:00:00'),('montreal_neurological_hospital',6,'08:00:00','20:00:00'),('royal_victoria_hospital',0,'08:00:00','20:00:00'),('royal_victoria_hospital',1,'08:00:00','20:00:00'),('royal_victoria_hospital',2,'08:00:00','20:00:00'),('royal_victoria_hospital',3,'08:00:00','20:00:00'),('royal_victoria_hospital',4,'08:00:00','20:00:00'),('royal_victoria_hospital',5,'08:00:00','20:00:00'),('royal_victoria_hospital',6,'08:00:00','20:00:00'),('st_marys_hospital',0,'08:00:00','20:00:00'),('st_marys_hospital',1,'08:00:00','20:00:00'),('st_marys_hospital',2,'08:00:00','20:00:00'),('st_marys_hospital',3,'08:00:00','20:00:00'),('st_marys_hospital',4,'08:00:00','20:00:00'),('st_marys_hospital',5,'08:00:00','20:00:00'),('st_marys_hospital',6,'08:00:00','20:00:00');
 /*!40000 ALTER TABLE `facility_operating_hour` ENABLE KEYS */;
 
 --
@@ -158,11 +158,11 @@ DROP TABLE IF EXISTS `healthcare_worker`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `healthcare_worker` (
   `person_id` int NOT NULL,
-  `employee_id` int NOT NULL,
   `facility_name` varchar(255) NOT NULL,
+  `employee_id` int DEFAULT NULL,
   `hourly_rate` int NOT NULL,
   `status` enum('A','D') NOT NULL DEFAULT 'A' COMMENT 'A - Active, D - Deleted',
-  PRIMARY KEY (`person_id`,`employee_id`,`facility_name`),
+  PRIMARY KEY (`person_id`,`facility_name`),
   KEY `facility_name` (`facility_name`),
   CONSTRAINT `healthcare_worker_ibfk_1` FOREIGN KEY (`person_id`) REFERENCES `person` (`person_id`),
   CONSTRAINT `healthcare_worker_ibfk_2` FOREIGN KEY (`facility_name`) REFERENCES `facility` (`name`)
@@ -174,7 +174,7 @@ CREATE TABLE `healthcare_worker` (
 --
 
 /*!40000 ALTER TABLE `healthcare_worker` DISABLE KEYS */;
-INSERT INTO `healthcare_worker` VALUES (18,666,'jewish_general_hospital',25,'A'),(19,777,'hospital_notre_dame',20,'A');
+INSERT INTO `healthcare_worker` VALUES (18,'hospital_notre_dame',555,25,'A'),(18,'jewish_general_hospital',666,25,'A'),(19,'hospital_notre_dame',777,20,'A');
 /*!40000 ALTER TABLE `healthcare_worker` ENABLE KEYS */;
 
 --
@@ -186,7 +186,6 @@ DROP TABLE IF EXISTS `healthcare_worker_assignment`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `healthcare_worker_assignment` (
   `person_id` int NOT NULL,
-  `employee_id` int NOT NULL,
   `facility_name` varchar(255) NOT NULL,
   `start_date` date NOT NULL,
   `end_date` date NOT NULL,
@@ -194,8 +193,8 @@ CREATE TABLE `healthcare_worker_assignment` (
   `vaccine_name` varchar(255) DEFAULT NULL,
   `dose_given` mediumint DEFAULT NULL,
   `lot` varchar(255) DEFAULT NULL,
-  KEY `person_id` (`person_id`,`employee_id`,`facility_name`),
-  CONSTRAINT `healthcare_worker_assignment_ibfk_1` FOREIGN KEY (`person_id`, `employee_id`, `facility_name`) REFERENCES `healthcare_worker` (`person_id`, `employee_id`, `facility_name`)
+  KEY `person_id` (`person_id`,`facility_name`),
+  CONSTRAINT `healthcare_worker_assignment_ibfk_1` FOREIGN KEY (`person_id`, `facility_name`) REFERENCES `healthcare_worker` (`person_id`, `facility_name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='This table maintains the registration of public health care workers with public health care system';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -204,7 +203,7 @@ CREATE TABLE `healthcare_worker_assignment` (
 --
 
 /*!40000 ALTER TABLE `healthcare_worker_assignment` DISABLE KEYS */;
-INSERT INTO `healthcare_worker_assignment` VALUES (18,666,'jewish_general_hospital','2021-11-01','2022-01-01','nurse',NULL,NULL,NULL);
+INSERT INTO `healthcare_worker_assignment` VALUES (18,'hospital_notre_dame','2021-11-01','2022-01-01','nurse',NULL,NULL,NULL);
 /*!40000 ALTER TABLE `healthcare_worker_assignment` ENABLE KEYS */;
 
 --
@@ -248,7 +247,7 @@ CREATE TABLE `person` (
   `date_of_birth` date NOT NULL,
   `medicare_card_number` varchar(255) DEFAULT NULL,
   `date_of_issue_of_medicare_card` date DEFAULT NULL,
-  `date_of_expiry_of_medicare_card` date DEFAULT NULL,
+  `date_of_expiry_of_the_medicare_card` date DEFAULT NULL,
   `phone` varchar(10) NOT NULL,
   `address` varchar(255) NOT NULL,
   `city` varchar(255) NOT NULL,
@@ -364,4 +363,4 @@ INSERT INTO `vaccine` VALUES ('AstraZeneca','suspend',NULL,NULL,'2020-09-25'),('
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-11-13 13:30:38
+-- Dump completed on 2021-11-15 11:31:30
