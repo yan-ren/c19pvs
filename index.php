@@ -26,16 +26,16 @@
             <a class="nav-link" href="index.php">Home</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="booking.php" target="ifbox">Booking</a>
+            <a class="nav-link" href="booking.php">Booking</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="vaccine.php" target="ifbox">Vaccine</a>
+            <a class="nav-link" href="vaccine.php">Vaccine</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="report.php" target="ifbox">Report</a>
+            <a class="nav-link" href="report.php">Report</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="search.php" target="ifbox">Search</a>
+            <a class="nav-link" href="search.php">Search</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#">|</a>
@@ -59,7 +59,7 @@
         </ul>
       </div>
     </div>
-  </nav>
+  </nav><!-- Fixed navbar end-->
 
   <div class="container-fluid">
     <!-- iframe -->
