@@ -38,11 +38,9 @@ if (isset($_POST["name"]) && !empty($_POST["name"])) {
     $new_category = trim($_POST["category"]);
 
     // Prepare an update statement
-    $sql = "UPDATE facility SET address = ?, phone = ?, type=?, capacity=?,  manager=?, province=?, category=?, where name=?";
+    $sql = "UPDATE facility SET address = ?, phone = ?, website=?, type=?, capacity=?,  manager=?, province=?, category=?, where name=?";
     $stmt = mysqli_prepare($link, $sql);
-    mysqli_stmt_bind_param($stmt, "sssssiiss", $new_name, $new_address, $new_phone,
-        $new_website,$new_type,$new_capacity,$new_manager,
-        $new_province,$new_category);
+    mysqli_stmt_bind_param($stmt, "sssssiiss", $new_name, $new_address, $new_phone, $new_website,$new_type,$new_capacity,$new_manager, $new_province,$new_category);
 
     if ($stmt) {
         // Attempt to execute the prepared statement
@@ -140,7 +138,7 @@ if (isset($_POST["name"]) && !empty($_POST["name"])) {
                     <form action="<?php echo htmlspecialchars(basename($_SERVER['REQUEST_URI'])); ?>" method="post">
                         <div class="form-group">
                             <label>Facility Name</label>
-                            <input type="test" name="name" class="form-control" value="<?php echo $name; ?>">
+                            <input type="test" name="name" class="form-control" value="<?php echo $name; ?>"readonly>
                             <span class="invalid-feedback"><?php echo $name; ?></span>
                         </div>
                         <div class="form-group">
