@@ -12,7 +12,11 @@ $passport_number = $age_group_id = $registered = $status = "";
 // Define error variables and initialize with empty values
 $first_name_err = $last_name_err = $date_of_birth_err = $phone_err = $address_err = $city_err = $province_err =
 $postal_code_err = $citizenship_err = $email_err = $passport_number_err = $status_err =
-$date_of_issue_of_medicare_card_err = $date_of_expiry_of_the_medicare_card_err = $age_group_id_err = $registered_err = "";
+$date_of_issue_of_medicare_card_err = $date_of_expiry_of_the_medicare_card_err = $age_group_id_err = $registered_err = $status_err = "";
+
+$sql = "SELECT * FROM person";
+$result = mysqli_query($link, $sql);
+$all_facility = mysqli_fetch_all($result, MYSQLI_ASSOC);
 
 // Processing form data when form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -35,7 +39,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $passport_number = trim($_POST["passport_number"]);
     $age_group_id = trim($_POST["age_group_id"]);
     $registered = trim($_POST["registered"]);
-    $status = trim($_POST["status"]);
 
     // Validate person info
     if (empty($first_name)) {
@@ -71,9 +74,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (empty($passport_number)) {
         $passport_number_err = "Please enter the passport number";
     }
-    if (empty($status)) {
-        $status_err = "Please enter the status";
-    }
 
     //Validate date
     if (!validateMysqlDate($date_of_birth)) {
@@ -88,6 +88,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $date_of_expiry_of_the_medicare_card_err = "Invalid date format, please use format yyyy-mm-dd";
     }
 
+
     // Check input errors before inserting in database
     if (empty($first_name_err) && empty($last_name_err) && empty($date_of_birth_err) && empty($date_of_expiry_of_the_medicare_card_err) &&
         empty($date_of_issue_of_the_medicare_card_err) && empty($phone_err) && empty($address_err) && empty($city_err) &&
@@ -99,15 +100,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $sql = "INSERT INTO person (person_id, first_name, middle_name, last_name, date_of_birth, medicare_card_number, 
                       date_of_issue_of_medicare_card, date_of_expiry_of_the_medicare_card, phone, address, city, province, 
                       postal_code, citizenship, email, passport_number, age_group_id, registered, status) 
-                      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'A')";
 
         if ($stmt = mysqli_prepare($link, $sql)) {
             // Bind variables to the prepared statement as parameters
-            mysqli_stmt_bind_param($stmt, "isssssssssssssssiis", $param_person_id, $param_first_name,
+            mysqli_stmt_bind_param($stmt, "isssssssssssssssii", $param_person_id, $param_first_name,
                 $param_middle_name, $param_last_name, $param_date_of_birth, $param_medicare_card_number,
                 $param_date_of_issue_of_medicare_card, $param_date_of_expiry_of_the_medicare_card, $param_phone, $param_address,
                 $param_city, $param_province, $param_postal_code, $param_citizenship, $param_email, $param_passport_number,
-                $param_age_group_id, $param_registered, $param_status);
+                $param_age_group_id, $param_registered);
 
             $param_person_id = (int)($person_id);
             $param_first_name = ($first_name);
@@ -127,7 +128,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $param_passport_number = ($passport_number);
             $param_age_group_id = (int)($age_group_id);
             $param_registered = (int)($registered);
-            $param_status = ($status);
 
             // Attempt to execute the prepared statement
             if (mysqli_stmt_execute($stmt)) {
@@ -293,13 +293,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                class="form-control <?php echo (!empty($registered_err)) ? 'is-invalid' : ''; ?>"
                                value="<?php echo $registered; ?>">
                         <span class="invalid-feedback"><?php echo $registered_err; ?></span>
-                    </div>
-                    <div class="form-group">
-                        <label>Status</label>
-                        <input type="string" name="status"
-                               class="form-control <?php echo (!empty($status_err)) ? 'is-invalid' : ''; ?>"
-                               value="<?php echo $status; ?>">
-                        <span class="invalid-feedback"><?php echo $status_err; ?></span>
                     </div>
                     <input type="submit" class="btn btn-primary" value="Submit">
                     <a href="person.php" class="btn btn-secondary ml-2">Cancel</a>

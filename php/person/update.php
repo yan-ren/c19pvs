@@ -11,37 +11,41 @@ $passport_number = $age_group_id = $registered = $status = "";
 //Define error variables and initialize with empty values
 $first_name_err = $last_name_err = $date_of_birth_err = $phone_err = $address_err = $city_err = $province_err =
 $postal_code_err = $citizenship_err = $email_err = $passport_number_err = $status_err =
-$date_of_issue_of_medicare_card_err = $date_of_expiry_of_the_medicare_card_err = $age_group_id_err = $registered = "";
+$date_of_issue_of_medicare_card_err = $date_of_expiry_of_the_medicare_card_err = $age_group_id_err = $registered_err = "";
 
 // Processing form data when form is submitted
 if (isset($_POST["person_id"]) && !empty($_POST["person_id"])) {
     // Get hidden input value
-    $person_id = $_POST["person_id"];
+    $person_id = (int)(trim($_POST["person_id"]));
 
-    $input_first_name = trim($_POST["first_name"]);
-    $input_middle_name = trim($_POST["middle_name"]);
-    $input_last_name = trim($_POST["last_name"]);
-    $input_date_of_birth = trim($_POST["date_of_birth"]);
-    $input_medicare_card_number = trim($_POST["medicare_card_number"]);
-    $input_date_of_issue_of_medicare_card = trim($_POST["date_of_issue_of_medicare_card"]);
-    $input_date_of_expiry_of_the_medicare_card = trim($_POST["date_of_expiry_of_the_medicare_card"]);
-    $input_phone = trim($_POST["phone"]);
-    $input_address = trim($_POST["address"]);
-    $input_city = trim($_POST["city"]);
-    $input_province = trim($_POST["province"]);
-    $input_postal_code = trim($_POST["postal_code"]);
-    $input_citizenship = trim($_POST["citizenship"]);
-    $input_email = trim($_POST["email"]);
-    $input_passport_number = trim($_POST["passport_number"]);
+    // Get input values
+    $input_first_name = $_POST["first_name"];
+    $input_middle_name = $_POST["middle_name"];
+    $input_last_name = $_POST["last_name"];
+    $input_date_of_birth = $_POST["date_of_birth"];
+    $input_medicare_card_number = $_POST["medicare_card_number"];
+    $input_date_of_issue_of_medicare_card = $_POST["date_of_issue_of_medicare_card"];
+    $input_date_of_expiry_of_the_medicare_card = $_POST["date_of_expiry_of_the_medicare_card"];
+    $input_phone = $_POST["phone"];
+    $input_address = $_POST["address"];
+    $input_city = $_POST["city"];
+    $input_province = $_POST["province"];
+    $input_postal_code = $_POST["postal_code"];
+    $input_citizenship = $_POST["citizenship"];
+    $input_email = $_POST["email"];
+    $input_passport_number = $_POST["passport_number"];
     $input_age_group_id = (int)(trim($_POST["age_group_id"]));
     $input_registered = (int)(trim($_POST["registered"]));
-    $input_status = trim($_POST["status"]);
+    $input_status = $_POST["status"];
+    $input_status = 'A';
+
 
     // Prepare an update statement
+
     $sql = "UPDATE person SET first_name = ?, middle_name = ?, last_name = ?, date_of_birth = ?, medicare_card_number = ?, 
                       date_of_issue_of_medicare_card = ?, date_of_expiry_of_the_medicare_card = ?, phone = ?, address = ?, 
                       city = ?, province = ?, postal_code = ?, citizenship = ?, email = ?, passport_number = ?, age_group_id = ?, 
-                      registered = ?, status =? WHERE person_id = ?";
+                      registered = ?, status = ? WHERE person_id = ?";
     $stmt = mysqli_prepare($link, $sql);
     mysqli_stmt_bind_param($stmt, "sssssssssssssssiisi", $input_first_name,
         $input_middle_name, $input_last_name, $input_date_of_birth, $input_medicare_card_number,
@@ -56,18 +60,19 @@ if (isset($_POST["person_id"]) && !empty($_POST["person_id"])) {
             header("location: person.php");
             exit();
         } else {
-            echo "Oops! Something went wrong. Please try again later.";
+            $error = mysqli_stmt_error($stmt);
+            echo '<script> alert("' . $error . '")</script>';
         }
+    } else {
+        echo "<script>alert('Oops! Something went wrong. Please try again later. Error:" . $link->error . " ');location='update.php';</script>";
     }
-
-
     // Close statement
     mysqli_stmt_close($stmt);
 
     // Close connection
     mysqli_close($link);
 } else {
-    // Check existence of id parameter before processing further
+// Check existence of id parameter before processing further
     if (isset($_GET["person_id"]) && !empty(trim($_GET["person_id"]))) {
         // Get URL parameter
         $person_id = trim($_GET["person_id"]);
@@ -76,10 +81,7 @@ if (isset($_POST["person_id"]) && !empty($_POST["person_id"])) {
         $sql = "SELECT * FROM person WHERE person_id = ?";
         if ($stmt = mysqli_prepare($link, $sql)) {
             // Bind variables to the prepared statement as parameters
-            mysqli_stmt_bind_param($stmt, "i", $param_id);
-
-            // Set parameters
-            $param_id = $person_id;
+            mysqli_stmt_bind_param($stmt, "i", $person_id);
 
             // Attempt to execute the prepared statement
             if (mysqli_stmt_execute($stmt)) {
@@ -108,27 +110,23 @@ if (isset($_POST["person_id"]) && !empty($_POST["person_id"])) {
                     $passport_number = $row["passport_number"];
                     $age_group_id = $row["age_group_id"];
                     $registered = $row["registered"];
-                    $status = $row["status"];
                 } else {
                     // URL doesn't contain valid id. Redirect to error page
                     header("location: error.php");
                     exit();
                 }
             } else {
-                echo "Oops! Something went wrong. Please try again later.";
+                $error = mysqli_stmt_error($stmt);
+                echo '<script> alert("' . $error . '")</script>';
             }
+        } else {
+            echo "<script>alert('Oops! Something went wrong. Please try again later. Error:" . $link->error . " ');location='create.php';</script>";
         }
-
         // Close statement
         mysqli_stmt_close($stmt);
-
-        // Close connection
-        mysqli_close($link);
-    } else {
-        // URL doesn't contain id parameter. Redirect to error page
-        header("location: error.php");
-        exit();
     }
+    // Close connection
+    mysqli_close($link);
 }
 ?>
 
@@ -160,7 +158,7 @@ if (isset($_POST["person_id"]) && !empty($_POST["person_id"])) {
                         <input type="string" name="first_name"
                                class="form-control"
                                value="<?php echo $first_name; ?>">
-                        <span class="invalid-feedback"><?php echo $first_name; ?></span>
+                        <span class="invalid-feedback"><?php echo $first_name_err; ?></span>
                     </div>
                     <div class="form-group">
                         <label>Middle Name</label>
@@ -171,13 +169,13 @@ if (isset($_POST["person_id"]) && !empty($_POST["person_id"])) {
                         <label>Last Name</label>
                         <input type="string" name="last_name"
                                class="form-control" value="<?php echo $last_name; ?>">
-                        <span class="invalid-feedback"><?php echo $last_name; ?></span>
+                        <span class="invalid-feedback"><?php echo $last_name_err; ?></span>
                     </div>
                     <div class="form-group">
                         <label>Date Of Birth</label>
                         <input type="date" name="date_of_birth"
                                class="form-control" value="<?php echo $date_of_birth; ?>">
-                        <span class="invalid-feedback"><?php echo $date_of_birth; ?></span>
+                        <span class="invalid-feedback"><?php echo $date_of_birth_err; ?></span>
                     </div>
                     <div class="form-group">
                         <label>Medicare Card Number</label>
@@ -188,81 +186,74 @@ if (isset($_POST["person_id"]) && !empty($_POST["person_id"])) {
                         <label>Date Of Issue Of Medicare Card</label>
                         <input type="date" name="date_of_issue_of_medicare_card"
                                class="form-control" value="<?php echo $date_of_issue_of_medicare_card; ?>">
-                        <span class="invalid-feedback"><?php echo $date_of_issue_of_medicare_card; ?></span>
+                        <span class="invalid-feedback"><?php echo $date_of_issue_of_medicare_card_err; ?></span>
                     </div>
                     <div class="form-group">
                         <label>Date Of Expiry Of The Medicare Card</label>
                         <input type="date" name="date_of_expiry_of_the_medicare_card"
                                class="form-control" value="<?php echo $date_of_expiry_of_the_medicare_card; ?>">
-                        <span class="invalid-feedback"><?php echo $date_of_expiry_of_the_medicare_card; ?></span>
+                        <span class="invalid-feedback"><?php echo $date_of_expiry_of_the_medicare_card_err; ?></span>
                     </div>
                     <div class="form-group">
                         <label>Phone</label>
                         <input type="string" name="phone"
                                class="form-control" value="<?php echo $phone; ?>">
-                        <span class="invalid-feedback"><?php echo $phone; ?></span>
+                        <span class="invalid-feedback"><?php echo $phone_err; ?></span>
                     </div>
                     <div class="form-group">
                         <label>Address</label>
                         <input type="string" name="address"
                                class="form-control"
                                value="<?php echo $address; ?>">
-                        <span class="invalid-feedback"><?php echo $address; ?></span>
+                        <span class="invalid-feedback"><?php echo $address_err; ?></span>
                     </div>
                     <div class="form-group">
                         <label>City</label>
                         <input type="string" name="city"
                                class="form-control" value="<?php echo $city; ?>">
-                        <span class="invalid-feedback"><?php echo $city; ?></span>
+                        <span class="invalid-feedback"><?php echo $city_err; ?></span>
                     </div>
                     <div class="form-group">
                         <label>Province</label>
                         <input type="string" name="province"
                                class="form-control" value="<?php echo $province; ?>">
-                        <span class="invalid-feedback"><?php echo $province; ?></span>
+                        <span class="invalid-feedback"><?php echo $province_err; ?></span>
                     </div>
                     <div class="form-group">
                         <label>Postal Code</label>
                         <input type="string" name="postal_code"
                                class="form-control" value="<?php echo $postal_code; ?>">
-                        <span class="invalid-feedback"><?php echo $postal_code; ?></span>
+                        <span class="invalid-feedback"><?php echo $postal_code_err; ?></span>
                     </div>
                     <div class="form-group">
                         <label>Citizenship</label>
                         <input type="string" name="citizenship"
                                class="form-control" value="<?php echo $citizenship; ?>">
-                        <span class="invalid-feedback"><?php echo $citizenship; ?></span>
+                        <span class="invalid-feedback"><?php echo $citizenship_err; ?></span>
                     </div>
                     <div class="form-group">
                         <label>Email</label>
                         <input type="string" name="email"
                                class="form-control" value="<?php echo $email; ?>">
-                        <span class="invalid-feedback"><?php echo $email; ?></span>
+                        <span class="invalid-feedback"><?php echo $email_err; ?></span>
                     </div>
                     <div class="form-group">
                         <label>Passport Number</label>
                         <input type="string" name="passport_number"
                                class="form-control" value="<?php echo $passport_number; ?>">
-                        <span class="invalid-feedback"><?php echo $passport_number; ?></span>
+                        <span class="invalid-feedback"><?php echo $passport_number_err; ?></span>
                     </div>
                     <div class="form-group">
                         <label>Age Group ID</label>
                         <input type="number" name="age_group_id"
                                class="form-control" value="<?php echo $age_group_id; ?>">
-                        <span class="invalid-feedback"><?php echo $age_group_id; ?></span>
+                        <span class="invalid-feedback"><?php echo $age_group_id_err; ?></span>
                     </div>
                     <div class="form-group">
                         <label>Registered</label>
                         <input type="number" name="registered"
                                class="form-control" value="<?php echo $registered; ?>">
-                        <span class="invalid-feedback"><?php echo $registered; ?></span>
-                    </div>
-                    <div class="form-group">
-                        <label>Status</label>
-                        <input type="enum" name="status"
-                               class="form-control"
-                               value="<?php echo $status; ?>">
-                        <span class="invalid-feedback"><?php echo $status; ?></span>
+                        <span class="invalid-feedback"><?php echo $registered_err; ?></span>
                     </div>
                     <input type="hidden" name="person_id" value="<?php echo $person_id; ?>"/>
                     <input type="submit" class="btn btn-primary" value="Submit">

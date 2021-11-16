@@ -9,14 +9,14 @@ if (isset($_POST["person_id"]) && !empty($_POST["person_id"])) {
     $link = connect();
 
     // Prepare a delete statement
-    $sql = "DELETE FROM person WHERE person_id = ?";
+    $sql = "UPDATE person SET status = 'D' WHERE person_id = ?";
 
     if ($stmt = mysqli_prepare($link, $sql)) {
         // Bind variables to the prepared statement as parameters, i stands for integer
-        mysqli_stmt_bind_param($stmt, "i", $person_id);
+        mysqli_stmt_bind_param($stmt, "i",   $person_id);
 
-        // Set parameters
-        $person_id = (int)($_POST["person_id"]);
+        $person_id = ($_POST["person_id"]);
+
 
         // Attempt to execute the prepared statement
         if (mysqli_stmt_execute($stmt)) {
@@ -26,11 +26,9 @@ if (isset($_POST["person_id"]) && !empty($_POST["person_id"])) {
         } else {
             echo "Oops! Something went wrong. Please try again later.";
         }
+        // Close statement
+        mysqli_stmt_close($stmt);
     }
-
-    // Close statement
-    mysqli_stmt_close($stmt);
-
     // Close connection
     mysqli_close($link);
 } else {
@@ -67,7 +65,7 @@ if (isset($_POST["person_id"]) && !empty($_POST["person_id"])) {
                     <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
                         <div class="alert alert-danger">
                             <input type="hidden" name="person_id" value="<?php echo trim($_GET["person_id"]); ?>" />
-                            <p>Are you sure you want to delete this province record?</p>
+                            <p>Are you sure you want to inactivate this <b>person</b> record?</p>
                             <p>
                                 <input type="submit" value="Yes" class="btn btn-danger">
                                 <a href="person.php" class="btn btn-secondary">No</a>
