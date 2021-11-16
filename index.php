@@ -62,39 +62,6 @@
       <iframe name="ifbox" id="ifboxId" width="100%" onload="iframeLoaded()" style="background-color:white;" frameborder="0" scrolling="auto">
       </iframe>
     </div>
-    <hr>
-    <h4>Database table at a glance</h4>
-    <?php
-    require_once('./php/config.php');
-
-    $con = connect();
-    showTables($con);
-
-    function showTables($link)
-    {
-      $sql = "SHOW TABLES";
-      if ($result = mysqli_query($link, $sql)) {
-        if (mysqli_num_rows($result) > 0) {
-          echo "<table class=\"table table-responsive table-striped\">";
-          echo "<tr>";
-          echo "<th>" . "Table Name" . "</td>";
-          echo "</tr>";
-          while ($row = mysqli_fetch_array($result)) {
-            echo "<tr>";
-            echo "<td>" . $row[0] . "</td>";
-            echo "</tr>";
-          }
-          echo "</table>";
-          // Free result set
-          mysqli_free_result($result);
-        } else {
-          echo "No records matching your query were found.";
-        }
-      } else {
-        echo "ERROR: Could not able to execute $sql. " . mysqli_error($link);
-      }
-    }
-    ?>
   </div><!-- /.container -->
   <?php include "./html/footer.html" ?>
 </body>
