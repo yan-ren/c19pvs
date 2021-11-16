@@ -14,9 +14,10 @@ $first_name_err = $last_name_err = $date_of_birth_err = $phone_err = $address_er
 $postal_code_err = $citizenship_err = $email_err = $passport_number_err = $status_err =
 $date_of_issue_of_medicare_card_err = $date_of_expiry_of_the_medicare_card_err = $age_group_id_err = $registered_err = $status_err = "";
 
-$sql = "SELECT * FROM person";
+//get province values
+$sql = "SELECT name FROM province;";
 $result = mysqli_query($link, $sql);
-$all_facility = mysqli_fetch_all($result, MYSQLI_ASSOC);
+$all_province = mysqli_fetch_all($result, MYSQLI_ASSOC);
 
 // Processing form data when form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -247,10 +248,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     </div>
                     <div class="form-group">
                         <label>Province</label>
-                        <input type="string" name="province"
-                               class="form-control <?php echo (!empty($province_err)) ? 'is-invalid' : ''; ?>"
-                               value="<?php echo $province; ?>">
-                        <span class="invalid-feedback"><?php echo $province_err; ?></span>
+                        <select class="custom-select" id="inputGroupSelect01" name="province">
+                            <?php
+                            foreach ($all_province as $prov) {
+                                echo '<option values=\"' . $prov[$province] . '\">' . $prov[$province] . '</option>';
+                            }
+                            ?>
+                        </select>
                     </div>
                     <div class="form-group">
                         <label>Postal Code</label>
