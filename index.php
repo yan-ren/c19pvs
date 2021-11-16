@@ -49,7 +49,7 @@
                 <a class="dropdown-item" href="#">Person</a>
                 <a class="dropdown-item" href="/php/public_health_worker/public_health_worker.php" target="ifbox">Public Health Worker</a>
                 <a class="dropdown-item" href="#">Public Health Facility</a>
-                <a class="dropdown-item" href="#">Vaccination Type</a>
+                <a class="dropdown-item" href="/php/vaccine_type/vaccine_type.php" target="ifbox">Vaccination Type</a>
                 <a class="dropdown-item" href="#">Covid-19 Infection Variant</a>
                 <a class="dropdown-item" href="/php/age_group/age_group.php" target="ifbox">Age Group</a>
                 <a class="dropdown-item" href="/php/province/province.php" target="ifbox">Province</a>
