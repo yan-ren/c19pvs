@@ -5,49 +5,84 @@ require_once "../util.php";
 $link = connect();
 
 // Define variables and initialize with empty values
-$min_age = $max_age = $vaccination_date = $age_group_id = "";
-$age_error = $vaccination_date_error = "";
+$name = $address = $phone = $website = "";
+$type = $capacity =$manager=$province=$category= "";
+
+$sql = "SELECT * FROM province";
+$result = mysqli_query($link, $sql);
+$all_province = mysqli_fetch_all($result, MYSQLI_ASSOC);
 
 // Processing form data when form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-    $age_group_id = trim($_POST["age_group_id"]);
-    $min_age = trim($_POST["min_age"]);
-    $max_age = trim($_POST["max_age"]);
-    $vaccination_date = trim($_POST["vaccination_date"]);
+    $name = trim($_POST["name"]);
+    $address = trim($_POST["address"]);
+    $phone = trim($_POST["phone"]);
+    $website = trim($_POST["website"]);
+    $type = trim($_POST["type"]);
+    $capacity = trim($_POST["capacity"]);
+    $manager = trim($_POST["manager"]);
+    $province = trim($_POST["province"]);
+    $category = trim($_POST["category"]);
 
-    // Validate age
-    if (empty($min_age) && $min_age !== '0') {
-        $age_err = "Please enter an min age";
+    // Validate
+    if (empty($name) && $name !== 'NULL') {
+        $name_err = "Please enter a facility name";
     }
-    if (empty($max_age) && $max_age !== '0') {
-        $age_err = "Please enter an max age";
+    if (empty($address) && $address !== 'NULL') {
+        $address_err = "Please enter an address";
+    }
+    if (empty($phone) && $phone !== 'NULL') {
+        $phone_err = "Please enter phone number";
+    }
+    if (empty($website) && $website !== 'NULL') {
+        $website_err = "Please enter a web address";
+    }
+    if (empty($type) && $type !== 'NULL') {
+        $website_err = "Please enter a web address";
+    }
+    if (empty($capacity) && $capacity !== '0'|| !is_numeric($capacity)) {
+        $capacity_err = "Please enter a capacity";
     }
 
-    // Validate date
-    if (empty($vaccination_date)) {
-        $vaccination_date = null;
-    } elseif (!validateMysqlDate($vaccination_date)) {
-        $vaccination_date_error = "Invalid date format, please use formate yyyy-mm-dd";
+
+    if (empty($manager) && $manager !== 'NULL'||!is_numeric($capacity)) {
+        $manager_err = "Please enter a manager ID";
     }
+
+    if (empty($province) && $province !== '0') {
+        $province_err = "Please enter a capacity";
+    }
+
+
 
     // Check input errors before inserting in database
-    if (empty($age_error) && empty($vaccination_date_error)) {
+    if (empty($name_err) && empty($address_err) && empty($phone_err) && empty($website_err) &&empty($capacity_err)
+        && empty($manager_err)&&empty($province_err) ) {
         // Prepare an insert statement
-        $sql = "INSERT INTO age_group (age_group_id, min_age, max_age, vaccination_date) VALUES (?, ?, ?, ?)";
+        $sql = "INSERT INTO facility (name, address, phone, website,type,capacity,manager,province,category) VALUES (?, ?, ?, ?,?,?,?,?,?)";
 
         if ($stmt = mysqli_prepare($link, $sql)) {
             // Bind variables to the prepared statement as parameters
-            mysqli_stmt_bind_param($stmt, "iiis", $param_age_group_id, $param_min_age, $param_max_age, $vaccination_date);
+            mysqli_stmt_bind_param($stmt, "sssssiiss", $param_name, $param_address, $param_phone,
+                $param_website,$param_type,$param_capacity,$param_manager,
+                $param_province,$param_category);
 
-            $param_age_group_id = (int)($age_group_id);
-            $param_min_age = (int)($min_age);
-            $param_max_age = (int)($max_age);
+            $param_name = ($name);
+            $param_address = ($address);
+            $param_phone = ($phone);
+            $param_website = ($website);
+            $param_type = ($type);
+            $param_capacity = ($capacity);
+            $param_manager = ($manager);
+            $param_province = ($province);
+            $param_category = ($category);
+
 
             // Attempt to execute the prepared statement
             if (mysqli_stmt_execute($stmt)) {
                 // Records created successfully. Redirect to landing page
-                header("location: age_group.php");
+                header("location: facility.php");
                 exit();
             } else {
                 $error = mysqli_stmt_error($stmt);
@@ -86,30 +121,71 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-12">
-                    <h2 class="mt-5">Create Age Group Record</h2>
-                    <p>Please fill this form and submit to add age group record to the database</p>
+                    <h2 class="mt-5">Create Facility Record</h2>
+                    <p>Please fill this form and submit to add a facility record to the database</p>
                     <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
                         <div class="form-group">
-                            <label>Age Group ID</label>
-                            <input type="number" name="age_group_id" class="form-control" value="<?php echo $age_group_id; ?>">
+                            <label>Facility Name</label>
+                            <input type="string" name="name" class="form-control" value="<?php echo $name; ?>">
                         </div>
                         <div class="form-group">
-                            <label>Min Age</label>
-                            <input type="number" name="min_age" class="form-control <?php echo (!empty($age_error)) ? 'is-invalid' : '' ?>" value="<?php echo $min_age; ?>">
-                            <span class="invalid-feedback"><?php echo $age_error; ?></span>
+                            <label>Address</label>
+                            <input type="string" name="address" class="form-control <?php echo (!empty($address_error)) ? 'is-invalid' : '' ?>" value="<?php echo $address; ?>">
+                            <span class="invalid-feedback"><?php echo $address_error; ?></span>
                         </div>
                         <div class="form-group">
-                            <label>Max Age</label>
-                            <input type="number" name="max_age" class="form-control <?php echo (!empty($age_error)) ? 'is-invalid' : ''; ?>" value="<?php echo $max_age; ?>">
-                            <span class="invalid-feedback"><?php echo $age_error; ?></span>
+                            <label>Phone Number</label>
+                            <input type="string" name="phone" class="form-control <?php echo (!empty($phone_error)) ? 'is-invalid' : ''; ?>" value="<?php echo $phone; ?>">
+                            <span class="invalid-feedback"><?php echo $phone_error; ?></span>
                         </div>
                         <div class="form-group">
-                            <label>Vaccination Date</label>
-                            <input type="date" name="vaccination_date" class="form-control <?php echo (!empty($vaccination_date_error)) ? 'is-invalid' : ''; ?>" value="<?php echo $vaccination_date; ?>">
-                            <span class="invalid-feedback"><?php echo $vaccination_date_error; ?></span>
+                            <label>Website</label>
+                            <input type="string" name="website" class="form-control <?php echo (!empty($website_error)) ? 'is-invalid' : ''; ?>" value="<?php echo $website; ?>">
+                            <span class="invalid-feedback"><?php echo $website_error; ?></span>
+                        </div>
+                        <div class="form-group">
+                            <label>Type</label>
+                            <select select class="custom-select" name="type" id="inputGroupSelect01">
+                                <option value="hospital">Hospital</option>
+                                <option value="clinic">Clinic</option>
+                                <option value="special_installment">Special Installment</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Daily Capacity</label>
+                            <input type="numnber" name="capacity" class="form-control <?php echo (!empty($capacity_error)) ? 'is-invalid' : ''; ?>" value="<?php echo $capacity; ?>">
+                            <span class="invalid-feedback"><?php echo $capacity_error; ?></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Manager</label>
+                            <input type="number" name="manager" class="form-control <?php echo (!empty($manager_error)) ? 'is-invalid' : ''; ?>" value="<?php echo $manager; ?>">
+                            <span class="invalid-feedback"><?php echo $manager_error; ?></span>
+                        </div>
+                        <div class="form-group">
+                            <label>Province</label>
+                            <select class="custom-select" id="inputGroupSelect01" name="province">
+                                <?php
+                                foreach ($all_province as $province) {
+                                    echo '<option values=\"' . $province['name'] . '\">' . $province['name'] . '</option>';
+                                }
+                                ?>
+                            </select>
+
+                        </div>
+                        <div class="form-group">
+                            <label>Category</label>
+
+                            <select select class="custom-select" name="category" id="inputGroupSelect01">
+                                <option value="by_appointment">By Appointment</option>
+                                <option value="walk_in">Walk In</option>
+                            </select>
+
+
                         </div>
                         <input type="submit" class="btn btn-primary" value="Submit">
-                        <a href="age_group.php" class="btn btn-secondary ml-2">Cancel</a>
+                        <a href="facility.php" class="btn btn-secondary ml-2">Cancel</a>
                     </form>
                 </div>
             </div>
