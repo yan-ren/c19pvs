@@ -20,8 +20,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $phone = trim($_POST["phone"]);
     $website = trim($_POST["website"]);
     $type = trim($_POST["type"]);
-    $capacity = trim($_POST["capacity"]);
-    $manager = trim($_POST["manager"]);
+    $capacity = (int)trim($_POST["capacity"]);
+    $manager = (int)trim($_POST["manager"]);
     $province = trim($_POST["province"]);
     $category = trim($_POST["category"]);
 
