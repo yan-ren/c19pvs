@@ -11,7 +11,7 @@
  Target Server Version : 80022
  File Encoding         : 65001
 
- Date: 15/11/2021 20:10:18
+ Date: 15/11/2021 22:57:14
 */
 
 SET NAMES utf8mb4;
@@ -81,18 +81,21 @@ CREATE TABLE `covid` (
   `variant` varchar(255) DEFAULT NULL,
   `status` enum('A','D') NOT NULL DEFAULT 'A' COMMENT 'A - Active, D - Deleted',
   PRIMARY KEY (`covid_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of covid
 -- ----------------------------
 BEGIN;
-INSERT INTO `covid` VALUES (1, 'unknown', 'A');
+INSERT INTO `covid` VALUES (1, 'unknown', 'D');
 INSERT INTO `covid` VALUES (2, 'Beta', 'A');
 INSERT INTO `covid` VALUES (3, 'Gamma', 'A');
 INSERT INTO `covid` VALUES (4, 'Delta', 'A');
 INSERT INTO `covid` VALUES (5, 'MU', 'A');
 INSERT INTO `covid` VALUES (6, 'Alpha', 'A');
+INSERT INTO `covid` VALUES (7, 'venom', 'A');
+INSERT INTO `covid` VALUES (8, 'unknown2', 'D');
+INSERT INTO `covid` VALUES (9, 'invulnerable', 'A');
 COMMIT;
 
 -- ----------------------------
@@ -240,9 +243,15 @@ CREATE TABLE `healthcare_worker` (
 -- Records of healthcare_worker
 -- ----------------------------
 BEGIN;
+INSERT INTO `healthcare_worker` VALUES (2, 'toronto_general_hospital', 2, 23, 'A');
+INSERT INTO `healthcare_worker` VALUES (3, 'lakeshore_general_hospital', 3, 32, 'A');
 INSERT INTO `healthcare_worker` VALUES (18, 'hospital_notre_dame', 555, 25, 'A');
 INSERT INTO `healthcare_worker` VALUES (18, 'jewish_general_hospital', 666, 25, 'A');
 INSERT INTO `healthcare_worker` VALUES (19, 'hospital_notre_dame', 777, 20, 'A');
+INSERT INTO `healthcare_worker` VALUES (66, 'jewish_general_hospital', 66, 29, 'D');
+INSERT INTO `healthcare_worker` VALUES (77, 'montreal_childrens_hospital', 77, 30, 'D');
+INSERT INTO `healthcare_worker` VALUES (88, 'st_marys_hospital', 88, 27, 'A');
+INSERT INTO `healthcare_worker` VALUES (99, 'royal_victoria_hospital', 99, 25, 'A');
 COMMIT;
 
 -- ----------------------------
@@ -326,31 +335,37 @@ CREATE TABLE `person` (
   PRIMARY KEY (`person_id`),
   KEY `age_group_id` (`age_group_id`),
   CONSTRAINT `person_ibfk_1` FOREIGN KEY (`age_group_id`) REFERENCES `age_group` (`age_group_id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=100 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of person
 -- ----------------------------
 BEGIN;
-INSERT INTO `person` VALUES (1, 'james', 'mike', 'doe', '1991-11-11', '1', '2020-11-11', '2023-11-11', '5140000000', '1120 Rue Concordia', 'Montreal', 'Quebec', 'H4H3E3', 'Canada', 'casdi@gmail.com', 'sdaf-213', 2, 1, 'A');
-INSERT INTO `person` VALUES (2, 'jane', 'jenny', 'doe', '1997-11-11', '2', '2020-11-11', '2023-11-11', '5140000001', '1120 Rue Montreal', 'lasalle', 'Quebec', 'H4H3G3', 'Canada', 'cadddi@gmail.com', 'sdaf-211', 3, 1, 'A');
-INSERT INTO `person` VALUES (3, 'john', 'rose', 'doe', '2001-11-11', '3', '2019-10-12', '2023-10-12', '5140000002', '1120 Rue Guy', 'Montreal', 'Quebec', 'H4G3D3', 'Canada', 'cadsdi@gmail.com', 'sdaf-212', 7, 1, 'A');
-INSERT INTO `person` VALUES (4, 'john', 'cai', 'doe', '1991-01-11', '4', '2021-10-12', '2024-10-12', '5140000003', '1120 Rue Catherine', 'Laval', 'Quebec', 'H4D3D3', 'Canada', 'casdi@gmail.com', 'sdaf-214', 6, 1, 'A');
-INSERT INTO `person` VALUES (5, 'sam', 'sam', 'doe', '1988-01-11', '5', '2021-01-13', '2024-01-12', '5140000004', '1120 Rue MaxKay', 'Brossard', 'Quebec', 'H5D3D3', 'Canada', 'ggsdfas@gmail.com', 'sdaf-215', 10, 1, 'A');
-INSERT INTO `person` VALUES (6, 'john', 'jim', 'smith', '1979-01-01', '6', '2021-10-12', '2024-10-12', '5140000005', '1120 Rue Max', 'Montreal', 'Quebec', 'H4D3H3', 'Canada', 'sdfas@gmail.com', 'sdaf-216', 5, 1, 'A');
-INSERT INTO `person` VALUES (7, 'sam', 'dick', 'smith', '1970-11-11', '7', '2021-10-12', '2024-10-12', '5140000006', '1120 Rue Marie', 'Toronto', 'Ontario', 'H6D3A4', 'Canada', 'wedfa@gmail.com', 'sdaf-217', 4, 1, 'A');
-INSERT INTO `person` VALUES (8, 'kim', 'derek', 'smith', '1990-09-11', '8', '2021-10-12', '2024-10-12', '5140000007', '1120 Rue Ontario', 'Toronto', 'Ontario', 'H6D3B4', 'Canada', 'asddfa@gmail.com', 'sdaf-218', 1, 1, 'A');
-INSERT INTO `person` VALUES (9, 'jim', 'duston', 'carry', '2000-12-01', '9', '2021-10-12', '2024-10-12', '5140000008', '1120 Rue Quebec', 'Montreal', 'Quebec', 'H8D3A8', 'Canada', 'dfa@gmail.com', 'sdaf-219', 8, 1, 'A');
-INSERT INTO `person` VALUES (10, 'ali', 'sam', 'smith', '1999-09-01', '10', '2021-10-12', '2024-10-12', '5140000009', '1120 Rue Quebec', 'Montreal', 'Quebec', 'H8D3A8', 'Canada', 'dfa@gmail.com', 'sdaf-220', 9, 1, 'A');
-INSERT INTO `person` VALUES (11, 'zhangbin ', '', 'cai', '1993-07-09', '', '2020-09-08', '2023-10-05', '6476666666', '1122 Ruy Guy', 'Royal-Mount', 'Quebec', 'H4G5T5', 'China', 'caizhan@concordia.ca', 'ch-00769', 7, 0, 'A');
-INSERT INTO `person` VALUES (12, 'ryan', NULL, 'yan', '1990-01-30', '12', '2019-10-10', '2022-10-06', '5140006666', '2344 Rue Paquet', 'Quebec City', 'Quebec', 'H4D5N4', 'Canada', 'yan@concordia.ca', 'dca-6666', 7, 1, 'A');
-INSERT INTO `person` VALUES (13, 'rongxi', NULL, 'meng', '1989-06-06', '13', '2019-10-14', '2023-10-18', '5140004666', '1235 Rue Maria', 'Montreal', 'Quebec', 'D4D5G5', 'China', 'xi@concordia.ca', 'ch-00699', 6, 1, 'A');
-INSERT INTO `person` VALUES (14, 'jason', NULL, 'qian', '1991-06-04', '14', '2021-09-27', '2024-10-18', '5146669466', '1234 Rue Google', 'Montreal', 'Quebec', 'G4G5L6', 'China', 'qian@concordia.ca', 'ch-07666', 7, 1, 'A');
-INSERT INTO `person` VALUES (15, 'walter', NULL, 'white', '1970-01-27', '', '2017-10-03', '2020-10-07', '6479965444', '1000 Rue Texa', 'Laval', 'Quebec', 'L4L6Y7', 'US', 'walter@gmail.com', 'usd-0094', 4, 0, 'A');
-INSERT INTO `person` VALUES (16, 'marie', 'rose', 'hunt', '1999-02-02', '', '2018-10-16', '2021-09-27', '5147774444', '1234 Rue Hunter', 'Montreal', 'Quebec', 'D2D4G4', 'US', 'marie@gmail.com', 'adfa-999', 7, 0, 'A');
-INSERT INTO `person` VALUES (17, 'don', 'jr', 'jump', '1961-01-31', '15', '2020-10-07', '2023-10-04', '4150000000', '2222 Rue Pres', 'Laval', 'Quebec', 'D4D5T5', 'Canada', 'ttDrum@gmail.com', 'dfa-334', 3, 1, 'A');
-INSERT INTO `person` VALUES (18, 'james', NULL, 'bond', '1999-09-09', '66', '2019-05-16', '2022-10-22', '7778889999', '6666 Rue Bond', 'Toronto', 'Ontario', 'M6X5N1', 'Canada', 'jamsebond@outlook.com', 'cad-666', 3, 1, 'A');
-INSERT INTO `person` VALUES (19, 'jason', NULL, 'borne', '2000-09-10', '77', '2018-06-06', '2023-10-22', '1112223334', '7777 Rue bond', 'Toronto', 'Ontario', 'M8X7N1', 'Canada', 'jasonborne@outlook.com', 'cad-777', 4, 2, 'A');
+INSERT INTO `person` VALUES (1, 'james', 'mike', 'doe', '1991-11-11', '1', '2020-11-11', '2023-11-11', '5140000000', '1120 Rue Concordia', 'Montreal', 'QC', 'H4H3E3', 'Canada', 'casdi@gmail.com', 'sdaf-213', 2, 1, 'A');
+INSERT INTO `person` VALUES (2, 'jane', 'jenny', 'doe', '1997-11-11', '2', '2020-11-11', '2023-11-11', '5140000001', '1120 Rue Montreal', 'lasalle', 'QC', 'H4H3G3', 'Canada', 'cadddi@gmail.com', 'sdaf-211', 3, 1, 'A');
+INSERT INTO `person` VALUES (3, 'john', 'rose', 'doe', '2001-11-11', '3', '2019-10-12', '2023-10-12', '5140000002', '1120 Rue Guy', 'Montreal', 'QC', 'H4G3D3', 'Canada', 'cadsdi@gmail.com', 'sdaf-212', 7, 1, 'A');
+INSERT INTO `person` VALUES (4, 'john', 'cai', 'doe', '1991-01-11', '4', '2021-10-12', '2024-10-12', '5140000003', '1120 Rue Catherine', 'Laval', 'QC', 'H4D3D3', 'Canada', 'casdi@gmail.com', 'sdaf-214', 6, 1, 'A');
+INSERT INTO `person` VALUES (5, 'sam', 'sam', 'doe', '1988-01-11', '5', '2021-01-13', '2024-01-12', '5140000004', '1120 Rue MaxKay', 'Brossard', 'QC', 'H5D3D3', 'Canada', 'ggsdfas@gmail.com', 'sdaf-215', 10, 1, 'A');
+INSERT INTO `person` VALUES (6, 'john', 'jim', 'smith', '1979-01-01', '6', '2021-10-12', '2024-10-12', '5140000005', '1120 Rue Max', 'Montreal', 'QC', 'H4D3H3', 'Canada', 'sdfas@gmail.com', 'sdaf-216', 5, 1, 'A');
+INSERT INTO `person` VALUES (7, 'sam', 'dick', 'smith', '1970-11-11', '7', '2021-10-12', '2024-10-12', '5140000006', '1120 Rue Marie', 'Toronto', 'ON', 'H6D3A4', 'Canada', 'wedfa@gmail.com', 'sdaf-217', 4, 1, 'A');
+INSERT INTO `person` VALUES (8, 'kim', 'derek', 'smith', '1990-09-11', '8', '2021-10-12', '2024-10-12', '5140000007', '1120 Rue Ontario', 'Toronto', 'ON', 'H6D3B4', 'Canada', 'asddfa@gmail.com', 'sdaf-218', 1, 1, 'A');
+INSERT INTO `person` VALUES (9, 'jim', 'duston', 'carry', '2000-12-01', '9', '2021-10-12', '2024-10-12', '5140000008', '1120 Rue Quebec', 'Montreal', 'QC', 'H8D3A8', 'Canada', 'dfa@gmail.com', 'sdaf-219', 8, 1, 'A');
+INSERT INTO `person` VALUES (10, 'ali', 'sam', 'smith', '1999-09-01', '10', '2021-10-12', '2024-10-12', '5140000009', '1120 Rue Quebec', 'Montreal', 'QC', 'H8D3A8', 'Canada', 'dfa@gmail.com', 'sdaf-220', 9, 1, 'A');
+INSERT INTO `person` VALUES (11, 'zhangbin ', '', 'cai', '1993-07-09', '', '2020-09-08', '2023-10-05', '6476666666', '1122 Ruy Guy', 'Royal-Mount', 'QC', 'H4G5T5', 'China', 'caizhan@concordia.ca', 'ch-00769', 7, 0, 'A');
+INSERT INTO `person` VALUES (12, 'ryan', NULL, 'yan', '1990-01-30', '12', '2019-10-10', '2022-10-06', '5140006666', '2344 Rue Paquet', 'Quebec City', 'QC', 'H4D5N4', 'Canada', 'yan@concordia.ca', 'dca-6666', 7, 1, 'A');
+INSERT INTO `person` VALUES (13, 'rongxi', NULL, 'meng', '1989-06-06', '13', '2019-10-14', '2023-10-18', '5140004666', '1235 Rue Maria', 'Montreal', 'QC', 'D4D5G5', 'China', 'xi@concordia.ca', 'ch-00699', 6, 1, 'A');
+INSERT INTO `person` VALUES (14, 'jason', NULL, 'qian', '1991-06-04', '14', '2021-09-27', '2024-10-18', '5146669466', '1234 Rue Google', 'Montreal', 'QC', 'G4G5L6', 'China', 'qian@concordia.ca', 'ch-07666', 7, 1, 'A');
+INSERT INTO `person` VALUES (15, 'walter', NULL, 'white', '1970-01-27', '', '2017-10-03', '2020-10-07', '6479965444', '1000 Rue Texa', 'Laval', 'QC', 'L4L6Y7', 'US', 'walter@gmail.com', 'usd-0094', 4, 0, 'A');
+INSERT INTO `person` VALUES (16, 'marie', 'rose', 'hunt', '1999-02-02', '', '2018-10-16', '2021-09-27', '5147774444', '1234 Rue Hunter', 'Montreal', 'QC', 'D2D4G4', 'US', 'marie@gmail.com', 'adfa-999', 7, 0, 'A');
+INSERT INTO `person` VALUES (17, 'don', 'jr', 'jump', '1961-01-31', '15', '2020-10-07', '2023-10-04', '4150000000', '2222 Rue Pres', 'Laval', 'QC', 'D4D5T5', 'Canada', 'ttDrum@gmail.com', 'dfa-334', 3, 1, 'A');
+INSERT INTO `person` VALUES (18, 'james', NULL, 'bond', '1999-09-09', '66', '2019-05-16', '2022-10-22', '7778889999', '6666 Rue Bond', 'Toronto', 'ON', 'M6X5N1', 'Canada', 'jamsebond@outlook.com', 'cad-666', 3, 1, 'A');
+INSERT INTO `person` VALUES (19, 'jason', NULL, 'borne', '2000-09-10', '77', '2018-06-06', '2023-10-22', '1112223334', '7777 Rue bond', 'Toronto', 'ON', 'M8X7N1', 'Canada', 'jasonborne@outlook.com', 'cad-777', 4, 2, 'A');
+INSERT INTO `person` VALUES (20, 'apoline', 'jenny', 'kai', '1998-09-09', '16', '2018-09-09', '2023-10-22', '1112228844', '2343 King St', 'Halifax', 'NS', 'H3T5U8', 'Canada', 'apoline@gmail.com', 'cad-555', 7, 1, 'A');
+INSERT INTO `person` VALUES (21, 'josee', NULL, 'cook', '1999-10-11', '17', '2019-08-19', '2024-11-22', '123422324', '333 Queen St', 'Calgary', 'AB', 'A2A7Y8', 'Canada', 'josee@hotmail.com', 'cad-999', 7, 1, 'A');
+INSERT INTO `person` VALUES (66, 'uzi', NULL, 'jian', '1997-10-20', '66', '2020-08-23', '2022-08-22', '6479990987', '66 Ave God', 'Toronto', 'ON', 'M9X1N2', 'Canada', 'uzij@outllook.com', 'can-66', 2, 1, 'A');
+INSERT INTO `person` VALUES (77, 'clearlove', NULL, 'seven', '1993-07-20', '77', '2020-08-20', '2022-08-22', '5146667777', '77 Ave God', 'Montreal', 'QC', 'H8N1A4', 'Canada', 'clearlove7@outlook.com', 'can-77', 3, 1, 'A');
+INSERT INTO `person` VALUES (88, 'rookie', NULL, 'song', '1997-09-20', '88', '2020-09-20', '2024-08-20', '6470001111', '88 Ave God', 'Toronto', 'ON', 'M8X1A2', 'Canada', 'rookiesong@outlook.com', 'can-88', 4, 1, 'A');
+INSERT INTO `person` VALUES (99, 'jackson', NULL, 'wang', '1993-10-20', '99', '2018-08-20', '2022-08-22', '4167778889', '99 Rue pigeon', 'Toronto', 'ON', 'M3X1N2', 'Canada', 'jacksonw@outlook.com', 'can-99', 3, 1, 'A');
 COMMIT;
 
 -- ----------------------------
@@ -443,13 +458,17 @@ BEGIN;
 INSERT INTO `vaccine` VALUES ('AstraZeneca', 'suspend', NULL, NULL, '2020-09-25');
 INSERT INTO `vaccine` VALUES ('CanaVax', 'safe', 1, '2021-10-08', NULL);
 INSERT INTO `vaccine` VALUES ('Covax', 'safe', 2, '2020-10-15', NULL);
+INSERT INTO `vaccine` VALUES ('Diaozha', 'safe', 2, '2020-11-12', NULL);
 INSERT INTO `vaccine` VALUES ('Gam-COVID-Vac', 'suspend', 2, NULL, '2020-09-25');
 INSERT INTO `vaccine` VALUES ('Johnson&Johnson', 'suspend', 1, NULL, '2021-01-20');
 INSERT INTO `vaccine` VALUES ('Moderna', 'safe', 2, '2020-11-10', NULL);
+INSERT INTO `vaccine` VALUES ('Niubi', 'safe', 1, '2021-11-10', NULL);
 INSERT INTO `vaccine` VALUES ('NovaVac', 'suspend', 2, NULL, '2020-10-15');
 INSERT INTO `vaccine` VALUES ('Pfizer', 'safe', 2, '2020-10-23', NULL);
 INSERT INTO `vaccine` VALUES ('QCVax', 'suspend', 1, NULL, '2021-09-09');
 INSERT INTO `vaccine` VALUES ('SputnikV', 'suspend', 2, NULL, '2020-10-14');
+INSERT INTO `vaccine` VALUES ('SuperVenom', 'safe', 2, NULL, NULL);
+INSERT INTO `vaccine` VALUES ('Venom', 'suspend', 2, '2019-10-22', '2020-10-20');
 COMMIT;
 
 SET FOREIGN_KEY_CHECKS = 1;
