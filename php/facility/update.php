@@ -38,9 +38,9 @@ if (isset($_POST["name"]) && !empty($_POST["name"])) {
     $new_category = trim($_POST["category"]);
 
     // Prepare an update statement
-    $sql = "UPDATE facility SET address = ?, phone = ?, website=?, type=?, capacity=?,  manager=?, province=?, category=?, where name=?";
+    $sql = "UPDATE facility SET `address`= ?, phone = ?, website=?, `type`=?, capacity=?,  manager=?, province=?, category=? where `name`=?";
     $stmt = mysqli_prepare($link, $sql);
-    mysqli_stmt_bind_param($stmt, "sssssiiss", $new_name, $new_address, $new_phone, $new_website,$new_type,$new_capacity,$new_manager, $new_province,$new_category);
+    mysqli_stmt_bind_param($stmt, "ssssiisss", $new_address, $new_phone, $new_website,$new_type,$new_capacity,$new_manager, $new_province,$new_category,$new_name);
 
     if ($stmt) {
         // Attempt to execute the prepared statement
@@ -138,24 +138,24 @@ if (isset($_POST["name"]) && !empty($_POST["name"])) {
                     <form action="<?php echo htmlspecialchars(basename($_SERVER['REQUEST_URI'])); ?>" method="post">
                         <div class="form-group">
                             <label>Facility Name</label>
-                            <input type="test" name="name" class="form-control" value="<?php echo $name; ?>"readonly>
+                            <input type="text" name="name" class="form-control" value="<?php echo $name; ?>"readonly>
                             <span class="invalid-feedback"><?php echo $name; ?></span>
                         </div>
                         <div class="form-group">
                             <label>Address</label>
-                            <input type="test" name="address" class="form-control " value="<?php echo $address; ?>">
+                            <input type="text" name="address" class="form-control " value="<?php echo $address; ?>">
                             <span class="invalid-feedback"><?php echo $address; ?></span>
 
                         </div>
                         <div class="form-group">
                             <label>Phone Number</label>
-                            <input type="test" name="phone" class="form-control " value="<?php echo $phone; ?>">
+                            <input type="text" name="phone" class="form-control " value="<?php echo $phone; ?>">
                             <span class="invalid-feedback"><?php echo $phone; ?></span>
 
                         </div>
                         <div class="form-group">
                             <label>Website</label>
-                            <input type="test" name="website" class="form-control " value="<?php echo $website; ?>">
+                            <input type="text" name="website" class="form-control " value="<?php echo $website; ?>">
                             <span class="invalid-feedback"><?php echo $website; ?></span>
 
 
@@ -172,7 +172,7 @@ if (isset($_POST["name"]) && !empty($_POST["name"])) {
 
                         <div class="form-group">
                             <label>Daily Capacity</label>
-                            <input type="numnber" name="capacity" class="form-control " value="<?php echo $capacity; ?>">
+                            <input type="number" name="capacity" class="form-control " value="<?php echo $capacity; ?>">
                             <span class="invalid-feedback"><?php echo $capacity; ?></span>
                         </div>
 
