@@ -11,7 +11,7 @@
  Target Server Version : 80022
  File Encoding         : 65001
 
- Date: 15/11/2021 12:42:12
+ Date: 15/11/2021 20:10:18
 */
 
 SET NAMES utf8mb4;
@@ -118,16 +118,19 @@ CREATE TABLE `facility` (
 -- Records of facility
 -- ----------------------------
 BEGIN;
-INSERT INTO `facility` VALUES ('centre_hospitalier_de_lUniversite_de_montreal', '1051 Rue Sanguinet, Montréal, QC H2X 3E4', '5148908000', 'https://www.chumontreal.qc.ca/joindre-le-chum', 'hospital', 1000, 7, 'Quebec', 'by_appointment');
-INSERT INTO `facility` VALUES ('douglas_mental_health_university_institute', ' 6875 Bd LaSalle, Verdun, QC H4H 1R3', '5147616131', 'http://www.douglas.qc.ca/?locale=en', 'hospital', 900, 3, 'Quebec', 'by_appointment');
-INSERT INTO `facility` VALUES ('hospital_notre_dame', '1560 Sherbrooke St E, Montreal, Quebec H2L 4M1', '5144138777', 'https://ciusss-centresudmtl.gouv.qc.ca/etablissement/hopital-notre-dame', 'hospital', 400, 9, 'Quebec', 'by_appointment');
-INSERT INTO `facility` VALUES ('jewish_general_hospital', ' 3755 Chem. de la Côte-Sainte-Catherine, Montréal, QC H3T 1E2', '5143408222', 'https://www.jgh.ca', 'hospital', 800, 2, 'Quebec', 'by_appointment');
-INSERT INTO `facility` VALUES ('lakeshore_general_hospital', '160 Av Stillview Suite 1297, Pointe-Claire, QC H9R 2Y2', '5146302225', 'https://fondationlakeshore.ca', 'hospital', 1000, 1, 'Quebec', 'by_appointment');
-INSERT INTO `facility` VALUES ('montreal_childrens_hospital', '1001 Decarie Blvd, Montreal, Quebec H4A 3J1', '5144124400', 'https://www.thechildren.com', 'hospital', 450, 7, 'Quebec', 'by_appointment');
-INSERT INTO `facility` VALUES ('montreal_general_hospital', '1650 Cedar Ave, Montreal', '5149341934', 'https://muhc.ca/', 'hospital', 1000, NULL, 'quebec', 'by_appointment');
-INSERT INTO `facility` VALUES ('montreal_neurological_hospital', '3801 Rue University, Montréal, QC H3A 2B4', '5143986644', 'https://www.mcgill.ca/neuro/fr', 'hospital', 760, 8, 'Quebec', 'by_appointment');
-INSERT INTO `facility` VALUES ('royal_victoria_hospital', '1001 Decarie Blvd, Montreal, Quebec H4A 3J1', '5149341934', 'https://muhc.ca/glen', 'hospital', 650, 6, 'Quebec', 'by_appointment');
-INSERT INTO `facility` VALUES ('st_marys_hospital', '3830 Av. Lacombe, Montréal, QC H3T 1M5', '5142453511', 'https://www.smhc.qc.ca/en/', 'hospital', 500, 4, 'Quebec', 'by_appointment');
+INSERT INTO `facility` VALUES ('centre_hospitalier_de_lUniversite_de_montreal', '1051 Rue Sanguinet, Montréal, QC H2X 3E4', '5148908000', 'https://www.chumontreal.qc.ca/joindre-le-chum', 'hospital', 1000, 7, 'QC', 'by_appointment');
+INSERT INTO `facility` VALUES ('douglas_mental_health_university_institute', ' 6875 Bd LaSalle, Verdun, QC H4H 1R3', '5147616131', 'http://www.douglas.qc.ca/?locale=en', 'hospital', 900, 3, 'QC', 'by_appointment');
+INSERT INTO `facility` VALUES ('halifax_general', '100 king st. Halifax, NS H3G5T5', '9023914388', 'https://www.halifaxhospital.ca', 'hospital', 600, 7, 'NS', 'walk_in');
+INSERT INTO `facility` VALUES ('hospital_notre_dame', '1560 Sherbrooke St E, Montreal, Quebec H2L 4M1', '5144138777', 'https://ciusss-centresudmtl.gouv.qc.ca/etablissement/hopital-notre-dame', 'hospital', 400, 9, 'QC', 'by_appointment');
+INSERT INTO `facility` VALUES ('jewish_general_hospital', ' 3755 Chem. de la Côte-Sainte-Catherine, Montréal, QC H3T 1E2', '5143408222', 'https://www.jgh.ca', 'hospital', 800, 2, 'QC', 'by_appointment');
+INSERT INTO `facility` VALUES ('lakeshore_general_hospital', '160 Av Stillview Suite 1297, Pointe-Claire, QC H9R 2Y2', '5146302225', 'https://fondationlakeshore.ca', 'hospital', 1000, 1, 'QC', 'by_appointment');
+INSERT INTO `facility` VALUES ('montreal_childrens_hospital', '1001 Decarie Blvd, Montreal, Quebec H4A 3J1', '5144124400', 'https://www.thechildren.com', 'hospital', 450, 7, 'QC', 'by_appointment');
+INSERT INTO `facility` VALUES ('montreal_general_hospital', '1650 Cedar Ave, Montreal', '5149341934', 'https://muhc.ca/', 'hospital', 1000, NULL, 'QC', 'by_appointment');
+INSERT INTO `facility` VALUES ('montreal_neurological_hospital', '3801 Rue University, Montréal, QC H3A 2B4', '5143986644', 'https://www.mcgill.ca/neuro/fr', 'hospital', 760, 8, 'QC', 'by_appointment');
+INSERT INTO `facility` VALUES ('royal_victoria_hospital', '1001 Decarie Blvd, Montreal, Quebec H4A 3J1', '5149341934', 'https://muhc.ca/glen', 'hospital', 650, 6, 'QC', 'by_appointment');
+INSERT INTO `facility` VALUES ('st_marys_hospital', '3830 Av. Lacombe, Montréal, QC H3T 1M5', '5142453511', 'https://www.smhc.qc.ca/en/', 'hospital', 500, 4, 'QC', 'by_appointment');
+INSERT INTO `facility` VALUES ('toronto_general_hospital', '200 Elizabeth St, Toronto, ON M5G 2C4', '4163403131', 'https//www.uhn.ca', 'hospital', 1000, 3, 'ON', 'walk_in');
+INSERT INTO `facility` VALUES ('uhn', '201 Elizabeth St, Toronto, ON M5G 2C4', '6478009000', 'https//:www.uhn.ca', 'hospital', 1000, 2, 'ON', 'by_appointment');
 COMMIT;
 
 -- ----------------------------

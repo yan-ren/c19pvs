@@ -49,9 +49,9 @@
                                 echo "<td>" . $row['province'] . "</td>";
                                 echo "<td>" . $row['category'] . "</td>";
                                 echo "<td>";
-                                echo '<a href="read.php?age_group_id=' . $row['name'] . '" class="mr-3" title="View Record" data-toggle="tooltip"><span class="fa fa-eye"></span></a>';
-                                echo '<a href="update.php?age_group_id=' . $row['name'] . '" class="mr-3" title="Update Record" data-toggle="tooltip"><span class="fa fa-pencil"></span></a>';
-                                echo '<a href="delete.php?age_group_id=' . $row['name'] . '" title="Delete Record" data-toggle="tooltip"><span class="fa fa-trash"></span></a>';
+                                echo '<a href="read.php?name=' . $row['name'] . '&manager='. $row['manager'].'" class="mr-3" title="View Record" data-toggle="tooltip"><span class="fa fa-eye"></span></a>';
+                                echo '<a href="update.php?name=' . $row['name'] . '&manager='. $row['manager'].'"" class="mr-3" title="Update Record" data-toggle="tooltip"><span class="fa fa-pencil"></span></a>';
+                                echo '<a href="delete.php?name=' . $row['name'] . '&manager='. $row['manager'].'"" title="Delete Record" data-toggle="tooltip"><span class="fa fa-trash"></span></a>';
                                 echo "</td>";
                                 echo "</tr>";
                             }
