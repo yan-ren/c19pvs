@@ -156,9 +156,9 @@ mysqli_close($link);
       </iframe>
     </div>
     <hr>
-    <!-- -->
+
+    <!-- Booking Management iframe-->
     <h2>Booking Management</h2>
-    <!-- iframe ifFirstSpot-->
     <div class="">
       <iframe src="/php/booking/booking.php" name="ifBookingManagement" id="ifBookingManagementId" width="100%" onload="iframeLoaded(this.getAttribute('id'))" background-color:#b0c4de; frameborder="0" scrolling="auto">
       </iframe>
