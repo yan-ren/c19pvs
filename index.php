@@ -10,6 +10,7 @@
         // clear the current height, and set height based on content
         iFrameID.height = "";
         iFrameID.height = iFrameID.contentWindow.document.body.scrollHeight + "px";
+        iFrameID.style.display = "block";
       }
     }
   </script>
@@ -17,25 +18,25 @@
 
 <body>
   <!-- Fixed navbar -->
-  <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+  <nav class="navbar navbar-expand-lg fixed-top">
     <div class="container">
-      <a class="navbar-brand" href="index.php">C19PVS</a>
+      <a id="logo" class="navbar-brand" href="index.php">C19PVS</a>
       <div class="collapse navbar-collapse " id="navbarText">
         <ul class="navbar-nav ml-auto">
           <li class="nav-item">
             <a class="nav-link" href="index.php">Home</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="booking.php" target="ifbox">Booking</a>
+            <a class="nav-link" href="booking.php">Booking</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="vaccine.php" target="ifbox">Vaccine</a>
+            <a class="nav-link" href="vaccine.php">Vaccine</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="report.php" target="ifbox">Report</a>
+            <a class="nav-link" href="report.php">Report</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="search.php" target="ifbox">Search</a>
+            <a class="nav-link" href="search.php">Search</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#">|</a>
@@ -59,15 +60,25 @@
         </ul>
       </div>
     </div>
-  </nav>
+  </nav><!-- Fixed navbar end-->
 
+  <!-- iframe -->
   <div class="container-fluid">
-    <!-- iframe -->
     <div class="">
-      <iframe name="ifbox" id="ifboxId" width="100%" onload="iframeLoaded()" style="background-color:white;" frameborder="0" scrolling="auto">
+      <iframe name="ifbox" id="ifboxId" width="100%" onload="iframeLoaded()" style="display:none;" frameborder="0" scrolling="auto">
       </iframe>
     </div>
-  </div><!-- /.container -->
+  </div><!-- iframe end -->
+
+  <!-- ======= Hero Section ======= -->
+  <section id="hero" class="d-flex align-items-center">
+    <div class="container">
+      <h1>Welcome to C19PVS</h1>
+      <h2>COVID-19 Public Health Care Population Vaccination System</h2>
+      <a href="index.php" class="btn-get-started scrollto">Get Started</a>
+    </div>
+  </section><!-- End Hero -->
+
   <!-- <?php include "./html/footer.html" ?> -->
 </body>
 
