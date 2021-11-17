@@ -1,7 +1,7 @@
 <?php
 // Include config file
 require_once "../config.php";
-require_once "../util.php";
+
 $link = connect();
 
 // Define variables and initialize with empty values
@@ -165,6 +165,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <input type="text" name="lot" class="form-control" value="<?php echo $lot; ?>">
                         </div>
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> d2de733 (small fix)
                         <input type="submit" class="btn btn-primary" value="Submit">
                         <a href="assignment.php" class="btn btn-secondary ml-2">Cancel</a>
                     </form>
