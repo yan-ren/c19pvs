@@ -47,7 +47,7 @@
                 Create/Delete/Edit/Display a Table <i class="fa fa-chevron-down"></i>
               </a>
               <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <a class="dropdown-item" href="#">Person</a>
+                <a class="dropdown-item" href="/php/person/person.php" target="ifbox">Person</a>
                 <a class="dropdown-item" href="/php/public_health_worker/public_health_worker.php" target="ifbox">Public Health Worker</a>
                 <a class="dropdown-item" href="#">Public Health Facility</a>
                 <a class="dropdown-item" href="/php/vaccine_type/vaccine_type.php" target="ifbox">Vaccination Type</a>
