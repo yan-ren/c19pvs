@@ -13,30 +13,35 @@ $first_name_err = $last_name_err = $date_of_birth_err = $phone_err = $address_er
 $postal_code_err = $citizenship_err = $email_err = $passport_number_err = $status_err =
 $date_of_issue_of_medicare_card_err = $date_of_expiry_of_the_medicare_card_err = $age_group_id_err = $registered_err = "";
 
+//get province values
+$sql = "SELECT * FROM province;";
+$result = mysqli_query($link, $sql);
+$all_province = mysqli_fetch_all($result, MYSQLI_ASSOC);
+
 // Processing form data when form is submitted
 if (isset($_POST["person_id"]) && !empty($_POST["person_id"])) {
     // Get hidden input value
     $person_id = (int)(trim($_POST["person_id"]));
 
     // Get input values
-    $input_first_name = $_POST["first_name"];
-    $input_middle_name = $_POST["middle_name"];
-    $input_last_name = $_POST["last_name"];
-    $input_date_of_birth = $_POST["date_of_birth"];
-    $input_medicare_card_number = $_POST["medicare_card_number"];
-    $input_date_of_issue_of_medicare_card = $_POST["date_of_issue_of_medicare_card"];
-    $input_date_of_expiry_of_the_medicare_card = $_POST["date_of_expiry_of_the_medicare_card"];
-    $input_phone = $_POST["phone"];
-    $input_address = $_POST["address"];
-    $input_city = $_POST["city"];
-    $input_province = $_POST["province"];
-    $input_postal_code = $_POST["postal_code"];
-    $input_citizenship = $_POST["citizenship"];
-    $input_email = $_POST["email"];
-    $input_passport_number = $_POST["passport_number"];
+    $input_first_name = trim($_POST["first_name"]);
+    $input_middle_name = trim($_POST["middle_name"]);
+    $input_last_name = trim($_POST["last_name"]);
+    $input_date_of_birth = trim($_POST["date_of_birth"]);
+    $input_medicare_card_number = trim($_POST["medicare_card_number"]);
+    $input_date_of_issue_of_medicare_card = trim($_POST["date_of_issue_of_medicare_card"]);
+    $input_date_of_expiry_of_the_medicare_card = trim($_POST["date_of_expiry_of_the_medicare_card"]);
+    $input_phone = trim($_POST["phone"]);
+    $input_address = trim($_POST["address"]);
+    $input_city = trim($_POST["city"]);
+    $input_province = trim($_POST["province"]);
+    $input_postal_code = trim($_POST["postal_code"]);
+    $input_citizenship = trim($_POST["citizenship"]);
+    $input_email = trim($_POST["email"]);
+    $input_passport_number = trim($_POST["passport_number"]);
     $input_age_group_id = (int)(trim($_POST["age_group_id"]));
     $input_registered = (int)(trim($_POST["registered"]));
-    $input_status = $_POST["status"];
+    $input_status = trim($_POST["status"]);
     $input_status = 'A';
 
 
@@ -154,6 +159,10 @@ if (isset($_POST["person_id"]) && !empty($_POST["person_id"])) {
                 <p>Please edit the input values and submit to update the person record.</p>
                 <form action="<?php echo htmlspecialchars(basename($_SERVER['REQUEST_URI'])); ?>" method="post">
                     <div class="form-group">
+                        <label>Person ID</label>
+                        <input type="read" name="person_id" class="form-control" value="<?php echo $person_id; ?>"readonly>
+                    </div>
+                    <div class="form-group">
                         <label>First Name</label>
                         <input type="string" name="first_name"
                                class="form-control"
@@ -215,9 +224,18 @@ if (isset($_POST["person_id"]) && !empty($_POST["person_id"])) {
                     </div>
                     <div class="form-group">
                         <label>Province</label>
-                        <input type="string" name="province"
-                               class="form-control" value="<?php echo $province; ?>">
-                        <span class="invalid-feedback"><?php echo $province_err; ?></span>
+                        <select class="custom-select" id="inputGroupSelect01" name="province">
+                            <?php
+                            foreach ($all_province as $provinces) {
+                                if ($provinces['name'] == $province) {
+                                    echo '<option selected values=\"' . $provinces['name'] . '\">' . $provinces['name'] . '</option>';
+                                } else {
+                                    echo '<option values=\"' . $provinces['name'] . '\">' . $provinces['name'] . '</option>';
+                                }
+                            }
+                            ?>
+                        </select>
+                        <spance class="invalid-feedback"><?php echo $province; ?></spance>
                     </div>
                     <div class="form-group">
                         <label>Postal Code</label>

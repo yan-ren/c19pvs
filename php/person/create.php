@@ -15,7 +15,7 @@ $postal_code_err = $citizenship_err = $email_err = $passport_number_err = $statu
 $date_of_issue_of_medicare_card_err = $date_of_expiry_of_the_medicare_card_err = $age_group_id_err = $registered_err = $status_err = "";
 
 //get province values
-$sql = "SELECT name FROM province;";
+$sql = "SELECT * FROM province;";
 $result = mysqli_query($link, $sql);
 $all_province = mysqli_fetch_all($result, MYSQLI_ASSOC);
 
@@ -250,8 +250,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <label>Province</label>
                         <select class="custom-select" id="inputGroupSelect01" name="province">
                             <?php
-                            foreach ($all_province as $prov) {
-                                echo '<option values=\"' . $prov[$province] . '\">' . $prov[$province] . '</option>';
+                            foreach ($all_province as $province) {
+                                echo '<option values=\"' . $province['name'] . '\">' . $province['name'] . '</option>';
                             }
                             ?>
                         </select>
