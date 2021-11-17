@@ -7,9 +7,9 @@
 
 <body>
   <!-- Fixed navbar -->
-  <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+  <nav class="navbar navbar-expand-lg fixed-top">
     <div class="container">
-      <a class="navbar-brand" href="index.php">C19PVS</a>
+      <a id="logo" class="navbar-brand" href="index.php">C19PVS</a>
       <div class="collapse navbar-collapse " id="navbarText">
         <ul class="navbar-nav ml-auto">
           <li class="nav-item">
