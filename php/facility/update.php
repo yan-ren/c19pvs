@@ -36,6 +36,13 @@ if (isset($_POST["name"]) && !empty($_POST["name"])) {
     $new_manager = (int)trim($_POST["manager"]);
     $new_province = trim($_POST["province"]);
     $new_category = trim($_POST["category"]);
+    if ($new_manager == 0){
+        $new_manager = null;
+    }
+//    echo'<pre>';
+//    var_dump($new_manager);
+//    echo"</pre>";
+//    exit;
 
     // Prepare an update statement
     $sql = "UPDATE facility SET `address`= ?, phone = ?, website=?, `type`=?, capacity=?,  manager=?, province=?, category=? where `name`=?";
@@ -87,7 +94,7 @@ if (isset($_POST["name"]) && !empty($_POST["name"])) {
                     $type = $row["type"];
                     $capacity = $row["capacity"];
                     $manager = $row["manager"];
-                    $province = $row["province"];
+                    $province_name = $row["province"];
                     $category = $row["category"];
 
                 } else {
@@ -186,8 +193,17 @@ if (isset($_POST["name"]) && !empty($_POST["name"])) {
                             <select class="custom-select" id="inputGroupSelect01" name="province">
                                 <?php
                                 foreach ($all_province as $province) {
-                                    echo '<option values=\"' . $province['name'] . '\">' . $province['name'] . '</option>';
+                                    if ($province['name']==$province_name){
+                                        echo '<option selected values=\"' . $province['name'] . '\">' . $province['name'] . '</option>';
+                                    }
+                                    else{
+                                        echo '<option values=\"' . $province['name'] . '\">' . $province['name'] . '</option>';
+                                    }
+
                                 }
+
+
+
                                 ?>
                             </select>
                             <span class="invalid-feedback"><?php echo $province; ?></span>
