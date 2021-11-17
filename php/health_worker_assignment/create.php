@@ -1,12 +1,12 @@
 <?php
 // Include config file
 require_once "../config.php";
-require_once "../util.php";
+
 $link = connect();
 
 // Define variables and initialize with empty values
 $person_id = $facility_name = $start_date = $end_date = $role = $vaccine_name = $dose = $lot = "";
-$start_date = $end_date_error = $role_error = $lot_error = "";
+$start_date_error = $end_date_error = $role_error = $lot_error = "";
 
 //get all facilities
 $sql = "SELECT * FROM facility";
@@ -41,32 +41,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $lot = trim($_POST["lot"]);
 
     // Validate person_id employee_id
-  
-    if (empty($employee_id) && $employee_id !== '0') {
-        $employee_id_error = "Please enter a valid employee id";
-    }
-   
-    if (empty($hourly_rate) && $hourly_rate !== '0') {
-        $hourly_rate_error = "Please enter a valid hourly rate";
-    }
+
+    // if (empty($employee_id) && $employee_id !== '0') {
+    //     $employee_id_error = "Please enter a valid employee id";
+    // }
+
+    // if (empty($hourly_rate) && $hourly_rate !== '0') {
+    //     $hourly_rate_error = "Please enter a valid hourly rate";
+    // }
 
     // Check input errors before inserting in database
     if (empty($person_id_error) && empty($employee_id_error) && empty($facility_name_error) && empty($hourly_rate_error)) {
         // Prepare an insert statement
-        $sql = "INSERT INTO healthcare_worker (person_id, employee_id, facility_name, hourly_rate, status) VALUES (?, ?, ?, ?, 'A')";
+        $sql = "INSERT INTO healthcare_worker_assignment (person_id, facility_name, start_date, end_date, role, vaccine_name, dose_given, lot) VALUES (?, ?, ?, ?,?,?,?,?)";
 
         if ($stmt = mysqli_prepare($link, $sql)) {
             // Bind variables to the prepared statement as parameters
-            mysqli_stmt_bind_param($stmt, "iisi", $param_person_id, $param_employee_id, $facility_name, $param_hourly_rate);
+            mysqli_stmt_bind_param($stmt, "isssssss", $person_id, $facility_name, $start_date,$end_date, $role, $vaccine_name,$dose,$lot);
 
-            $param_person_id = (int)($person_id);
-            $param_employee_id = (int)($employee_id);
-            $param_hourly_rate = (int)($hourly_rate);
-
+  
             // Attempt to execute the prepared statement
             if (mysqli_stmt_execute($stmt)) {
                 // Records created successfully. Redirect to landing page
-                header("location: public_health_worker.php");
+                header("location: healthcare_worker_assignment.php");
                 exit();
             } else {
                 $error = mysqli_stmt_error($stmt);
@@ -168,7 +165,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <input type="text" name="lot" class="form-control" value="<?php echo $lot; ?>">
                         </div>
 
-                        
+
                         <input type="submit" class="btn btn-primary" value="Submit">
                         <a href="assignment.php" class="btn btn-secondary ml-2">Cancel</a>
                     </form>
