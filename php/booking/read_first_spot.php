@@ -60,7 +60,6 @@ foreach ($workers as $worker) {
     }
 }
 
-// echo print_r($date_workers);
 foreach ($date_workers as $date => $workers) {
     $link = connect();
     // query operation hour on given date

@@ -158,8 +158,15 @@ mysqli_close($link);
     <hr>
 
     <!-- Booking Management iframe-->
-    <h2>Booking Management</h2>
-    <div class="">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm">
+          <h2>Booking Management</h2>
+        </div>
+        <div class="col-sm">
+          <a href="/php/booking/check_avaliability.php" class="btn btn-success pull-right"><i class="fa fa-plus"></i> Create Booking</a>
+        </div>
+      </div>
       <iframe src="/php/booking/booking.php" name="ifBookingManagement" id="ifBookingManagementId" width="100%" onload="iframeLoaded(this.getAttribute('id'))" background-color:#b0c4de; frameborder="0" scrolling="auto">
       </iframe>
     </div>

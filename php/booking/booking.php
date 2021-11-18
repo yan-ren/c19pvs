@@ -8,15 +8,6 @@ if (isset($_GET["booking_id"]) && !empty(trim($_GET["booking_id"]))) {
     $link = connect();
     // Attempt select query execution
     $sql = "SELECT booking_id, first_name, last_name, facility_name, date, time, booking.status FROM booking INNER JOIN person ON booking.person_id = person.person_id WHERE booking_id=?";
-    // if ($result = mysqli_query($link, $sql)) {
-    //     while ($row = mysqli_fetch_array($result)) {
-    //         $result_rows[] = $row;
-    //     }
-    //     // Free result set
-    //     mysqli_free_result($result);
-    // } else {
-    //     echo "SQL query error: " . $link->error;
-    // }
     if ($stmt = mysqli_prepare($link, $sql)) {
         // Bind variables to the prepared statement as parameters
         mysqli_stmt_bind_param($stmt, "i", $booking_id);
@@ -109,7 +100,6 @@ if (isset($_GET["booking_id"]) && !empty(trim($_GET["booking_id"]))) {
                                 <input id="searchBookingId" class="form-control" name="booking_id" type="number" onkeypress="return searchKeyPress(event);" placeholder="Search Booking ID">
                             </div>
                         </form>
-                        <a href="create.php" class="btn btn-success pull-right"><i class="fa fa-plus"></i> Create Booking</a>
                     </div>
                     <table class="table table-bordered table-striped">
                         <thead>
