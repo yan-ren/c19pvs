@@ -53,11 +53,11 @@ if (isset($_POST["booking_id"]) && !empty($_POST["booking_id"])) {
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-12">
-                    <h2 class="mt-5 mb-3">Delete Record</h2>
+                    <h2 class="mt-5 mb-3">Cancel Booking</h2>
                     <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
                         <div class="alert alert-danger">
                             <input type="hidden" name="booking_id" value="<?php echo trim($_GET["booking_id"]); ?>" />
-                            <p>Are you sure you want to delete this booking record? Booking ID <?php echo trim($_GET["booking_id"]); ?></p>
+                            <p>Are you sure you want to cancel this booking? Booking ID <?php echo trim($_GET["booking_id"]); ?></p>
                             <p>
                                 <input type="submit" value="Yes" class="btn btn-danger">
                                 <a href="booking.php" class="btn btn-secondary">No</a>
