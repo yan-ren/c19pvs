@@ -6,12 +6,7 @@ $link = connect();
 
 // Define variables and initialize with empty values
 $covid_id = $status = $variant = "";
-$covid_id_error = $status_error = $variant_error = "";
-
-//get status values
-$sql = "SELECT DISTINCT `status` FROM covid;";
-$result = mysqli_query($link, $sql);
-$all_covid = mysqli_fetch_all($result, MYSQLI_ASSOC);
+$covid_id_error = $variant_error = "";
 
 // Processing form data when form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -20,19 +15,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $variant = trim($_POST["variant"]);
   $status = trim($_POST["status"]);
 
-
-  // Validate vaccine name
+  // Validate
   if (empty($covid_id) && $covid_id === 0) {
     $covid_id_error = "Please enter a valid Covid ID";
   }
-
   if (empty($variant)) {
-    $variant = 'UNKNOWN';
+    $variant_error = "Please enter a variant name";
   }
 
-
   // Check input errors before inserting in database
-  if (empty($covid_id_error)) {
+  if (empty($covid_id_error) && empty($variant_error)) {
     // Prepare an insert statement
     $sql = "INSERT INTO covid (covid_id, variant, status) VALUES (?, ?, ?)";
 
@@ -95,16 +87,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class="form-group">
               <label>Vaccine Name</label>
               <input type="text" name="variant" class="form-control <?php echo (!empty($variant_error)) ? 'is-invalid' : '' ?>" value="<?php echo $variant; ?>">
-              <span class="invalid-feedback"><?php echo $variant; ?></span>
+              <span class="invalid-feedback"><?php echo $variant_error; ?></span>
             </div>
             <div class="form-group">
               <label>Status</label>
               <select class="custom-select" id="inputGroupSelect01" name="status">
-                <?php
-                foreach ($all_covid as $cov) {
-                  echo '<option values=\"' . $cov['status'] . '\">' . $cov['status'] . '</option>';
-                }
-                ?>
+                <option values="A">A</option>
+                <option values="D">D</option>
               </select>
             </div>
             <input type="submit" class="btn btn-primary" value="Submit">
