@@ -7,7 +7,8 @@ $link = connect();
 
 
 $result_rows = array();
-$totalDoseGiven = 0;
+
+$dose = 0;
 
 
 $sql = "SELECT first_name,  middle_name, last_name, phone, SUM(dose_given) AS dose
@@ -21,7 +22,7 @@ ORDER BY dose ASC
 
 $stmt = mysqli_prepare($link, $sql);
 if ($stmt) {
-    mysqli_stmt_bind_param($stmt, "ssssi", $first_name, $middle_name, $last_name, $phone, $totalDoseGiven);
+    mysqli_stmt_bind_param($stmt, "ssssi", $first_name, $middle_name, $last_name, $phone, $dose);
     if (mysqli_stmt_execute($stmt)) {
         $result = mysqli_stmt_get_result($stmt);
         if (mysqli_num_rows($result) > 0) {
@@ -74,7 +75,7 @@ mysqli_close($link);
                         echo "<td>" . $item['middle_name'] . "</td>";
                         echo "<td>" . $item['last_name'] . "</td>";
                         echo "<td>" . $item['phone'] . "</td>";
-                        echo "<td>" . $item['totalDoseGiven'] . "</td>";
+                        echo "<td>" . $item['dose'] . "</td>";
                         echo "</tr>";
                     }
                     ?>
@@ -84,6 +85,7 @@ mysqli_close($link);
         </div>
     </div>
 </div>
+
 </body>
 
 </html>
