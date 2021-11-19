@@ -7,17 +7,21 @@ $link = connect();
 
 
 $result_rows = array();
+$totalDoseGiven = 0;
 
-$sql = "SELECT person.first_name, person.middle_name, person.last_name, person.phone, COUNT(HW.dose_given) as TotalDoseGiven
-FROM healthcare_worker AS HW
-INNER JOIN person ON healthcare_worker.person_id = person.person_id
-WHERE role='nurse' AND TotalDoseGiven>=20
-ORDER BY TotalDoseGiven ASC 
+
+$sql = "SELECT first_name,  middle_name, last_name, phone, SUM(dose_given) AS dose
+FROM healthcare_worker_assignment
+INNER JOIN person on person.person_id = healthcare_worker_assignment.person_id
+WHERE role='nurse'
+GROUP BY healthcare_worker_assignment.person_id
+HAVING SUM(dose_given) >= 20;
+ORDER BY dose ASC 
 ";
 
 $stmt = mysqli_prepare($link, $sql);
 if ($stmt) {
-    mysqli_stmt_bind_param($stmt, "ssssi", $first_name, $middle_name, $last_name, $phone, $TotalDoseGiven);
+    mysqli_stmt_bind_param($stmt, "ssssi", $first_name, $middle_name, $last_name, $phone, $totalDoseGiven);
     if (mysqli_stmt_execute($stmt)) {
         $result = mysqli_stmt_get_result($stmt);
         if (mysqli_num_rows($result) > 0) {
@@ -70,7 +74,7 @@ mysqli_close($link);
                         echo "<td>" . $item['middle_name'] . "</td>";
                         echo "<td>" . $item['last_name'] . "</td>";
                         echo "<td>" . $item['phone'] . "</td>";
-                        echo "<td>" . $item['TotalDoseGiven'] . "</td>";
+                        echo "<td>" . $item['totalDoseGiven'] . "</td>";
                         echo "</tr>";
                     }
                     ?>
