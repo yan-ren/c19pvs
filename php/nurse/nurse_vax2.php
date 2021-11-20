@@ -17,10 +17,8 @@
                 // Include config file
                 require_once "../config.php";
 
-
                 $link = connect();
                 // Attempt select query execution
-                $dose = 0;
                 $sql = "SELECT first_name,  middle_name, last_name, phone, SUM(dose_given) AS dose
 FROM healthcare_worker_assignment
 INNER JOIN person on person.person_id = healthcare_worker_assignment.person_id
@@ -28,6 +26,14 @@ WHERE role='nurse'
 GROUP BY healthcare_worker_assignment.person_id
 HAVING SUM(dose_given) >= 20;
 ORDER BY dose ASC  ";
+
+                $result = mysqli_query($link, $sql);
+
+                echo '<pre>';
+                var_dump($result);
+                echo'</pre>';
+                exit;
+
                 if ($result = mysqli_query($link, $sql)) {
                     if (mysqli_num_rows($result) > 0) {
                         echo '<table class="table table-bordered table-striped">';
