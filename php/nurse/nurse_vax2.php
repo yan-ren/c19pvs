@@ -12,6 +12,11 @@
             <div class="col-md-12">
                 <div class="mt-5 mb-3 clearfix">
                     <h2 class="pull-left">Nurses Record</h2>
+                    <br>
+                    <br>
+                    <br>
+                    <p><i>Nurses that have performed at least 20 vaccinations in total</i></p>
+
                 </div>
                 <?php
                 // Include config file
