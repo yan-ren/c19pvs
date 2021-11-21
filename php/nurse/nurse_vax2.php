@@ -24,15 +24,10 @@ FROM healthcare_worker_assignment
 INNER JOIN person on person.person_id = healthcare_worker_assignment.person_id
 WHERE role='nurse'
 GROUP BY healthcare_worker_assignment.person_id
-HAVING SUM(dose_given) >= 20;
-ORDER BY dose ASC  ";
+HAVING SUM(dose_given) >= 20
+ORDER BY dose DESC  ";
 
-                $result = mysqli_query($link, $sql);
 
-                echo '<pre>';
-                var_dump($result);
-                echo'</pre>';
-                exit;
 
                 if ($result = mysqli_query($link, $sql)) {
                     if (mysqli_num_rows($result) > 0) {
@@ -55,10 +50,6 @@ ORDER BY dose ASC  ";
                             echo "<td>" . $row['last_name'] . "</td>";
                             echo "<td>" . $row['phone'] . "</td>";
                             echo "<td>" . $row['dose'] . "</td>";
-
-                            echo "<td>";
-
-                            echo "</td>";
                             echo "</tr>";
                         }
                         echo "</tbody>";
