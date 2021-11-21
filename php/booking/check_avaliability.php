@@ -10,7 +10,6 @@ $all_facility = mysqli_fetch_all($result, MYSQLI_ASSOC);
 
 // Close connection
 mysqli_close($link);
-
 ?>
 
 <!DOCTYPE html>

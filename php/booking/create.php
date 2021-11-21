@@ -1,9 +1,6 @@
 <?php
-error_reporting(-1);
-ini_set('display_errors', 'On');
 // Include config file
 require_once "../config.php";
-require_once "../util.php";
 
 // Define variables and initialize with empty values
 $first_name = $last_name = $facility_name = $date = "";
