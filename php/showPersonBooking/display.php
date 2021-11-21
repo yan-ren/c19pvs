@@ -13,18 +13,17 @@
                 <div class="mt-5 mb-3 clearfix">
                     <h2 class="pull-left">Personal Booking Information</h2>
                 </div>
-                <p> Please enter a valid name to search booking information.</p>
+                <p> Please enter a valid Person ID to search booking information.</p>
                 <?php
                 // Include config file
                 require_once "../config.php";
                 $link = connect();
 
-                $firstName = $lastName = "";
-                $firstName_error = $lastName_error = "";
+                $person_id = "";
+                $person_id_error = "";
 
                 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-                    $firstName = trim($_POST["firstName"]);
-                    $lastName = trim($_POST["lastName"]);
+                    $person_id = trim($_POST["personId"]);
 
 //                    echo '<pre>';
 //                    echo var_dump($firstName);
@@ -32,15 +31,12 @@
 //                    echo '</pre>';
 //                    exit;
                     // Validate
-                    if (!empty($firstName_error)) {
-                        $firstName_error = "Please enter a valid First Name";
+                    if (!empty($person_id_error)) {
+                        $person_id_error = "Please enter a valid First Name";
                     }
-                    if (!empty($lastName_error)) {
-                        $lastName_error = "Please enter a valid Last Name";
-                    }
-
-                    if (empty($lastName_error) && empty($firstName_error)) {
-                        $sql = "SELECT first_name, last_name FROM person where first_name = ? and last_name = ?";
+                    
+                    if (empty($person_id_error)) {
+                        $sql = "";
 
                         $stmt = mysqli_prepare($link, $sql);
                         if ($stmt) {
@@ -67,32 +63,23 @@
                 }
                 ?>
                 <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-                    <div class="input-group">
-                        <span class="input-group-text">First and last name</span>
-                        <input type="text" name="firstName" aria-label="First name"
-                               class="form-control <?php echo (!empty($firstName_error)) ? 'is-invalid' : '' ?>"
-                               value="<?php echo $firstName; ?>">
-                        <span class="invalid-feedback"><?php echo $firstName_error; ?></span>
 
-                        <input type="text" name="lastName" aria-label="Last name"
-                               class="form-control <?php echo (!empty($lastName_error)) ? 'is-invalid' : '' ?>"
-                               value="<?php echo $lastName; ?>">
-                        <span class="invalid-feedback"><?php echo $lastName_error; ?></span>
+                    <div class="input-group mb-3">
+                        <input type="text" name="personId"
+                               class="form-control <?php echo (!empty($person_id_error)) ? 'is-invalid' : '' ?>"
+                               placeholder="Please enter a Person ID" aria-describedby="button-addon2"> <?php echo $person_id ?>
+                        <span class="invalid-feedback"><?php echo $person_id_error; ?></span>
+
+                        <button class="btn btn-sm btn-outline-secondary" type="submit">Search</button>
 
                     </div>
-
-                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                        <button class="btn btn-primary me-md-2" type="submit">Button</button>
-                    </div>
-
-
-
-
-
-                </form>
             </div>
+
+
         </div>
+        </form>
     </div>
+</div>
 </div>
 </body>
 
