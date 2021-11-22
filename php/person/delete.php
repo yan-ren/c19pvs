@@ -16,8 +16,6 @@ if (isset($_POST["person_id"]) && !empty($_POST["person_id"])) {
         mysqli_stmt_bind_param($stmt, "i",   $person_id);
 
         $person_id = ($_POST["person_id"]);
-
-
         // Attempt to execute the prepared statement
         if (mysqli_stmt_execute($stmt)) {
             // Records deleted successfully. Redirect to landing page

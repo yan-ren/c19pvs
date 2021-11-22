@@ -10,7 +10,6 @@ $facility_name = trim($_GET['facility_name']);
 $given_date = trim($_GET['date']);
 $result_rows = array();
 
-// Query all bookings for facility given time period
 $sql = "SELECT healthcare_worker.employee_id, person.first_name, person.last_name, person.email, hourly_rate
 FROM healthcare_worker
 INNER JOIN person ON healthcare_worker.person_id = person.person_id
