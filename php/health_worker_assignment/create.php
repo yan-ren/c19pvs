@@ -6,7 +6,7 @@ $link = connect();
 
 // Define variables and initialize with empty values
 $person_id = $facility_name = $start_date = $end_date = $role = $vaccine_name = $dose = $lot = "";
-$start_date_error = $end_date_error = $role_error = $lot_error = "";
+$start_date_error = $end_date_error = $role_error = $lot_error = $availability_error = "";
 
 //get all facilities
 $sql = "SELECT * FROM facility";
@@ -40,46 +40,105 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $dose = trim($_POST["dose_given"]);
     $lot = trim($_POST["lot"]);
 
-    // Validate person_id employee_id
+//    echo "<pre>";
+//    echo $person_id;
+//    echo"</pre>";
+//    exit;
 
-    // if (empty($employee_id) && $employee_id !== '0') {
-    //     $employee_id_error = "Please enter a valid employee id";
-    // }
+    //check if person in the public health worker database
+    $sql_check = "SELECT person_id FROM healthcare_worker WHERE person_id = ? ";
 
-    // if (empty($hourly_rate) && $hourly_rate !== '0') {
-    //     $hourly_rate_error = "Please enter a valid hourly rate";
-    // }
+    if ($stmt = mysqli_prepare($link, $sql_check)) {
+        // Bind variables to the prepared statement as parameters
+        mysqli_stmt_bind_param($stmt, "i", $person_id);
 
-    // Check input errors before inserting in database
-    if (empty($person_id_error) && empty($employee_id_error) && empty($facility_name_error) && empty($hourly_rate_error)) {
-        // Prepare an insert statement
-        $sql = "INSERT INTO healthcare_worker_assignment (person_id, facility_name, start_date, end_date, role, vaccine_name, dose_given, lot) VALUES (?, ?, ?, ?,?,?,?,?)";
+        // Attempt to execute the prepared statement
+        if (mysqli_stmt_execute($stmt)) {
+            $result = mysqli_stmt_get_result($stmt);
+            if (mysqli_num_rows($result) != 1) {
+                $availability_error = "Person doesn't exist in Public Heath Worker Group";
+                echo '<script> if(!alert("' . $availability_error . '")){
+                            document.location = \'create.php\';
+                        }
+                        </script>';
+            }
 
-        if ($stmt = mysqli_prepare($link, $sql)) {
-            // Bind variables to the prepared statement as parameters
-            mysqli_stmt_bind_param($stmt, "isssssss", $person_id, $facility_name, $start_date,$end_date, $role, $vaccine_name,$dose,$lot);
+        } else {
+            $error = mysqli_stmt_error($stmt);
+            echo '<script> alert("' . $error . '")</script>';
+        }
+    } else {
+        echo "<script>alert('Oops! Something went wrong. Please try again later. Error:" . $link->error . " ');location='create.php';</script>";
+    }
+    mysqli_stmt_close($stmt);
+    mysqli_close($link);
 
-  
-            // Attempt to execute the prepared statement
-            if (mysqli_stmt_execute($stmt)) {
-                // Records created successfully. Redirect to landing page
-                header("location: healthcare_worker_assignment.php");
-                exit();
-            } else {
-                $error = mysqli_stmt_error($stmt);
-                echo '<script> alert("' . $error . '")</script>';
+    // Check for facility availability
+    // Find how many nurses working on given date
+    $number_of_nurses = 0;
+    $link = connect();
+    $sql_check2 = "SELECT count(*) AS nurses
+    FROM healthcare_worker_assignment
+    WHERE start_date <= ? AND end_date >= ? AND role='nurse' AND facility_name=?";
+
+    if ($stmt = mysqli_prepare($link, $sql_check2)) {
+        // Bind variables to the prepared statement as parameters
+        mysqli_stmt_bind_param($stmt, "sss", $start_date, $end_date, $facility_name);
+
+        // Attempt to execute the prepared statement
+        if (mysqli_stmt_execute($stmt)) {
+            $result = mysqli_stmt_get_result($stmt);
+            if (mysqli_num_rows($result) == 1) {
+                $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
+                $number_of_nurses = (int)($row["nurses"]);
             }
         } else {
-            echo "<script>alert('Oops! Something went wrong. Please try again later. Error:" . $link->error . " ');location='create.php';</script>";
+            $error = mysqli_stmt_error($stmt);
+            echo '<script> alert("' . $error . '")</script>';
         }
+    } else {
+        echo "<script>alert('Oops! Something went wrong. Please try again later. Error:" . $link->error . " ');location='create.php';</script>";
+    }
+    mysqli_stmt_close($stmt);
+    mysqli_close($link);
 
-        // Close statement
-        mysqli_stmt_close($stmt);
+    if ($number_of_nurses == 0) {
+        $availability_error = "No availability on given date!";
+//            echo '<script> if(!alert("' . $availability_error . '")){
+//                document.location = \'check_avaliability.php\';
+//            }
+//            </script>';
     }
 
-    // Close connection
-    mysqli_close($link);
+
+    // Prepare an insert statement
+    $sql = "INSERT INTO healthcare_worker_assignment (person_id, facility_name, start_date, end_date, role, vaccine_name, dose_given, lot) VALUES (?, ?, ?, ?,?,?,?,?)";
+
+    if ($stmt = mysqli_prepare($link, $sql)) {
+        // Bind variables to the prepared statement as parameters
+        mysqli_stmt_bind_param($stmt, "isssssss", $person_id, $facility_name, $start_date, $end_date, $role, $vaccine_name, $dose, $lot);
+
+
+        // Attempt to execute the prepared statement
+        if (mysqli_stmt_execute($stmt)) {
+            // Records created successfully. Redirect to landing page
+            header("location: assignment.php");
+            exit();
+        } else {
+            $error = mysqli_stmt_error($stmt);
+            echo '<script> alert("' . $error . '")</script>';
+        }
+    } else {
+        echo "<script>alert('Oops! Something went wrong. Please try again later. Error:" . $link->error . " ');location='create.php';</script>";
+    }
+
+// Close statement
+    mysqli_stmt_close($stmt);
+
+
 }
+
+
 ?>
 
 <!DOCTYPE html>
@@ -98,84 +157,83 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </head>
 
 <body>
-    <div class="wrapper">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-md-12">
-                    <h2 class="mt-5">Create Public Health Worker Assignemnt</h2>
-                    <p>Please fill this form and submit to add Public Health Worker Assignment record to the database</p>
-                    <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-                        <div class="form-group">
-                            <label>Person ID</label>
-                            <input type="number" name="person_id" class="form-control" value="<?php echo $person_id; ?>">
-                        </div>
+<div class="wrapper">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <h2 class="mt-5">Create Public Health Worker Assignment</h2>
+                <p>Please fill this form and submit to add Public Health Worker Assignment record to the database</p>
+                <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+                    <div class="form-group">
+                        <label>Person ID</label>
+                        <input type="number" name="person_id" class="form-control" value="<?php echo $person_id; ?>">
+                    </div>
 
-                        <div class="form-group">
-                            <label>Facility name</label>
-                            <select class="custom-select" id="inputGroupSelect01" name="facility_name">
-                                <?php
-                                foreach ($all_facility as $facility) {
-                                    echo '<option values=\"' . $facility['name'] . '\">' . $facility['name'] . '</option>';
-                                }
-                                ?>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label>Start Date</label>
-                            <input type="date" name="start_date" class="form-control <?php echo (!empty($start_rate_error)) ? 'is-invalid' : ''; ?>" value="<?php echo $start_date; ?>">
-                            <span class="invalid-feedback"><?php echo $start_date_error; ?></span>
-                        </div>
-                        <div class="form-group">
-                            <label>End Date</label>
-                            <input type="date" name="end_date" class="form-control <?php echo (!empty($end_date_error)) ? 'is-invalid' : ''; ?>" value="<?php echo $end_date; ?>">
-                            <span class="invalid-feedback"><?php echo $end_date_error; ?></span>
-                        </div>
-                        <div class="form-group">
-                            <label>Role</label>
-                            <select class="custom-select" id="inputGroupSelect01" name="role">
-                                <?php
-                                foreach ($all_roles as $roles) {
-                                    echo '<option values=\"' . $roles['role'] . '\">' . $roles['role'] . '</option>';
-                                }
-                                ?>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label>Vaccine Name</label>
-                            <select class="custom-select" id="inputGroupSelect01" name="vaccine_name">
-                                <?php
-                                foreach ($all_vaccines as $vaccine) {
-                                    echo '<option values=\"' . $vaccine['vaccine_name'] . '\">' . $vaccine['vaccine_name'] . '</option>';
-                                }
-                                ?>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label>Dose Given</label>
-                            <select class="custom-select" id="inputGroupSelect01" name="dose_given">
-                                <?php
-                                foreach ($all_doses as $doses) {
-                                    echo '<option values=\"' . $doses['dose'] . '\">' . $doses['dose'] . '</option>';
-                                }
-                                ?>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label>Lot ID</label>
-                            <input type="text" name="lot" class="form-control" value="<?php echo $lot; ?>">
-                        </div>
-
-<<<<<<< HEAD
-=======
-
->>>>>>> d2de733 (small fix)
-                        <input type="submit" class="btn btn-primary" value="Submit">
-                        <a href="assignment.php" class="btn btn-secondary ml-2">Cancel</a>
-                    </form>
-                </div>
+                    <div class="form-group">
+                        <label>Facility name</label>
+                        <select class="custom-select" id="inputGroupSelect01" name="facility_name">
+                            <?php
+                            foreach ($all_facility as $facility) {
+                                echo '<option values=\"' . $facility['name'] . '\">' . $facility['name'] . '</option>';
+                            }
+                            ?>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Start Date</label>
+                        <input type="date" name="start_date"
+                               class="form-control <?php echo (!empty($start_rate_error)) ? 'is-invalid' : ''; ?>"
+                               value="<?php echo $start_date; ?>">
+                        <span class="invalid-feedback"><?php echo $start_date_error; ?></span>
+                    </div>
+                    <div class="form-group">
+                        <label>End Date</label>
+                        <input type="date" name="end_date"
+                               class="form-control <?php echo (!empty($end_date_error)) ? 'is-invalid' : ''; ?>"
+                               value="<?php echo $end_date; ?>">
+                        <span class="invalid-feedback"><?php echo $end_date_error; ?></span>
+                    </div>
+                    <div class="form-group">
+                        <label>Role</label>
+                        <select class="custom-select" id="inputGroupSelect01" name="role">
+                            <?php
+                            foreach ($all_roles as $roles) {
+                                echo '<option values=\"' . $roles['role'] . '\">' . $roles['role'] . '</option>';
+                            }
+                            ?>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Vaccine Name</label>
+                        <select class="custom-select" id="inputGroupSelect01" name="vaccine_name">
+                            <?php
+                            foreach ($all_vaccines as $vaccine) {
+                                echo '<option values=\"' . $vaccine['vaccine_name'] . '\">' . $vaccine['vaccine_name'] . '</option>';
+                            }
+                            ?>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Dose Given</label>
+                        <select class="custom-select" id="inputGroupSelect01" name="dose_given">
+                            <?php
+                            foreach ($all_doses as $doses) {
+                                echo '<option values=\"' . $doses['dose'] . '\">' . $doses['dose'] . '</option>';
+                            }
+                            ?>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Lot ID</label>
+                        <input type="text" name="lot" class="form-control" value="<?php echo $lot; ?>">
+                    </div>
+                    <input type="submit" class="btn btn-primary" value="Submit">
+                    <a href="assignment.php" class="btn btn-secondary ml-2">Cancel</a>
+                </form>
             </div>
         </div>
     </div>
+</div>
 </body>
 
 </html>
