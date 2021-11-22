@@ -86,7 +86,6 @@ if (isset($_GET["booking_id"]) && !empty(trim($_GET["booking_id"]))) {
     exit();
   }
 
-  // For each 20min between open to close, see if booking is exceed number of nurses
   $link = connect();
   // query operation hour on given date
   $day_of_week = date("w", strtotime($date));
@@ -104,7 +103,7 @@ if (isset($_GET["booking_id"]) && !empty(trim($_GET["booking_id"]))) {
         $open = strtotime($row["open"]);
         $close = strtotime($row["close"]);
       } else {
-        echo '<div class="alert alert-danger"><em>Find multiple open hour on day ' . $i->format("Y-m-d") . ' for facility: ' . $facility_name . '</em></div>';
+        echo '<div class="alert alert-danger"><em>Find multiple open hour on day ' . $date . ' for facility: ' . $facility_name . '</em></div>';
       }
     } else {
       echo "SQL query error: " . mysqli_stmt_errno($stmt);
