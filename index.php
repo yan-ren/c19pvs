@@ -13,6 +13,10 @@
         iFrameID.style.display = "block";
       }
     }
+
+    function action() {
+      document.getElementById("mainImg").style.display = "none";
+    }
   </script>
 </head>
 
@@ -33,7 +37,16 @@
             <a class="nav-link" href="vaccine.php">Vaccine</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="report.php">Report</a>
+            <div class="dropdown">
+              <a class="nav-link" href="#" data-toggle="dropdown">
+                Report <i class="fa fa-chevron-down"></i>
+              </a>
+              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <a class="dropdown-item" href="#">Nurse Report</a>
+                <a class="dropdown-item" href="#">Facility Report</a>
+                <a class="dropdown-item" href="/php/report/person.php">Person Report</a>
+              </div>
+            </div>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="search.php">Search</a>
@@ -47,13 +60,13 @@
                 Create/Delete/Edit/Display a Table <i class="fa fa-chevron-down"></i>
               </a>
               <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <a class="dropdown-item" href="/php/person/person.php" target="ifbox">Person</a>
-                <a class="dropdown-item" href="/php/public_health_worker/public_health_worker.php" target="ifbox">Public Health Worker</a>
-                <a class="dropdown-item" href="/php/facility/facility.php" target="ifbox">Public Health Facility</a>
-                <a class="dropdown-item" href="/php/vaccine_type/vaccine_type.php" target="ifbox">Vaccination Type</a>
-                <a class="dropdown-item" href="/php/variants/variants.php" target="ifbox">Covid-19 Infection Variant</a>
-                <a class="dropdown-item" href="/php/age_group/age_group.php" target="ifbox">Age Group</a>
-                <a class="dropdown-item" href="/php/province/province.php" target="ifbox">Province</a>
+                <a class="dropdown-item" href="/php/person/person.php" target="ifbox" onclick="action()">Person</a>
+                <a class="dropdown-item" href="/php/public_health_worker/public_health_worker.php" target="ifbox" onclick="action()">Public Health Worker</a>
+                <a class="dropdown-item" href="/php/facility/facility.php" target="ifbox" onclick="action()">Public Health Facility</a>
+                <a class="dropdown-item" href="/php/vaccine_type/vaccine_type.php" target="ifbox" onclick="action()">Vaccination Type</a>
+                <a class="dropdown-item" href="/php/variants/variants.php" target="ifbox" onclick="action()">Covid-19 Infection Variant</a>
+                <a class="dropdown-item" href="/php/age_group/age_group.php" target="ifbox" onclick="action()">Age Group</a>
+                <a class="dropdown-item" href="/php/province/province.php" target="ifbox" onclick="action()">Province</a>
               </div>
             </div>
           </li>
@@ -71,14 +84,15 @@
   </div><!-- iframe end -->
 
   <!-- ======= Hero Section ======= -->
-  <section id="hero" class="d-flex align-items-center">
-    <div class="container">
-      <h1>Welcome to C19PVS</h1>
-      <h2>COVID-19 Public Health Care Population Vaccination System</h2>
-      <a href="index.php" class="btn-get-started scrollto">Get Started</a>
-    </div>
-  </section><!-- End Hero -->
-
+  <div id="mainImg">
+    <section id="hero" class="d-flex align-items-center">
+      <div class="container">
+        <h1>Welcome to C19PVS</h1>
+        <h2>COVID-19 Public Health Care Population Vaccination System</h2>
+        <a href="index.php" class="btn-get-started scrollto">Get Started</a>
+      </div>
+    </section><!-- End Hero -->
+  </div>
   <!-- <?php include "./html/footer.html" ?> -->
 </body>
 
