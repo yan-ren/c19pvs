@@ -2,3 +2,4 @@
 .idea/
 .vscode/
 db_dump/
+php/db_constant.php

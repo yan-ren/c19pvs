@@ -134,10 +134,13 @@ if (isset($_POST["person_id"]) && !empty($_POST["person_id"])) {
                             <select class="custom-select" id="inputGroupSelect01" name="new_facility_name">
                                 <?php
                                 foreach ($all_facility as $facility) {
-                                    echo '<option values=\"' . $facility['name'] . '\">' . $facility['name'] . '</option>';
+                                    if ($facility['name'] == $facility_name) {
+                                        echo '<option selected values=\"' . $facility['name'] . '\">' . $facility['name'] . '</option>';
+                                    } else {
+                                        echo '<option values=\"' . $facility['name'] . '\">' . $facility['name'] . '</option>';
+                                    }
                                 } ?>
                             </select>
-
                         </div>
                         <div class="form-group">
                             <label>Hourly Rate</label>

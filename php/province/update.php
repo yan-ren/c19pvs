@@ -107,7 +107,7 @@ if (isset($_POST["name"]) && !empty($_POST["name"])) {
                     <form action="<?php echo htmlspecialchars(basename($_SERVER['REQUEST_URI'])); ?>" method="post">
                         <div class="form-group">
                             <label>Province</label>
-                            <input type="text" name="name" class="form-control" value="  <?php echo $name; ?>" readonly>
+                            <input type="text" name="name" class="form-control" value="<?php echo $name; ?>" readonly>
                             <span class="invalid-feedback"><?php echo $name; ?></span>
                         </div>
                         <div class="form-group">
