@@ -4,7 +4,7 @@
 <head>
     <?php include($_SERVER['DOCUMENT_ROOT'] . "/html/head.html") ?>
 </head>
-// add person
+
 <body>
     <div class="wrapper">
         <div class="container-fluid">
