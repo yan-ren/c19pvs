@@ -100,15 +100,15 @@ if (isset($_GET["person_id"]) && !empty(trim($_GET["person_id"])) && isset($_GET
                     </div>
                     <div class="form-group">
                         <label>Vaccine name</label>
-                        <p><b><?php echo $row["vaccine_name"]; ?></b></p>
+                        <p><b><?php echo (empty($row["vaccine_name"]) ? 'NULL' : $row['vaccine_name']) ?></b></p>
                     </div>
                     <div class="form-group">
                         <label>Dose given</label>
-                        <p><b><?php echo $row["dose_given"]; ?></b></p>
+                        <p><b><?php echo (empty($row["dose_given"]) ? 'NULL' : $row['dose_given']) ?></b></p>
                     </div>
                     <div class="form-group">
                         <label>Lot ID</label>
-                        <p><b><?php echo $row["lot"]; ?></b></p>
+                        <p><b><?php echo (empty($row["lot"]) ? 'NULL' : $row['lot']) ?></b></p>
                     </div>
 
 

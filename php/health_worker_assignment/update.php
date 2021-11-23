@@ -170,12 +170,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
                         <div class="form-group">
                             <label>Person ID</label>
-                            <input type="number" name="person_id" class="form-control" value="<?php echo $person_id; ?>">
+                            <input type="number" name="person_id" class="form-control" value="<?php echo $person_id; ?>" readonly>
                         </div>
 
                         <div class="form-group">
                             <label>Facility name</label>
-                            <select class="custom-select" id="inputGroupSelect01" name="facility_name">
+                            <select class="custom-select" id="inputGroupSelect01" name="facility_name" >
                                 <?php
                                 foreach ($all_facility as $facility) {
                                     echo '<option values=\"' . $facility['name'] . '\">' . $facility['name'] . '</option>';
@@ -195,7 +195,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         </div>
                         <div class="form-group">
                             <label>Role</label>
-                            <select class="custom-select" id="inputGroupSelect01" name="role">
+                            <select class="custom-select" id="inputGroupSelect01-role" name="role" onchange="readOnly()">
                                 <?php
                                 foreach ($all_roles as $roles) {
                                     echo '<option values=\"' . $roles['role'] . '\">' . $roles['role'] . '</option>';
@@ -205,7 +205,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         </div>
                         <div class="form-group">
                             <label>Vaccine Name</label>
-                            <select class="custom-select" id="inputGroupSelect01" name="vaccine_name">
+                            <select class="custom-select" id="inputGroupSelect01-vaccine" name="vaccine_name">
                                 <?php
                                 foreach ($all_vaccines as $vaccine) {
                                     echo '<option values=\"' . $vaccine['vaccine_name'] . '\">' . $vaccine['vaccine_name'] . '</option>';
@@ -215,12 +215,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         </div>
                         <div class="form-group">
                             <label>Dose Given</label>
-                            <input type="number" name="dose_given" class="form-control" value="<?php echo $dose; ?>">
+                            <input type="number" id="dose" name="dose_given" class="form-control" value="<?php echo $dose; ?>">
                             </select>
                         </div>
                         <div class="form-group">
                             <label>Lot ID</label>
-                            <input type="text" name="lot" class="form-control" value="<?php echo $lot; ?>">
+                            <input type="text" id="lot" name="lot" class="form-control" value="<?php echo $lot; ?>">
                         </div>
                         <input type="submit" class="btn btn-primary" value="Submit">
                         <a href="assignment.php" class="btn btn-secondary ml-2">Cancel</a>
@@ -230,5 +230,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
     </div>
 </body>
+<script>
+    function readOnly(){
+        let role = document.getElementById("inputGroupSelect01-role").value;
 
+        if (role != "nurse"){
+            document.getElementById("dose").readOnly= true;
+            document.getElementById("lot").readOnly= true;
+            document.getElementById("inputGroupSelect01-vaccine").readOnly= true;
+        }
+    }
+</script>
 </html>
