@@ -119,11 +119,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         //all roles except nurse
         // Prepare an insert statement
-        $sql = "UPDATE healthcare_worker_assignment SET start_date =?, end_date=?, role=?, vaccine_name = NULL, dose_given =NULL, lot =NULL";
+        $sql = "UPDATE healthcare_worker_assignment SET start_date =?, end_date=?, role=?, vaccine_name = NULL, dose_given =NULL, lot =NULL WHERE person_id = ? AND facility_name =?";
 
         if ($stmt = mysqli_prepare($link, $sql)) {
             // Bind variables to the prepared statement as parameters
-            mysqli_stmt_bind_param($stmt, "sss", $start_date, $end_date, $role);
+            mysqli_stmt_bind_param($stmt, "sssis", $start_date, $end_date, $role,$person_id,$facility_name);
 
             // Attempt to execute the prepared statement
             if (mysqli_stmt_execute($stmt)) {
@@ -140,6 +140,46 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
 
+} else {
+// Check existence of id parameter before processing further
+    if (isset($_GET["person_id"]) && !empty(trim($_GET["person_id"])) && isset($_GET["facility_name"]) && !empty(trim($_GET["facility_name"])) && isset($_GET["role"]) && !empty(trim($_GET["role"]))) {
+        // Get URL parameter
+        $person_id = trim($_GET["person_id"]);
+        $facility_name = $_GET['facility_name'];
+        $role = $_GET['role'];
+
+        // Prepare a select statement
+        $sql = "SELECT * FROM healthcare_worker_assignment WHERE person_id = ? AND facility_name =? AND role =?";
+        if ($stmt = mysqli_prepare($link, $sql)) {
+            // Bind variables to the prepared statement as parameters
+            mysqli_stmt_bind_param($stmt, "iss", $person_id,$facility_name,$role);
+
+            // Attempt to execute the prepared statement
+            if (mysqli_stmt_execute($stmt)) {
+                $result = mysqli_stmt_get_result($stmt);
+
+                if (mysqli_num_rows($result) == 1) {
+                    /* Fetch result row as an associative array. Since the result set
+                    contains only one row, we don't need to use while loop */
+                    $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
+                    // Retrieve individual field value
+                    $role = $row['role'];
+                } else {
+                    // URL doesn't contain valid id. Redirect to error page
+                    header("location: error.php");
+                    exit();
+                }
+            } else {
+                echo "Oops! Something went wrong. Please try again later.";
+            }
+        }
+
+        // Close statement
+        mysqli_stmt_close($stmt);
+
+        // Close connection
+        mysqli_close($link);
+    }
 }
 
 
@@ -170,15 +210,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
                     <div class="form-group">
                         <label>Person ID</label>
-                        <input type="number" name="person_id" class="form-control" value="<?php echo $person_id; ?>" readonly>
+                        <input type="number" id="person_id" name="person_id" class="form-control"
+                               value="<?php echo $person_id; ?>" readonly>
                     </div>
 
                     <div class="form-group">
                         <label>Facility name</label>
-                        <select class="custom-select" id="inputGroupSelect01" name="facility_name" >
+                        <select class="custom-select" id="inputGroupSelect01-facility" name="facility_name" disabled>
                             <?php
                             foreach ($all_facility as $facility) {
-                                echo '<option values=\"' . $facility['name'] . '\">' . $facility['name'] . '</option>';
+                                if ($facility['name'] == $facility_name) {
+                                    echo '<option selected values=\"' . $facility['name'] . '\">' . $facility['name'] . '</option>';
+                                } else {
+                                    echo '<option values=\"' . $facility['name'] . '\">' . $facility['name'] . '</option>';
+                                }
                             }
                             ?>
                         </select>
@@ -203,7 +248,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 onchange="readOnly()">
                             <?php
                             foreach ($all_roles as $roles) {
-                                echo '<option values=\"' . $roles['role'] . '\">' . $roles['role'] . '</option>';
+                                if ($roles['role'] == $role) {
+                                    echo '<option selected values=\"' . $roles['role'] . '\">' . $roles['role'] . '</option>';
+                                } else {
+                                    echo '<option values=\"' . $roles['role'] . '\">' . $roles['role'] . '</option>';
+                                }
                             }
                             ?>
                         </select>
@@ -228,7 +277,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <label>Lot ID</label>
                         <input type="text" id="lot" name="lot" class="form-control" value="<?php echo $lot; ?>">
                     </div>
-                    <input type="submit" class="btn btn-primary" value="Submit">
+                    <input type="submit" class="btn btn-primary" onclick="removeDisable()" value="Submit">
                     <a href="assignment.php" class="btn btn-secondary ml-2">Cancel</a>
                 </form>
             </div>
@@ -239,12 +288,28 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <script>
     function readOnly() {
         let role = document.getElementById("inputGroupSelect01-role").value;
-
         if (role != "nurse") {
             document.getElementById("dose").readOnly = true;
             document.getElementById("lot").readOnly = true;
-            document.getElementById("inputGroupSelect01-vaccine").readOnly = true;
+            document.getElementById('inputGroupSelect01-vaccine').setAttribute("disabled", 'disabled');
+        } else {
+            //role == nurse
+            document.getElementById("dose").readOnly = false;
+            document.getElementById("lot").readOnly = false;
+            document.getElementById("inputGroupSelect01-vaccine").removeAttribute('disabled');
         }
+    }
+
+    function removeDisable() {
+        let role = document.getElementById("inputGroupSelect01-role").value;
+        if (role !== 'nurse') {
+            document.getElementById("dose").removeAttribute('disabled');
+            document.getElementById("id").removeAttribute('disabled');
+            document.getElementById("inputGroupSelect01-vaccine").removeAttribute('disabled');
+        }
+        document.getElementById("person_id").removeAttribute('disabled');
+        document.getElementById("inputGroupSelect01-facility").removeAttribute('disabled');
+
     }
 </script>
 
