@@ -64,7 +64,7 @@ mysqli_close($link);
               </a>
               <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                 <a class="dropdown-item" href="/php/report/nurse.php">Nurse Report</a>
-                <a class="dropdown-item" href="#">Facility Report</a>
+                <a class="dropdown-item" href="/php/report/facility.php">Facility Report</a>
                 <a class="dropdown-item" href="/php/report/person.php">Person Report</a>
               </div>
             </div>
