@@ -25,28 +25,28 @@ $all_roles = mysqli_fetch_all($result3, MYSQLI_ASSOC);
 
 
 // Processing form data when form is submitted
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+if (isset($_POST["person_id"]) && !empty(trim($_POST["person_id"])) && isset($_POST["facility_name"]) && !empty(trim($_POST["facility_name"])) && isset($_POST["role"]) && !empty(trim($_POST["role"])) && isset($_POST["start_date"]) && !empty(trim($_POST["start_date"])) && isset($_POST["end_date"]) && !empty(trim($_POST["end_date"]))) {
 
     $person_id = (int)trim($_POST["person_id"]);
     $facility_name = trim($_POST["facility_name"]);
     $start_date = trim($_POST["start_date"]);
     $end_date = trim($_POST["end_date"]);
     $role = trim($_POST["role"]);
-    $vaccine_name = trim($_POST["vaccine_name"]);
-    $dose = trim($_POST["dose_given"]);
-    $lot = trim($_POST["lot"]);
+//    $vaccine_name = trim($_POST["vaccine_name"]);
+//    $dose = trim($_POST["dose_given"]);
+//    $lot = trim($_POST["lot"]);
 
-    //    echo "<pre>";
-    //    echo $person_id;
-    //    echo $facility_name;
-    //    echo $start_date;
-    //    echo $end_date;
-    //    echo $role;
-    //    echo $vaccine_name;
-    //    echo $dose;
-    //    echo $lot;
-    //    echo "</pre>";
-    //    exit;
+//        echo "<pre>";
+//        echo $person_id;
+//        echo $facility_name;
+//        echo $start_date;
+//        echo $end_date;
+//        echo $role;
+//        echo $vaccine_name;
+//        echo $dose;
+//        echo $lot;
+//        echo "</pre>";
+//        exit;
 
 
     if ($role == "nurse") {
@@ -212,7 +212,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class="col-md-12">
                 <h2 class="mt-5">Update Public Health Worker Assignment</h2>
                 <p>Please fill this form and submit to update Public Health Worker Assignment record to the database</p>
-                <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+                <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" onsubmit="removeDisable()">
                     <div class="form-group">
                         <label>Person ID</label>
                         <input type="number" id="person_id" name="person_id" class="form-control"
@@ -221,14 +221,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                     <div class="form-group">
                         <label>Facility name</label>
-                        <select class="custom-select" id="inputGroupSelect01-facility" name="facility_name" disabled>
+                        <select class="custom-select" id="inputGroupSelectFacility" name="facility_name" disabled>
                             <?php
                             foreach ($all_facility as $facility) {
-                                if ($facility['name'] == $facility_name) {
-                                    echo '<option selected values=\"' . $facility['name'] . '\">' . $facility['name'] . '</option>';
-                                } else {
-                                    echo '<option values=\"' . $facility['name'] . '\">' . $facility['name'] . '</option>';
-                                }
+                                echo '<option values=\"' . $facility['name'] . '\">' . $facility['name'] . '</option>';
                             }
                             ?>
                         </select>
@@ -249,29 +245,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     </div>
                     <div class="form-group">
                         <label>Role</label>
-                        <select class="custom-select role" id="inputGroupSelect01-role" name="role"
-                                onchange="readOnly()">
-                            <?php
-                            foreach ($all_roles as $roles) {
-                                if ($roles['role'] == $role) {
-                                    echo '<option selected values=\"' . $roles['role'] . '\">' . $roles['role'] . '</option>';
-                                } else {
-                                    echo '<option values=\"' . $roles['role'] . '\">' . $roles['role'] . '</option>';
-                                }
-                            }
-                            ?>
+                        <select class="custom-select" id="inputGroupSelectRole" name="role" onchange="readOnly()">
+                            <option value="nurse">Nurse</option>
+                            <option value="manager">Manager</option>
+                            <option value="security">Security</option>
+                            <option value="secretary">Secretary</option>
+                            <option value="regular">Regular</option>
                         </select>
                     </div>
                     <div class="form-group">
                         <label>Vaccine Name</label>
-                        <select class="custom-select vaccine" id="inputGroupSelect01-vaccine" name="vaccine_name">
+                        <select class="custom-select" id="inputGroupSelectVaccine" name="vaccine_name">
                             <?php
                             foreach ($all_vaccines as $vaccine) {
-                                if ($vaccine['vaccine_name'] == $vaccine_name) {
-                                    echo '<option selected values=\"' . $vaccine['vaccine_name'] . '\">' . $vaccine['vaccine_name'] . '</option>';
-                                } else {
-                                    echo '<option values=\"' . $vaccine['vaccine_name'] . '\">' . $vaccine['vaccine_name'] . '</option>';
-                                }
+                                echo '<option values=\"' . $vaccine['vaccine_name'] . '\">' . $vaccine['vaccine_name'] . '</option>';
                             }
                             ?>
                         </select>
@@ -286,7 +273,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <label>Lot ID</label>
                         <input type="text" id="lot" name="lot" class="form-control" value="<?php echo $lot; ?>">
                     </div>
-                    <input type="submit" class="btn btn-primary" onclick="removeDisable()" value="Submit">
+
+                    <input type="submit" class="btn btn-primary" value="Submit">
                     <a href="assignment.php" class="btn btn-secondary ml-2">Cancel</a>
                 </form>
             </div>
@@ -296,29 +284,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </body>
 <script>
     function readOnly() {
-        let role = document.getElementById("inputGroupSelect01-role").value;
+        let role = document.getElementById("inputGroupSelectRole").value;
         if (role != "nurse") {
             document.getElementById("dose").readOnly = true;
             document.getElementById("lot").readOnly = true;
-            document.getElementById('inputGroupSelect01-vaccine').setAttribute("disabled", 'disabled');
+            var selectElement = document.getElementById("inputGroupSelectVaccine");
+            selectElement.value = "";
+            selectElement.setAttribute("disabled", "disabled");
         } else {
-            //role == nurse
             document.getElementById("dose").readOnly = false;
             document.getElementById("lot").readOnly = false;
-            document.getElementById("inputGroupSelect01-vaccine").removeAttribute('disabled');
+            document.getElementById("inputGroupSelectVaccine").disabled = false;
         }
+    }
+    function removeDisable(){
+        document.getElementById("inputGroupSelectFacility").disabled =false;
     }
 
-    function removeDisable() {
-        let role = document.getElementById("inputGroupSelect01-role").value;
-        document.getElementById("person_id").readOnly = false;
-        document.getElementById("inputGroupSelect01-facility").removeAttribute('disabled');
-        if (role !== 'nurse') {
-            document.getElementById("inputGroupSelect01-vaccine").removeAttribute('disabled');
-            document.getElementById("dose").readOnly = false;
-            document.getElementById("lot").readOnly = false;
-        }
-    }
+
+
 </script>
 
 </html>

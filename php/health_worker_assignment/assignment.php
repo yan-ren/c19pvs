@@ -49,9 +49,9 @@
                 echo "<td>" . $row['dose_given'] . "</td>";
                 echo "<td>" . $row['lot'] . "</td>";
                 echo "<td>";
-                echo '<a href="read.php?person_id=' . $row['person_id'] . '&facility_name=' . $row['facility_name'] . '" class="mr-3" title="View Record" data-toggle="tooltip"><span class="fa fa-eye"></span></a>';
+                echo '<a href="read.php?person_id=' . $row['person_id'] . '&facility_name=' . $row['facility_name'] . '&role=' . $row['role'] . '" class="mr-3" title="View Record" data-toggle="tooltip"><span class="fa fa-eye"></span></a>';
                 echo '<a href="update.php?person_id=' . $row['person_id'] . '&facility_name=' . $row['facility_name'] . '&role=' . $row['role'] . '&start_date=' . $row['start_date'] . '&end_date=' . $row['end_date'] . '" class="mr-3" title="Update Record" data-toggle="tooltip"><span class="fa fa-pencil"></span></a>';
-                echo '<a href="delete.php?person_id=' . $row['person_id'] . '&facility_name=' . $row['facility_name'] . '"class="mr-3" title="Delete Record" data-toggle="tooltip"><span class="fa fa-trash"></span></a>';
+                echo '<a href="delete.php?person_id=' . $row['person_id'] . '&facility_name=' . $row['facility_name'] . '&role=' . $row['role'] . '&start_date=' . $row['start_date'] . '&end_date=' . $row['end_date'] . '"class="mr-3" title="Delete Record" data-toggle="tooltip"><span class="fa fa-trash"></span></a>';
                 echo "</td>";
                 echo "</tr>";
               }
