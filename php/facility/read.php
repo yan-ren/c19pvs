@@ -33,6 +33,7 @@ if (isset($_GET["name"]) && !empty(trim($_GET["name"]))) {
                 $type = $row["type"];
                 $capacity = $row["capacity"];
                 $manager = $row["manager"];
+                $city = $row["city"];
                 $province = $row["province"];
                 $category = $row["category"];
 
@@ -106,6 +107,10 @@ if (isset($_GET["name"]) && !empty(trim($_GET["name"]))) {
                     <div class="form-group">
                         <label>Manager ID</label>
                         <p><b><?php echo $row["manager"]; ?></b></p>
+                    </div>
+                    <div class="form-group">
+                        <label>City</label>
+                        <p><b><?php echo $row["city"]; ?></b></p>
                     </div>
                     <div class="form-group">
                         <label>Province</label>

@@ -7,7 +7,7 @@ $link = connect();
 
 // Define variables and initialize with empty values
 $name = $address = $phone = $website = "";
-$type = $capacity = $manager = $province = $category = "";
+$type = $capacity = $manager = $city=$province = $category = "";
 
 $sql = "SELECT * FROM province";
 $result = mysqli_query($link, $sql);
@@ -23,6 +23,7 @@ if (isset($_POST["name"]) && !empty($_POST["name"])) {
   $new_type = trim($_POST["type"]);
   $new_capacity = (int)trim($_POST["capacity"]);
   $new_manager = (int)trim($_POST["manager"]);
+  $new_city = trim($_POST["city"]);
   $new_province = trim($_POST["province"]);
   $new_category = trim($_POST["category"]);
   if ($new_manager == 0) {
@@ -30,9 +31,9 @@ if (isset($_POST["name"]) && !empty($_POST["name"])) {
   }
 
   // Prepare an update statement
-  $sql = "UPDATE facility SET `address`= ?, phone = ?, website=?, `type`=?, capacity=?,  manager=?, province=?, category=? where `name`=?";
+  $sql = "UPDATE facility SET `address`= ?, phone = ?, website=?, `type`=?, capacity=?,  manager=?, city=?, province=?, category=? where `name`=?";
   $stmt = mysqli_prepare($link, $sql);
-  mysqli_stmt_bind_param($stmt, "ssssiisss", $new_address, $new_phone, $new_website, $new_type, $new_capacity, $new_manager, $new_province, $new_category, $new_name);
+  mysqli_stmt_bind_param($stmt, "ssssiissss", $new_address, $new_phone, $new_website, $new_type, $new_capacity, $new_manager, $new_city, $new_province, $new_category, $new_name);
 
   if ($stmt) {
     // Attempt to execute the prepared statement
@@ -75,6 +76,7 @@ if (isset($_POST["name"]) && !empty($_POST["name"])) {
           $type = $row["type"];
           $capacity = $row["capacity"];
           $manager = $row["manager"];
+            $city = $row["city"];
           $province_name = $row["province"];
           $category = $row["category"];
         } else {
@@ -155,6 +157,10 @@ if (isset($_POST["name"]) && !empty($_POST["name"])) {
               <label>Manager</label>
               <input type="number" name="manager" class="form-control " value="<?php echo $manager; ?>">
             </div>
+              <div class="form-group">
+                  <label>City</label>
+                  <input type="text" name="city" class="form-control " value="<?php echo $city; ?>">
+              </div>
             <div class="form-group">
               <label>Province</label>
               <select class="custom-select" id="inputGroupSelect01" name="province">
