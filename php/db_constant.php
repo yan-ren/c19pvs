@@ -2,8 +2,6 @@
 
 /* Database credentials. Assuming you are running MySQL
 server with default setting (user 'root' with no password) */
-
-// test qc local set up
 DEFINE('DB_USERNAME_LOCAL', 'test');
 DEFINE('DB_PASSWORD_LOCAL', 'password');
 DEFINE('DB_SERVER_LOCAL', '127.0.0.1:3306');

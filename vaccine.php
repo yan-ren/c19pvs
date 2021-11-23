@@ -38,7 +38,16 @@ mysqli_close($link);
             <a class="nav-link" href="vaccine.php">Vaccine</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="report.php">Report</a>
+            <div class="dropdown">
+              <a class="nav-link" href="#" data-toggle="dropdown">
+                Report <i class="fa fa-chevron-down"></i>
+              </a>
+              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <a class="dropdown-item" href="/php/report/nurse.php">Nurse Report</a>
+                <a class="dropdown-item" href="#">Facility Report</a>
+                <a class="dropdown-item" href="/php/report/person.php">Person Report</a>
+              </div>
+            </div>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="search.php">Search</a>

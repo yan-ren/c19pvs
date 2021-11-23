@@ -10,13 +10,12 @@ $facility_name = trim($_GET['facility_name']);
 $given_date = trim($_GET['date']);
 $result_rows = array();
 
-// Query all bookings for facility given time period
-$sql = "SELECT healthcare_worker.employee_id, person.first_name, person.last_name, person.email, hourly_rate
+$sql = "SELECT DISTINCT healthcare_worker.employee_id, person.first_name, person.last_name, person.email, hourly_rate
 FROM healthcare_worker
 INNER JOIN person ON healthcare_worker.person_id = person.person_id
 LEFT JOIN healthcare_worker_assignment ON healthcare_worker.person_id = healthcare_worker_assignment.person_id 
 AND healthcare_worker.facility_name = healthcare_worker_assignment.facility_name
-WHERE ((start_date IS NULL) OR (? < start_date OR ? > end_date)) AND healthcare_worker.facility_name = ?
+WHERE (start_date IS NULL OR (? < start_date OR ? > end_date)) AND healthcare_worker.facility_name = ? AND role='nurse'
 ORDER BY hourly_rate ASC";
 
 $stmt = mysqli_prepare($link, $sql);
