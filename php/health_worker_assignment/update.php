@@ -36,17 +36,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $dose = trim($_POST["dose_given"]);
     $lot = trim($_POST["lot"]);
 
-//    echo "<pre>";
-//    echo $person_id;
-//    echo $facility_name;
-//    echo $start_date;
-//    echo $end_date;
-//    echo $role;
-//    echo $vaccine_name;
-//    echo $dose;
-//    echo $lot;
-//    echo "</pre>";
-//    exit;
+    //    echo "<pre>";
+    //    echo $person_id;
+    //    echo $facility_name;
+    //    echo $start_date;
+    //    echo $end_date;
+    //    echo $role;
+    //    echo $vaccine_name;
+    //    echo $dose;
+    //    echo $lot;
+    //    echo "</pre>";
+    //    exit;
 
 
     if ($role == "nurse") {
@@ -91,11 +91,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         $link = connect();
         // Prepare an insert statement
-        $sql = "UPDATE healthcare_worker_assignment SET start_date =?, end_date =?, role =?, vaccine_name =?, dose_given =?, lot =?";
+        $sql = "UPDATE healthcare_worker_assignment SET start_date =?, end_date =?, role =?, vaccine_name =?, dose_given =?, lot =? WHERE person_id =? AND facility_name =?";
 
         if ($stmt = mysqli_prepare($link, $sql)) {
             // Bind variables to the prepared statement as parameters
-            mysqli_stmt_bind_param($stmt, "ssssss", $start_date, $end_date, $role, $vaccine_name, $dose, $lot);
+            mysqli_stmt_bind_param($stmt, "ssssssis", $start_date, $end_date, $role, $vaccine_name, $dose, $lot, $person_id, $facility_name);
 
 
             // Attempt to execute the prepared statement
@@ -123,7 +123,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         if ($stmt = mysqli_prepare($link, $sql)) {
             // Bind variables to the prepared statement as parameters
-            mysqli_stmt_bind_param($stmt, "sssis", $start_date, $end_date, $role,$person_id,$facility_name);
+            mysqli_stmt_bind_param($stmt, "sssis", $start_date, $end_date, $role, $person_id, $facility_name);
 
             // Attempt to execute the prepared statement
             if (mysqli_stmt_execute($stmt)) {
@@ -137,22 +137,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         } else {
             echo "<script>alert('Oops! Something went wrong. Please try again later. Error:" . $link->error . " ');location='create.php';</script>";
         }
+        // Close statement
+        mysqli_stmt_close($stmt);
+        mysqli_close($link);
     }
-
-
 } else {
-// Check existence of id parameter before processing further
-    if (isset($_GET["person_id"]) && !empty(trim($_GET["person_id"])) && isset($_GET["facility_name"]) && !empty(trim($_GET["facility_name"])) && isset($_GET["role"]) && !empty(trim($_GET["role"]))) {
+    $link = connect();
+
+    // Check existence of id parameter before processing further
+    if (isset($_GET["person_id"]) && !empty(trim($_GET["person_id"])) && isset($_GET["facility_name"]) && !empty(trim($_GET["facility_name"])) && isset($_GET["role"]) && !empty(trim($_GET["role"])) && isset($_GET["start_date"]) && !empty(trim($_GET["start_date"])) && isset($_GET["end_date"]) && !empty(trim($_GET["end_date"]))) {
         // Get URL parameter
         $person_id = trim($_GET["person_id"]);
         $facility_name = $_GET['facility_name'];
         $role = $_GET['role'];
+        $start_date = $_GET['start_date'];
+        $end_date =$_GET['end_date'];
 
         // Prepare a select statement
-        $sql = "SELECT * FROM healthcare_worker_assignment WHERE person_id = ? AND facility_name =? AND role =?";
+        $sql = "SELECT * FROM healthcare_worker_assignment WHERE person_id = ? AND facility_name =? AND role =? AND start_date =? AND end_date =?";
         if ($stmt = mysqli_prepare($link, $sql)) {
             // Bind variables to the prepared statement as parameters
-            mysqli_stmt_bind_param($stmt, "iss", $person_id,$facility_name,$role);
+            mysqli_stmt_bind_param($stmt, "issss", $person_id, $facility_name, $role, $start_date, $end_date);
 
             // Attempt to execute the prepared statement
             if (mysqli_stmt_execute($stmt)) {
@@ -262,7 +267,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <select class="custom-select vaccine" id="inputGroupSelect01-vaccine" name="vaccine_name">
                             <?php
                             foreach ($all_vaccines as $vaccine) {
-                                echo '<option values=\"' . $vaccine['vaccine_name'] . '\">' . $vaccine['vaccine_name'] . '</option>';
+                                if ($vaccine['vaccine_name'] == $vaccine_name) {
+                                    echo '<option selected values=\"' . $vaccine['vaccine_name'] . '\">' . $vaccine['vaccine_name'] . '</option>';
+                                } else {
+                                    echo '<option values=\"' . $vaccine['vaccine_name'] . '\">' . $vaccine['vaccine_name'] . '</option>';
+                                }
                             }
                             ?>
                         </select>
@@ -302,14 +311,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     function removeDisable() {
         let role = document.getElementById("inputGroupSelect01-role").value;
-        if (role !== 'nurse') {
-            document.getElementById("dose").removeAttribute('disabled');
-            document.getElementById("id").removeAttribute('disabled');
-            document.getElementById("inputGroupSelect01-vaccine").removeAttribute('disabled');
-        }
-        document.getElementById("person_id").removeAttribute('disabled');
+        document.getElementById("person_id").readOnly = false;
         document.getElementById("inputGroupSelect01-facility").removeAttribute('disabled');
-
+        if (role !== 'nurse') {
+            document.getElementById("inputGroupSelect01-vaccine").removeAttribute('disabled');
+            document.getElementById("dose").readOnly = false;
+            document.getElementById("lot").readOnly = false;
+        }
     }
 </script>
 

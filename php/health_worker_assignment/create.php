@@ -139,6 +139,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Close statement
         mysqli_stmt_close($stmt);
         mysqli_close($link);
+
     } else {
 
         $link = connect();
@@ -163,6 +164,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         } else {
             echo "<script>alert('Oops! Something went wrong. Please try again later. Error:" . $link->error . " ');location='create.php';</script>";
         }
+        // Close statement
+        mysqli_stmt_close($stmt);
+        mysqli_close($link);
     }
 
 
