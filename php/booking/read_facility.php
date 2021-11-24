@@ -45,11 +45,11 @@ $i = $begin;
 for ($i = $begin; $i <= $end; $i->modify('+1 day')) {
   // get number of nurses on given day
   $nurses = 0;
-  $sql = "SELECT COUNT(DISTINCT(person_id)) AS count FROM healthcare_worker_assignment WHERE role='nurse' AND start_date <= ? AND end_date >= ?";
+  $sql = "SELECT COUNT(DISTINCT(person_id)) AS count FROM healthcare_worker_assignment WHERE role='nurse' AND start_date <= ? AND end_date >= ? AND facility_name=?";
   $stmt = mysqli_prepare($link, $sql);
   if ($stmt) {
     $date_string = $i->format("Y-m-d");
-    mysqli_stmt_bind_param($stmt, "ss", $date_string, $date_string);
+    mysqli_stmt_bind_param($stmt, "sss", $date_string, $date_string, $facility_name);
     if (mysqli_stmt_execute($stmt)) {
       $result = mysqli_stmt_get_result($stmt);
       if (mysqli_num_rows($result) == 1) {
@@ -114,7 +114,7 @@ mysqli_close($link);
             <thead>
               <tr>
                 <th>Date</th>
-                <th>Available Spots For Vaccination</th>
+                <th>Total Available Spots For Vaccination</th>
               </tr>
             </thead>
             <tbody>

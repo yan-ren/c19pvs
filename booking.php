@@ -89,7 +89,7 @@ mysqli_close($link);
     <table class="table table-bordered table-striped">
       <thead data-toggle="collapse" href="#collapseTableFacility">
         <tr>
-          <th>Display Booking For Facility <i class="fa fa-chevron-down"></i></th>
+          <th>Display Booking And Total Available Spots For Facility <i class="fa fa-chevron-down"></i></th>
         </tr>
       </thead>
       <tbody class="collapse" id="collapseTableFacility">
