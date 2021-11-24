@@ -24,6 +24,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $type = trim($_POST["type"]);
   $capacity = (int)trim($_POST["capacity"]);
   $manager = trim($_POST["manager"]);
+  $city = trim($_POST["city"]);
   $province = trim($_POST["province"]);
   $category = trim($_POST["category"]);
 
@@ -51,22 +52,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $manager = null;
   }
   if (empty($province) && $province !== '0') {
-    $province_err = "Please enter a capacity";
+    $province_err = "Please enter a province";
   }
+  if (empty($city) && $province !== '0') {
+        $city_err = "Please enter a city";
+    }
 
   // Check input errors before inserting in database
   if (
     empty($name_err) && empty($address_err) && empty($phone_err) && empty($website_err) && empty($capacity_err)
-    && empty($manager_err) && empty($province_err)
+    && empty($manager_err) && empty($province_err) && empty($city_err)
   ) {
     // Prepare an insert statement
-    $sql = "INSERT INTO facility (name, address, phone, website,type,capacity,manager,province,category) VALUES (?, ?, ?, ?,?,?,?,?,?)";
+    $sql = "INSERT INTO facility (name, address, phone, website,type,capacity,manager,city, province,category) VALUES (?, ?, ?, ?,?,?,?,?,?,?)";
 
     if ($stmt = mysqli_prepare($link, $sql)) {
       // Bind variables to the prepared statement as parameters
       mysqli_stmt_bind_param(
         $stmt,
-        "sssssiiss",
+        "sssssiisss",
         $param_name,
         $param_address,
         $param_phone,
@@ -74,6 +78,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $param_type,
         $param_capacity,
         $param_manager,
+        $param_city,
         $param_province,
         $param_category
       );
@@ -85,6 +90,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       $param_type = ($type);
       $param_capacity = ($capacity);
       $param_manager = ($manager);
+      $param_city = ($city);
       $param_province = ($province);
       $param_category = ($category);
 
@@ -172,6 +178,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
               <input type="number" name="manager" class="form-control <?php echo (!empty($manager_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $manager; ?>">
               <span class="invalid-feedback"><?php echo $manager_err; ?></span>
             </div>
+              <div class="form-group">
+                  <label>City</label>
+                  <input type="string" name="city" class="form-control <?php echo (!empty($city_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $city; ?>">
+                  <span class="invalid-feedback"><?php echo $city_err; ?></span>
+              </div> 
             <div class="form-group">
               <label>Province</label>
               <select class="custom-select" id="inputGroupSelect01" name="province">

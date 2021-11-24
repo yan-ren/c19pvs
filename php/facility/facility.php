@@ -32,8 +32,10 @@
                             echo "<th>Type</th>";
                             echo "<th>Capacity</th>";
                             echo "<th>Manager ID</th>";
+                            echo "<th>City</th>";
                             echo "<th>Province</th>";
                             echo "<th>Category</th>";
+                            echo "<th>Action</th>";
                             echo "</tr>";
                             echo "</thead>";
                             echo "<tbody>";
@@ -46,6 +48,7 @@
                                 echo "<td>" . $row['type'] . "</td>";
                                 echo "<td>" . $row['capacity'] . "</td>";
                                 echo "<td>" . $row['manager'] . "</td>";
+                                echo "<td>" . $row['city'] . "</td>";
                                 echo "<td>" . $row['province'] . "</td>";
                                 echo "<td>" . $row['category'] . "</td>";
                                 echo "<td>";

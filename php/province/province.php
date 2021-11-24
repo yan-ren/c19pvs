@@ -27,6 +27,7 @@
                             echo "<tr>";
                             echo "<th>Province</th>";
                             echo "<th>Age group</th>";
+                            echo "<th>Action</th>";
                             echo "</tr>";
                             echo "</thead>";
                             echo "<tbody>";
