@@ -20,7 +20,6 @@ $all_vaccines = mysqli_fetch_all($result2, MYSQLI_ASSOC);
 
 // Processing form data when form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-
   $person_id = (int)trim($_POST["person_id"]);
   $facility_name = trim($_POST["facility_name"]);
   $start_date = trim($_POST["start_date"]);
@@ -29,18 +28,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $vaccine_name = trim($_POST["vaccine_name"]);
   $dose = trim($_POST["dose_given"]);
   $lot = trim($_POST["lot"]);
-
-  //    echo "<pre>";
-  //    echo $person_id;
-  //    echo $facility_name;
-  //    echo $start_date;
-  //    echo $end_date;
-  //    echo $role;
-  //    echo $vaccine_name;
-  //    echo $dose;
-  //    echo $lot;
-  //    echo "</pre>";
-  //    exit;
 
   //check if person in the public health worker database
   $sql_check = "SELECT * FROM healthcare_worker WHERE person_id = ? AND facility_name= ? ";
@@ -57,7 +44,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo '<script> if(!alert("' . $availability_error . '")){
                             document.location =\'create.php\';
                         }
-                        </script>';
+              </script>';
       }
     } else {
       $error = mysqli_stmt_error($stmt);
@@ -70,54 +57,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   mysqli_close($link);
 
   if ($role == "nurse") {
-    // Check for facility availability
+    // Check for facility capacity
     // Find how many nurses working on given date
-    $number_of_nurses = 0;
+
+    // Insert healthcare_worker_assignment
     $link = connect();
-    $sql_check2 = "SELECT count(*) AS nurses
-    FROM healthcare_worker_assignment
-    WHERE start_date >= ? AND end_date <= ? AND role='nurse' AND facility_name=?";
-
-    if ($stmt = mysqli_prepare($link, $sql_check2)) {
-      // Bind variables to the prepared statement as parameters
-      mysqli_stmt_bind_param($stmt, "sss", $start_date, $end_date, $facility_name);
-
-      // Attempt to execute the prepared statement
-      if (mysqli_stmt_execute($stmt)) {
-        $result = mysqli_stmt_get_result($stmt);
-        if (mysqli_num_rows($result) == 1) {
-          $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
-          $number_of_nurses = (int)($row["nurses"]);
-          echo var_dump($number_of_nurses);
-        }
-      } else {
-        $error = mysqli_stmt_error($stmt);
-        echo '<script> alert("' . $error . '")</script>';
-      }
-    } else {
-      echo "<script>alert('Oooooooooops! Something went wrong. Please try again later. Error:" . $link->error . " ');location='create.php';</script>";
-    }
-    mysqli_stmt_close($stmt);
-    mysqli_close($link);
-
-    if ($number_of_nurses == 0) {
-      $availability_error = "No availability on given date!";
-      //            echo '<script> if(!alert("' . $availability_error . '")){
-      //                document.location = \'check_availability.php\';
-      //            }
-      //            </script>';
-    }
-
-
-    $link = connect();
-    // Prepare an insert statement
     $sql = "INSERT INTO healthcare_worker_assignment (person_id, facility_name, start_date, end_date, role, vaccine_name, dose_given, lot) VALUES (?, ?, ?, ?,?,?,?,?)";
-
     if ($stmt = mysqli_prepare($link, $sql)) {
       // Bind variables to the prepared statement as parameters
       mysqli_stmt_bind_param($stmt, "isssssss", $person_id, $facility_name, $start_date, $end_date, $role, $vaccine_name, $dose, $lot);
-
-
       // Attempt to execute the prepared statement
       if (mysqli_stmt_execute($stmt)) {
         // Records created successfully. Redirect to landing page
@@ -134,13 +82,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     mysqli_stmt_close($stmt);
     mysqli_close($link);
   } else {
-
+    // all roles except nurse
     $link = connect();
-
-    //all roles except nurse
-    // Prepare an insert statement
     $sql = "INSERT INTO healthcare_worker_assignment (person_id, facility_name, start_date, end_date, role, vaccine_name, dose_given, lot) VALUES (?,?,?,?,?,NULL,NULL,NULL)";
-
     if ($stmt = mysqli_prepare($link, $sql)) {
       // Bind variables to the prepared statement as parameters
       mysqli_stmt_bind_param($stmt, "issss", $person_id, $facility_name, $start_date, $end_date, $role);
@@ -162,8 +106,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     mysqli_close($link);
   }
 }
-
-
 ?>
 
 <!DOCTYPE html>
@@ -193,7 +135,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
               <label>Person ID</label>
               <input type="number" name="person_id" class="form-control" value="<?php echo $person_id; ?>">
             </div>
-
             <div class="form-group">
               <label>Facility name</label>
               <select class="custom-select" id="inputGroupSelect01" name="facility_name">

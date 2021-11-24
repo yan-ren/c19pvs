@@ -20,14 +20,19 @@
           require_once "../config.php";
           $link = connect();
           // Attempt select query execution
-          $sql = "SELECT * FROM healthcare_worker_assignment ORDER BY person_id ASC";
+          $sql = "SELECT person.person_id, first_name, last_name, facility_name, start_date, end_date, role, vaccine_name, dose_given, lot 
+                  FROM healthcare_worker_assignment 
+                  INNER JOIN person ON healthcare_worker_assignment.person_id = person.person_id
+                  ORDER BY person_id ASC";
           if ($result = mysqli_query($link, $sql)) {
             if (mysqli_num_rows($result) > 0) {
               echo '<table class="table table-bordered table-striped">';
               echo "<thead>";
               echo "<tr>";
-              echo "<th>Person_id</th>";
-              echo "<th>Facility_name</th>";
+              echo "<th>Person ID</th>";
+              echo "<th>First Name</th>";
+              echo "<th>Last Name</th>";
+              echo "<th>Facility Name</th>";
               echo "<th>Start Date</th>";
               echo "<th>End Date</th>";
               echo "<th>Role</th>";
@@ -41,6 +46,8 @@
               while ($row = mysqli_fetch_array($result)) {
                 echo "<tr>";
                 echo "<td>" . $row['person_id'] . "</td>";
+                echo "<td>" . $row['first_name'] . "</td>";
+                echo "<td>" . $row['last_name'] . "</td>";
                 echo "<td>" . $row['facility_name'] . "</td>";
                 echo "<td>" . $row['start_date'] . "</td>";
                 echo "<td>" . $row['end_date'] . "</td>";
@@ -63,7 +70,7 @@
               echo '<div class="alert alert-danger"><em>No records were found.</em></div>';
             }
           } else {
-            echo "Oops! Something went wrong. Please try again later.";
+            echo "Oops! Something went wrong. Please try again later." . $link->error;
           }
 
           // Close connection
