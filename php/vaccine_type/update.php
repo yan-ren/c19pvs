@@ -19,27 +19,21 @@ $all_status = mysqli_fetch_all($result, MYSQLI_ASSOC);
 if (isset($_POST["vaccine_name"]) && !empty($_POST["vaccine_name"])) {
   // Get hidden input value
   $vaccine_name = trim($_POST["vaccine_name"]);
-
-
   $approval = trim($_POST["approval"]);
   $status = trim($_POST["status"]);
   $suspension = trim($_POST['suspension']);
   $dose = (int)trim($_POST['dose']);
 
-
   // Validate vaccine name
   if (empty($vaccine_name) && $vaccine_name === 'NULL') {
     $vaccine_name_error = "Please enter a valid Vaccine name";
   }
-
   if (empty($approval)) {
     $approval = null;
   }
   if (empty($suspension)) {
     $suspension = null;
   }
-
-
 
   // Check input errors before inserting in database
   if (empty($vaccine_name_error)) {
@@ -143,7 +137,6 @@ if (isset($_POST["vaccine_name"]) && !empty($_POST["vaccine_name"])) {
           <h2 class="mt-5">Update Vaccine Type Record</h2>
           <p>Please edit the input values and submit to update Vaccine Type record.</p>
           <form action="<?php echo htmlspecialchars(basename($_SERVER['REQUEST_URI'])); ?>" method="post">
-
             <div class="form-group">
               <label>Vaccine Name</label>
               <input type="text" name="vaccine_name" class="form-control <?php echo (!empty($vaccine_name_error)) ? 'is-invalid' : '' ?>" value="<?php echo $vaccine_name; ?>">
@@ -159,7 +152,6 @@ if (isset($_POST["vaccine_name"]) && !empty($_POST["vaccine_name"])) {
                 ?>
               </select>
             </div>
-
             <div class="form-group">
               <label>Dose</label>
               <input type="number" name="dose" class="form-control <?php echo (!empty($dose_error)) ? 'is-invalid' : '' ?>" value="<?php echo $dose; ?>">
@@ -170,15 +162,12 @@ if (isset($_POST["vaccine_name"]) && !empty($_POST["vaccine_name"])) {
               <input type="date" name="approval" class="form-control <?php echo (!empty($approval_error)) ? 'is-invalid' : '' ?>" value="<?php echo $approval; ?>">
               <span class="invalid-feedback"><?php echo $approval_error; ?></span>
             </div>
-
             <div class="form-group">
               <label>Suspension Date</label>
               <input type="date" name="suspension" class="form-control <?php echo (!empty($suspension_error)) ? 'is-invalid' : ''; ?>" value="<?php echo $suspension; ?>">
               <span class="invalid-feedback"><?php echo $suspension_error; ?></span>
             </div>
-
             <input type="hidden" name="vaccine_name" value="<?php echo $vaccine_name; ?>" />
-
             <input type="submit" class="btn btn-primary" value="Submit">
             <a href="vaccine_type.php" class="btn btn-secondary ml-2">Cancel</a>
           </form>
