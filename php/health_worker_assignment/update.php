@@ -52,9 +52,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       } else {
         $error = mysqli_stmt_error($stmt);
         echo '<script> alert("' . $error . '")</script>';
+        exit();
       }
     } else {
       echo "<script>alert('Ops! Something went wrong. Please try again later. Error:" . $link->error . " ');location='create.php';</script>";
+      exit();
     }
     mysqli_stmt_close($stmt);
     mysqli_close($link);
@@ -77,14 +79,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
           $result = mysqli_stmt_get_result($stmt);
           if (mysqli_num_rows($result) == 1) {
             $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
-            $capacity = $row['count'];
+            $number_of_nurses = $row['count'];
           }
         } else {
           $error = mysqli_stmt_error($stmt);
           echo '<script> alert("' . $error . '")</script>';
+          exit();
         }
       } else {
         echo "<script>alert('Ops! Something went wrong. Please try again later. Error:" . $link->error . " ');location='create.php';</script>";
+        exit();
       }
 
       if ($number_of_nurses >= $capacity) {
@@ -93,6 +97,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             document.location =\'create.php\';
                         }
               </script>';
+        exit();
       }
     }
     mysqli_close($link);
@@ -117,9 +122,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } else {
       $error = mysqli_stmt_error($stmt);
       echo '<script> alert("' . $error . '")</script>';
+      exit();
     }
   } else {
     echo "<script>alert('Oops! Something went wrong. Please try again later. Error:" . $link->error . " ');location='create.php';</script>";
+    exit();
   }
   // Close statement
   mysqli_stmt_close($stmt);
@@ -160,6 +167,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       }
     } else {
       echo "Oops! Something went wrong. Please try again later.";
+      exit();
     }
   }
 
