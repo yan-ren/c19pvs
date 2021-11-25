@@ -64,7 +64,7 @@
                 <a class="dropdown-item" href="/php/public_health_worker/public_health_worker.php" target="ifbox" onclick="action()">Public Health Worker</a>
                 <a class="dropdown-item" href="/php/health_worker_assignment/assignment.php" target="ifbox" onclick="action()">Public Health Worker Assignment</a>
                 <a class="dropdown-item" href="/php/facility/facility.php" target="ifbox" onclick="action()">Public Health Facility</a>
-                <a class="dropdown-item" href="/php/vaccine_type/vaccine_type.php" target="ifbox" onclick="action()">Vaccination Type</a>
+                <a class="dropdown-item" href="/php/vaccine_type/vaccine_type.php" target="ifbox" onclick="action()">Vaccine Type</a>
                 <a class="dropdown-item" href="/php/variants/variants.php" target="ifbox" onclick="action()">Covid-19 Infection Variant</a>
                 <a class="dropdown-item" href="/php/age_group/age_group.php" target="ifbox" onclick="action()">Age Group</a>
                 <a class="dropdown-item" href="/php/province/province.php" target="ifbox" onclick="action()">Province</a>
