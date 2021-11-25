@@ -10,7 +10,7 @@ $workers = array();
 $date_workers = array();
 
 /*
-find on which day there are nurses working, for each day that has nurse working, find slot is not booked yet
+First, find on which day there are nurses working. Then, for each day that has nurse working, find slot is not booked yet
 get all nurses in facility whose finish time is after start day
 1. query heathcare_work_assignment role = 'nurse' whose end date > given start day, get list of worker assignment
 2. in the list, calculate the min date and max date
