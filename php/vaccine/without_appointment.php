@@ -116,10 +116,8 @@ if (isset($_POST["vaccine"])) {
   // Compare available slots with existing bookings
   $slots = floor(abs($close - $open) / 60 / 20) * $nurses;
   if ($slots <= $bookings) {
-    echo $slots;
-    echo $bookings;
+    echo "<script>alert('Cannot perform vaccine, no availiable slots');location.href='../../vaccine.php';</script>";
     exit();
-    // echo "<script>alert('Cannot perform vaccine, no availiable slots');location.href='../../vaccine.php';</script>";
   }
 
   // Insert vaccination
