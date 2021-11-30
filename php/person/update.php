@@ -103,51 +103,57 @@ if (isset($_POST["person_id"]) && !empty($_POST["person_id"])) {
     }
   }
 
-  // Prepare an update statement
-  $sql = "UPDATE person SET first_name = ?, middle_name = ?, last_name = ?, date_of_birth = ?, medicare_card_number = ?, 
-                      date_of_issue_of_medicare_card = ?, date_of_expiry_of_the_medicare_card = ?, phone = ?, address = ?, 
-                      city = ?, province = ?, postal_code = ?, citizenship = ?, email = ?, passport_number = ?, age_group_id = ?, 
-                      registered = ? WHERE person_id = ?";
-  $stmt = mysqli_prepare($link, $sql);
-  mysqli_stmt_bind_param(
-    $stmt,
-    "sssssssssssssssiii",
-    $input_first_name,
-    $input_middle_name,
-    $input_last_name,
-    $input_date_of_birth,
-    $input_medicare_card_number,
-    $input_date_of_issue_of_medicare_card,
-    $input_date_of_expiry_of_the_medicare_card,
-    $input_phone,
-    $input_address,
-    $input_city,
-    $input_province,
-    $input_postal_code,
-    $input_citizenship,
-    $input_email,
-    $input_passport_number,
-    $input_age_group_id,
-    $input_registered,
-    $person_id
-  );
+  // Check input errors before inserting in database
+  if (
+    empty($first_name_err) && empty($last_name_err) && empty($date_of_birth_err) && empty($date_of_expiry_of_the_medicare_card_err) &&
+    empty($date_of_issue_of_the_medicare_card_err) && empty($phone_err) && empty($address_err) && empty($city_err) &&
+    empty($province_err) && empty($postal_code_err) && empty($citizenship_err) && empty($email_err) &&
+    empty($passport_number_err)
+  ) {
+    $sql = "UPDATE person SET first_name = ?, middle_name = ?, last_name = ?, date_of_birth = ?, medicare_card_number = ?, 
+          date_of_issue_of_medicare_card = ?, date_of_expiry_of_the_medicare_card = ?, phone = ?, address = ?, 
+          city = ?, province = ?, postal_code = ?, citizenship = ?, email = ?, passport_number = ?, age_group_id = ?, 
+          registered = ? WHERE person_id = ?";
+    $stmt = mysqli_prepare($link, $sql);
+    mysqli_stmt_bind_param(
+      $stmt,
+      "sssssssssssssssiii",
+      $input_first_name,
+      $input_middle_name,
+      $input_last_name,
+      $input_date_of_birth,
+      $input_medicare_card_number,
+      $input_date_of_issue_of_medicare_card,
+      $input_date_of_expiry_of_the_medicare_card,
+      $input_phone,
+      $input_address,
+      $input_city,
+      $input_province,
+      $input_postal_code,
+      $input_citizenship,
+      $input_email,
+      $input_passport_number,
+      $input_age_group_id,
+      $input_registered,
+      $person_id
+    );
 
-  if ($stmt) {
-    // Attempt to execute the prepared statement
-    if (mysqli_stmt_execute($stmt)) {
-      // Records updated successfully. Redirect to landing page
-      echo "<script>alert('Update Person Successful!');location='person.php';</script>";
-      exit();
+    if ($stmt) {
+      // Attempt to execute the prepared statement
+      if (mysqli_stmt_execute($stmt)) {
+        // Records updated successfully. Redirect to landing page
+        echo "<script>alert('Update Person Successful!');location='person.php';</script>";
+        exit();
+      } else {
+        $error = mysqli_stmt_error($stmt);
+        echo '<script> alert("' . $error . '")</script>';
+      }
     } else {
-      $error = mysqli_stmt_error($stmt);
-      echo '<script> alert("' . $error . '")</script>';
+      echo "<script>alert('Oops! Something went wrong. Please try again later. Error:" . $link->error . " ');location='update.php';</script>";
     }
-  } else {
-    echo "<script>alert('Oops! Something went wrong. Please try again later. Error:" . $link->error . " ');location='update.php';</script>";
+    // Close statement
+    mysqli_stmt_close($stmt);
   }
-  // Close statement
-  mysqli_stmt_close($stmt);
-
   // Close connection
   mysqli_close($link);
 } else {

@@ -61,6 +61,7 @@
               </a>
               <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                 <a class="dropdown-item" href="/php/person/person.php" target="ifbox" onclick="action()">Person</a>
+                <a class="dropdown-item" href="/php/person_infection/person_infection.php" target="ifbox" onclick="action()">Person Infection</a>
                 <a class="dropdown-item" href="/php/public_health_worker/public_health_worker.php" target="ifbox" onclick="action()">Public Health Worker</a>
                 <a class="dropdown-item" href="/php/health_worker_assignment/assignment.php" target="ifbox" onclick="action()">Public Health Worker Assignment</a>
                 <a class="dropdown-item" href="/php/facility/facility.php" target="ifbox" onclick="action()">Public Health Facility</a>
